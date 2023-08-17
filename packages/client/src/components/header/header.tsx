@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import style from './header.module.scss';
-import { Button } from '../common/button/button';
+import Button from '../common/button/button';
 
 const Header: FC = () => (
     <div className={style.header}>
