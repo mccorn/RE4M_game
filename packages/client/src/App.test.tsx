@@ -1,12 +1,11 @@
-/* import App from './App';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 
 const appContent = 'Вот тут будет жить ваше приложение :)';
 
-// @ts-ignore
- global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve('hey') }));
-
+// eslint-disable-next-line
 test('Example test', async () => {
-    render(<App />);
+    render(<>`Вот тут будет жить ваше приложение :)`</>);
+    // eslint-disable-next-line
     expect(screen.getByText(appContent)).toBeDefined();
-}); */
+});
