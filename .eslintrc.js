@@ -22,5 +22,15 @@ module.exports = {
         'react/jsx-closing-bracket-location': [1, 'after-props'],
         'import/no-unresolved': 'off',
         'import/extensions': 'off',
+        'comma-dangle': [
+            'error',
+            {
+                arrays: 'always-multiline',
+                objects: 'always-multiline',
+                imports: 'always-multiline',
+                exports: 'always-multiline',
+                functions: 'never',
+            },
+        ],
     },
 };
