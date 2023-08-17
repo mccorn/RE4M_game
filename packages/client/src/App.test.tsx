@@ -5,7 +5,7 @@ const appContent = 'Вот тут будет жить ваше приложен�
 
 // eslint-disable-next-line
 test('Example test', async () => {
-    render(<>`Вот тут будет жить ваше приложение :)`</>);
+    render(<>Вот тут будет жить ваше приложение :)</>);
     // eslint-disable-next-line
     expect(screen.getByText(appContent)).toBeDefined();
 });
