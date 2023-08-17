@@ -14,5 +14,13 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 1,
         indent: ['error', 4],
         'react/jsx-indent': ['error', 4],
+        'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
+        'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],
+        'react/require-default-props': 'off',
+        'react/jsx-indent-props': ['error', 4],
+        'react/button-has-type': 'off',
+        'react/jsx-closing-bracket-location': [1, 'after-props'],
+        'import/no-unresolved': 'off',
+        'import/extensions': 'off',
     },
 };
