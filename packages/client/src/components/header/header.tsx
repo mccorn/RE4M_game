@@ -1,26 +1,60 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEventHandler } from 'react';
+import { NavLink } from 'react-router-dom';
+import classNames from 'classnames';
 import style from './header.module.scss';
 import Button from '../common/button/button';
+import { RoutePaths as Paths } from '../../router/router';
+import Logo from '@/assets/images/logo.svg';
 
-const Header: FC = () => (
-    <div className={style.header}>
-        <div className={style.header__logo}>
-            <a href="/landing">Game logo will be there</a>
-        </div>
+// todo move this to redux later
+type THeaderProps = {
+    isAuthorized?: boolean;
+};
 
-        <div className={style.header__navigation}>
-            <div className={style.links}>
-                <a href="/game">Game</a>
-                <a href="/forum">Forum</a>
-                <a href="leaderboard/1">Leaderboard</a>
-                <a href="/profile">Profile</a>
+const Header: FC<THeaderProps> = () => {
+    const logout: MouseEventHandler = () => alert('logout will be here');
+
+    const calculateLinkClass = (isActive: boolean) =>
+        classNames(style.header__link, { header__link_active: isActive });
+
+    return (
+        <div className={style.header}>
+            <div>
+                <NavLink to={Paths.LANDING}>
+                    <img className={style.header__logo} src={Logo} alt="Home" />
+                </NavLink>
             </div>
 
-            <div className={style['header__user-info']}>User info will be here</div>
+            <div className={style.header__navigation}>
+                <nav className={style.header__links}>
+                    <NavLink
+                        to={Paths.GAME}
+                        className={({ isActive }) => calculateLinkClass(isActive)}>
+                        Game
+                    </NavLink>
+                    <NavLink
+                        to={Paths.FORUM}
+                        className={({ isActive }) => calculateLinkClass(isActive)}>
+                        Forum
+                    </NavLink>
+                    <NavLink
+                        to={Paths.LEADERBOARD}
+                        className={({ isActive }) => calculateLinkClass(isActive)}>
+                        Leaderboard
+                    </NavLink>
+                    <NavLink
+                        to={Paths.PROFILE}
+                        className={({ isActive }) => calculateLinkClass(isActive)}>
+                        Profile
+                    </NavLink>
+                </nav>
 
-            <Button size="medium" text="Logout" />
+                <div className={style['header__user-info']}>User info will be here</div>
+
+                <Button size="medium" text="Logout" click={logout} />
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 export default Header;

@@ -1,3 +1,28 @@
+@import '@/assets/variables.scss';
+
+/* todo where to put this */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Tektur;
+}
+
+a,
+a:link,
+a:visited {
+    text-decoration: none;
+}
+
+body {
+    background-color: $backgroundColor;
+    transition: all 0.2s ease-in-out;
+}
+
 .wrapper {
     display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-grow: 1;
 }
