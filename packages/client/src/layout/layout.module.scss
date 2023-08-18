@@ -1,7 +1,5 @@
 @import '@/assets/variables.scss';
 
-/* todo where to put this */
-
 * {
     margin: 0;
     padding: 0;
@@ -15,7 +13,6 @@ a {
 
 body {
     background-color: $backgroundColor;
-    transition: all 0.2s ease-in-out;
 }
 
 .wrapper {

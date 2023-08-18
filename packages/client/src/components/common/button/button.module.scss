@@ -11,21 +11,26 @@
     &:hover {
         background-color: lighten($buttonBackgroundColor, 10%);
     }
+
+    &:disabled,
+    &[disabled] {
+        cursor: default;
+        background-color: lighten($buttonBackgroundColor, 10%);
+        color: darken($textColor, 20%);
+    }
 }
 
 .large {
-    font-size: $fontSizeLarge;
+    @include fontLarge;
     padding: 12px 86px;
-    font-weight: 600;
 }
 
 .medium {
-    font-size: $fontSizeMedium;
+    @include fontNormal;
     padding: 8px 38px;
-    font-weight: 500;
 }
 
 .small {
-    font-size: $fontSizeSmall;
+    @include fontSmall;
     padding: 4px 12px;
 }

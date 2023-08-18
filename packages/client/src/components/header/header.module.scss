@@ -4,13 +4,13 @@
     display: flex;
     background-color: $backgroundColorSecondary;
     width: 100%;
-    height: 100px;
+    height: $headerHeight;
     align-items: center;
     padding: 0 15px;
 }
 
 .header__logo {
-    height: $headerHeight;
+    height: $headerContentHeight;
 }
 
 .header__navigation {

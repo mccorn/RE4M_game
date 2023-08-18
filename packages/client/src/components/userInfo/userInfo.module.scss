@@ -1,7 +1,7 @@
 @import '@/assets/variables.scss';
 
 .user {
-    height: $headerHeight;
+    height: $headerContentHeight;
     margin: 0px 50px 0 36px;
     display: flex;
     justify-content: center;
@@ -24,13 +24,9 @@
 }
 
 .user__name {
-    font-size: $fontSizeMedium;
-    font-weight: 600;
-    transition: all 0.2s ease-in-out;
+    @include fontNormal;
 }
 
 .user__email {
-    font-size: $fontSizeSmall;
-    font-weight: 400;
-    transition: all 0.2s ease-in-out;
+    @include fontSmall;
 }
