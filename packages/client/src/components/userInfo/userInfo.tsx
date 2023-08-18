@@ -16,7 +16,11 @@ const UserInfo: FC<TUserInfoProps> = ({ user }) => {
         <div className={style.user}>
             <div className={style.user__avatar}>
                 <Link to={RoutePaths.PROFILE}>
-                    <img alt="user avatar" src={calculateAvatarUrl(user.avatar)} />
+                    <img
+                        className={style['user__avatar-image']}
+                        alt="user avatar"
+                        src={calculateAvatarUrl(user.avatar)}
+                    />
                 </Link>
             </div>
             <div className={style.user__info}>

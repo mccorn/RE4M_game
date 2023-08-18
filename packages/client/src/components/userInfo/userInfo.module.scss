@@ -13,12 +13,10 @@
     width: 60px;
     height: 60px;
     border-radius: 30px;
-    background-color: $backgroundColor;
-    min-width: 60px;
-    overflow: hidden;
-    justify-content: center;
-    align-items: center;
-    display: flex;
+}
+
+.user__avatar-image {
+    height: 100%;
 }
 
 .user__info {
