@@ -13,7 +13,7 @@ type THeaderProps = {
     isAuthorized?: boolean;
 };
 
-const Header: FC<THeaderProps> = () => {
+const Header: FC<THeaderProps> = ({ isAuthorized }) => {
     const logout: MouseEventHandler = () => alert('logout will be here');
 
     const calculateLinkClass = (isActive: boolean) => {
@@ -36,19 +36,23 @@ const Header: FC<THeaderProps> = () => {
                         className={({ isActive }) => calculateLinkClass(isActive)}>
                         Game
                     </NavLink>
-                    <NavLink
-                        to={Paths.FORUM}
-                        className={({ isActive }) => calculateLinkClass(isActive)}>
-                        Forum
-                    </NavLink>
-                    <NavLink
-                        to={Paths.LEADERBOARD}
-                        className={({ isActive }) => calculateLinkClass(isActive)}>
-                        Leaderboard
-                    </NavLink>
+                    {isAuthorized && (
+                        <>
+                            <NavLink
+                                to={Paths.FORUM}
+                                className={({ isActive }) => calculateLinkClass(isActive)}>
+                                Forum
+                            </NavLink>
+                            <NavLink
+                                to={Paths.LEADERBOARD}
+                                className={({ isActive }) => calculateLinkClass(isActive)}>
+                                Leaderboard
+                            </NavLink>
+                        </>
+                    )}
                 </nav>
 
-                <UserInfo user={mockUser} />
+                {isAuthorized && <UserInfo user={mockUser} />}
 
                 <Button size="medium" text="Logout" click={logout} />
             </div>
