@@ -7,7 +7,6 @@
     height: 100px;
     align-items: center;
     padding: 0 15px;
-    transition: all 0.2s;
 }
 
 .header__logo {
@@ -26,15 +25,15 @@
     gap: 25px;
 }
 
-.header__link,
-.header__link:visited {
+.header__link {
     display: flex;
     color: $textColor;
     font-size: 20px;
     font-weight: 600;
-    transition: all 0.2s;
+    @include transition;
 }
 
+.header__link:hover,
 .header__link_active {
     color: $textColorSecondary;
     text-decoration: underline;

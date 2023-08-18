@@ -16,8 +16,10 @@ type THeaderProps = {
 const Header: FC<THeaderProps> = () => {
     const logout: MouseEventHandler = () => alert('logout will be here');
 
-    const calculateLinkClass = (isActive: boolean) =>
-        classNames(style.header__link, { header__link_active: isActive });
+    const calculateLinkClass = (isActive: boolean) => {
+        const activeClass = isActive ? style.header__link_active : '';
+        return classNames(style.header__link, activeClass);
+    };
 
     return (
         <div className={style.header}>

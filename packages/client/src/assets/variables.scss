@@ -10,6 +10,14 @@ $fontSizeLarge: 30px;
 $fontSizeMedium: 20px;
 $fontSizeSmall: 16px;
 
+@mixin transition {
+    transition: all 0.3s ease-in-out;
+}
+
+@mixin slowTransition {
+    transition: all 0.6s ease-in-out;
+}
+
 /* button */
 
 $buttonBackgroundColor: #324b4b;
