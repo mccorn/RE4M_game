@@ -1,4 +1,4 @@
-// todo move to redux
+// todo move to redux slice
 type TUser = {
     id: number;
     login: string;

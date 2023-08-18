@@ -26,13 +26,13 @@
 }
 
 .user__name {
-    font-size: $fontSizeMain;
+    font-size: $fontSizeMedium;
     font-weight: 600;
     transition: all 0.2s ease-in-out;
 }
 
 .user__email {
-    font-size: $fontSizeSecondary;
+    font-size: $fontSizeSmall;
     font-weight: 400;
     transition: all 0.2s ease-in-out;
 }

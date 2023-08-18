@@ -5,13 +5,23 @@
     border: none;
     background-color: $buttonBackgroundColor;
     border-radius: 5px;
-    font-size: $fontSizeMain;
     transition: background-color 0.3s ease;
     color: $textColorDark;
 }
 
+.large {
+    font-size: $fontSizeLarge;
+    padding: 12px 86px;
+    font-weight: 600;
+}
+
 .medium {
-    font-size: $fontSizeMain;
+    font-size: $fontSizeMedium;
     padding: 8px 38px;
     font-weight: 500;
+}
+
+.small {
+    font-size: $fontSizeSmall;
+    padding: 4px 12px;
 }

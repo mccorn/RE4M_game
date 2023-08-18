@@ -1,10 +1,9 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import style from './userInfo.module.scss';
-// todo create aliases @
-import calculateAvatarUrl from '../../helpers/avatarHelper';
-import TUser from '../../dataTypes/dataTypes';
-import { RoutePaths } from '../../router/router';
+import { RoutePaths } from '@/router/router';
+import calculateAvatarUrl from '@/helpers/avatarHelper';
+import TUser from '@/dataTypes/dataTypes';
 
 type TUserInfoProps = {
     user: TUser;

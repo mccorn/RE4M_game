@@ -1,12 +1,12 @@
 import React, { FC, MouseEventHandler } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import classNames from 'classnames';
-import style from './header.module.scss';
-import Button from '../common/button/button';
-import { RoutePaths as Paths } from '../../router/router';
+import Button from '@common/button/button';
+import UserInfo from '@components/userInfo/userInfo';
 import Logo from '@/assets/images/logo.svg';
-import UserInfo from '../userInfo/userInfo';
-import mockUser from '../../mocks/mockUser';
+import { RoutePaths as Paths } from '@/router/router';
+import mockUser from '@/mocks/mockUser';
+import style from './header.module.scss';
 
 // todo move this to redux later
 type THeaderProps = {
@@ -18,6 +18,7 @@ const Header: FC<THeaderProps> = () => {
 
     const calculateLinkClass = (isActive: boolean) =>
         classNames(style.header__link, { header__link_active: isActive });
+
     return (
         <div className={style.header}>
             <div>
