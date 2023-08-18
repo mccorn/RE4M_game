@@ -1,10 +1,12 @@
 import React, { FC, MouseEventHandler } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import style from './header.module.scss';
 import Button from '../common/button/button';
 import { RoutePaths as Paths } from '../../router/router';
 import Logo from '@/assets/images/logo.svg';
+import UserInfo from '../userInfo/userInfo';
+import mockUser from '../../mocks/mockUser';
 
 // todo move this to redux later
 type THeaderProps = {
@@ -16,13 +18,12 @@ const Header: FC<THeaderProps> = () => {
 
     const calculateLinkClass = (isActive: boolean) =>
         classNames(style.header__link, { header__link_active: isActive });
-
     return (
         <div className={style.header}>
             <div>
-                <NavLink to={Paths.LANDING}>
+                <Link to={Paths.LANDING}>
                     <img className={style.header__logo} src={Logo} alt="Home" />
-                </NavLink>
+                </Link>
             </div>
 
             <div className={style.header__navigation}>
@@ -42,14 +43,9 @@ const Header: FC<THeaderProps> = () => {
                         className={({ isActive }) => calculateLinkClass(isActive)}>
                         Leaderboard
                     </NavLink>
-                    <NavLink
-                        to={Paths.PROFILE}
-                        className={({ isActive }) => calculateLinkClass(isActive)}>
-                        Profile
-                    </NavLink>
                 </nav>
 
-                <div className={style['header__user-info']}>User info will be here</div>
+                <UserInfo user={mockUser} />
 
                 <Button size="medium" text="Logout" click={logout} />
             </div>

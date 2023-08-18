@@ -1,0 +1,38 @@
+@import '@/assets/variables.scss';
+
+.user {
+    height: $headerHeight;
+    margin: 0px 50px 0 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.user__avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: $backgroundColor;
+    min-width: 60px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.user__info {
+    color: $textColor;
+}
+
+.user__name {
+    font-size: $fontSizeMain;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+}
+
+.user__email {
+    font-size: $fontSizeSecondary;
+    font-weight: 400;
+    transition: all 0.2s ease-in-out;
+}

@@ -1,7 +1,17 @@
+@import '@/assets/variables.scss';
+
 .normal {
-    display: flex;
+    cursor: pointer;
+    border: none;
+    background-color: $buttonBackgroundColor;
+    border-radius: 5px;
+    font-size: $fontSizeMain;
+    transition: background-color 0.3s ease;
+    color: $textColorDark;
 }
 
 .medium {
-    display: flex;
+    font-size: $fontSizeMain;
+    padding: 8px 38px;
+    font-weight: 500;
 }
