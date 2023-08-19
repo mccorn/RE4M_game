@@ -29,6 +29,7 @@ module.exports = {
         'object-curly-newline': 'off',
         'no-shadow': 'off',
         'no-unused-vars': 'off',
+        'operator-linebreak': ['warn', 'after'],
         'react/jsx-indent': ['error', 4],
         'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
         'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],
