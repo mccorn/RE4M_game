@@ -23,7 +23,7 @@ export enum RoutePaths {
 
 const Router = () => (
     <Routes>
-        <Route element={<Layout isAuthorized={false} />}>
+        <Route element={<Layout />}>
             <Route path={RoutePaths.LANDING} element={<Landing />} />
             <Route path={RoutePaths.SIGNIN} element={<Signin />} />
             <Route path={RoutePaths.SIGNUP} element={<Signup />} />
