@@ -28,9 +28,7 @@ const Router = () => (
             <Route path={RoutePaths.SIGNIN} element={<Signin />} />
             <Route path={RoutePaths.SIGNUP} element={<Signup />} />
             <Route path={RoutePaths.SERVER_ERROR} element={<Error code={500} />} />
-            <Route path={RoutePaths.NOT_FOUND} element={<Error code={404} />} />
-        </Route>
-        <Route element={<Layout />}>
+            <Route path={RoutePaths.NOT_FOUND} element={<Error code={404} />} />        
             <Route path={RoutePaths.FORUM} element={<Forum />} />
             <Route path={RoutePaths.PROFILE} element={<Profile />} />
             <Route path={RoutePaths.GAME} element={<Game />} />
