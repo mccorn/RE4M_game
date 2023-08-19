@@ -1,24 +1,33 @@
 export enum EnemyTypes {
-    FIRST,
-    SECOND,
-    THIRD,
+    FIRST = 1,
+    SECOND = 2,
+    THIRD = 3,
 }
 
 const enemyRows: Record<EnemyTypes, number> = {
     [EnemyTypes.THIRD]: 1,
     [EnemyTypes.SECOND]: 2,
     [EnemyTypes.FIRST]: 3,
-};
+} as const;
+
+const enemies: Record<EnemyTypes, number> = {
+    [EnemyTypes.FIRST]: 3,
+    [EnemyTypes.SECOND]: 3,
+    [EnemyTypes.THIRD]: 3,
+} as const;
 
 export const GameFieldParameters = {
     WIDTH: 600,
     HEIGHT: 600,
     BACKGROUND_COLOR: 'black',
     CELL_SIZE: 100,
+    // todo calculate point dynamically?
     ENEMIES_START_POINT: {
-        x: 50,
+        x: 150,
         y: 50,
     },
+    // todo will this number be changed ?
+    ENEMIES: enemies,
     ENEMY_ROWS: enemyRows,
 } as const;
 
@@ -32,6 +41,7 @@ export type TEnemy = {
     shootSpeed: 1 | 2; // two modes of shooting speed
     hasSpecialShot: boolean;
     size: 50 | 60 | 70;
+    color: 'green' | 'orange' | 'red'; // todo replace with pictures
 };
 
 export type TPoint = {
@@ -45,17 +55,20 @@ export const Enemies: Record<EnemyTypes, TEnemy> = {
         shootSpeed: 1,
         hasSpecialShot: false,
         size: 50,
+        color: 'green',
     },
     [EnemyTypes.SECOND]: {
         lives: 1,
         shootSpeed: 2,
         hasSpecialShot: false,
         size: 60,
+        color: 'orange',
     },
     [EnemyTypes.THIRD]: {
         lives: 2,
         shootSpeed: 2,
         hasSpecialShot: true,
         size: 70,
+        color: 'red',
     },
 } as const;

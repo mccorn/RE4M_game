@@ -14,7 +14,7 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 1,
         '@typescript-eslint/no-unused-vars': 2,
         '@typescript-eslint/no-shadow': ['error'],
-        indent: ['error', 4],
+        indent: ['error', 4, { SwitchCase: 1 }],
         'comma-dangle': [
             'error',
             {
@@ -30,6 +30,8 @@ module.exports = {
         'no-shadow': 'off',
         'no-unused-vars': 'off',
         'operator-linebreak': ['warn', 'after'],
+        'arrow-parens': ['error', 'as-needed'],
+        'default-case': 'off',
         'react/jsx-indent': ['error', 4],
         'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
         'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],

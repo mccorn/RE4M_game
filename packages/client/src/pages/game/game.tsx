@@ -2,18 +2,26 @@ import React, { FC, useEffect, useRef } from 'react';
 import style from './game.module.scss';
 import Button from '@/components/common/button/button';
 import { GameFieldParameters as params } from './gameEngine/gameTypes';
-import { drawInitialGameState, drawStartGameState } from './gameEngine/gameEngine';
+import GameEngine from './gameEngine/gameEngine';
 
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
+    let gameEngine: GameEngine | null = null;
 
     const startGame = () => {
-        // alert('game started');
-        drawStartGameState(ref.current as HTMLCanvasElement);
+        if (gameEngine) {
+            gameEngine.drawStartGameState();
+        }
     };
 
     useEffect(() => {
-        drawInitialGameState(ref.current as HTMLCanvasElement);
+        const context = (ref.current as HTMLCanvasElement).getContext('2d');
+        if (context) {
+            gameEngine = new GameEngine(context);
+            gameEngine.drawInitialGameState();
+        } else {
+            console.log('no context found');
+        }
     }, []);
 
     return (
