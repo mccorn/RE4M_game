@@ -19,14 +19,17 @@
           - { component }
             - { component }.tsx
             - { component }.module.scss
+      - dataTypes # types description
       - helpers
       - hooks
+      - layout
+      - mocks  # mocks data for testing without server
       - pages
         - { page }
           - { page }.tsx
           - { page }.module.scss
       - router
-      - store
+      - store # redux
       - utils
   - server
     [TODO]

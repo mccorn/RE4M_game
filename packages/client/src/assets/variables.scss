@@ -1,5 +1,43 @@
-$backgroundColor: #3e92b3;
-$backgroundColorSecondary: #7ecbd5;
+/* common */
+
+$backgroundColor: #009797;
+$backgroundColorSecondary: #95b1b0;
 $textColor: #f0efea;
-$textColorSecondary: #f8cd6b;
-$alertColor: #c1564b;
+$textColorSecondary: #80472d;
+$alertColor: #ff8749;
+
+$fontSizeLarge: 30px;
+$fontSizeMedium: 20px;
+$fontSizeSmall: 16px;
+
+@mixin transition {
+    transition: all 0.3s ease-in-out;
+}
+
+@mixin slowTransition {
+    transition: all 0.6s ease-in-out;
+}
+
+@mixin fontLarge {
+    font-size: $fontSizeLarge;
+    font-weight: 700;
+}
+
+@mixin fontNormal {
+    font-size: $fontSizeMedium;
+    font-weight: 600;
+}
+
+@mixin fontSmall {
+    font-size: $fontSizeSmall;
+    font-weight: 400;
+}
+
+/* button */
+
+$buttonBackgroundColor: #324b4b;
+
+/* header */
+
+$headerHeight: 100px;
+$headerContentHeight: 70px;

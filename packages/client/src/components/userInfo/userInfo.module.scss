@@ -1,0 +1,32 @@
+@import '@/assets/variables.scss';
+
+.user {
+    height: $headerContentHeight;
+    margin: 0px 50px 0 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.user__avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+}
+
+.user__avatar-image {
+    height: 100%;
+}
+
+.user__info {
+    color: $textColor;
+}
+
+.user__name {
+    @include fontNormal;
+}
+
+.user__email {
+    @include fontSmall;
+}

@@ -12,6 +12,8 @@ module.exports = {
     plugins: ['@typescript-eslint'],
     rules: {
         '@typescript-eslint/ban-ts-comment': 1,
+        '@typescript-eslint/no-unused-vars': 2,
+        '@typescript-eslint/no-shadow': ['error'],
         indent: ['error', 4],
         'comma-dangle': [
             'error',
@@ -23,7 +25,10 @@ module.exports = {
                 functions: 'never',
             },
         ],
+        'implicit-arrow-linebreak': ['warn', 'beside'],
         'object-curly-newline': 'off',
+        'no-shadow': 'off',
+        'no-unused-vars': 'off',
         'react/jsx-indent': ['error', 4],
         'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
         'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],

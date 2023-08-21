@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import style from './button.module.scss';
 
 type TButtonStyle = 'normal';
-type TButtonSize = 'large' | 'big' | 'medium' | 'small';
+type TButtonSize = 'large' | 'medium' | 'small';
 type TButtonType = 'button' | 'submit';
 
 type TButtonProps = {

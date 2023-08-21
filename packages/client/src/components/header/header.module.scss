@@ -2,13 +2,15 @@
 
 .header {
     display: flex;
+    background-color: $backgroundColorSecondary;
     width: 100%;
+    height: $headerHeight;
     align-items: center;
+    padding: 0 15px;
 }
 
 .header__logo {
-    display: flex;
-    color: $textColor;
+    height: $headerContentHeight;
 }
 
 .header__navigation {
@@ -18,5 +20,21 @@
     align-items: center;
 }
 
-.header__user-info {
+.header__links {
+    display: flex;
+    gap: 25px;
+}
+
+.header__link {
+    display: flex;
+    color: $textColor;
+    font-size: 20px;
+    font-weight: 600;
+    @include transition;
+}
+
+.header__link:hover,
+.header__link_active {
+    color: $textColorSecondary;
+    text-decoration: underline;
 }
