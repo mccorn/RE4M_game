@@ -1,14 +1,6 @@
 @import '@/assets/variables.scss';
 
 .topic {
-    width: $cardWidth;
-    max-height: 800px;
-    overflow: hidden;
-    background-color: $backgroundColorSecondary;
-    box-shadow: $boxShadow;
-    padding: 10px;
-    border-radius: 5px;
-
     &__feed {
         display: flex;
         flex-direction: column;
@@ -16,15 +8,6 @@
         gap: 20px;
         width: 100%;
         padding: 10px;
-    }
-
-    &__header {
-        margin-bottom: 10px;
-        font-size: $fontSizeMedium;
-    }
-
-    &__body {
-        font-size: $fontSizeSmall;
     }
 
     &__create {

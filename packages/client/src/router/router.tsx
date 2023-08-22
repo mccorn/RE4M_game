@@ -9,6 +9,7 @@ import Signup from '@pages/signup/signup';
 import Error from '@pages/error/error';
 import Layout from '@/layout/layout';
 import CreateTopic from '@/pages/createTopic/createTopic';
+import Topic from '@/pages/topic/topic';
 
 export enum RoutePaths {
     LANDING = '/',
@@ -21,7 +22,8 @@ export enum RoutePaths {
     SIGNUP = '/signup',
     NOT_FOUND = '/*',
     SERVER_ERROR = '/error',
-    CREATE_TOPIC = '/forum/topic/create'
+    CREATE_TOPIC = '/forum/topic/create',
+    TOPIC = '/forum/topic/:id'
 }
 
 const Router = () => (
@@ -34,6 +36,7 @@ const Router = () => (
             <Route path={RoutePaths.NOT_FOUND} element={<Error code={404} />} />
             <Route path={RoutePaths.FORUM} element={<Forum />} />
             <Route path={RoutePaths.CREATE_TOPIC} element={<CreateTopic />} />
+            <Route path={RoutePaths.TOPIC} element={<Topic />} />
             <Route path={RoutePaths.PROFILE} element={<Profile />} />
             <Route path={RoutePaths.GAME} element={<Game />} />
             <Route path={RoutePaths.LEADERBOARD} element={<LeaderBoard />} />
