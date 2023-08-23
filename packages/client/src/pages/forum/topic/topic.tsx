@@ -1,10 +1,20 @@
 import React, { useState, FormEventHandler, ReactElement } from 'react';
+import { useParams } from 'react-router-dom';
 import style from './topic.module.scss';
-import TopicCard from '@/components/topicCard/topicCard';
+import TopicCard from '@/components/forum/topicCard/topicCard';
 import Button from '@/components/common/button/button';
+import mockTopics from '@/mocks/mockTopics';
+import Avatar from '@/assets/images/defaultAvatar.png';
 
 const Topic = () => {
     const [comments, setComments] = useState([] as ReactElement[]);
+    const { id } = useParams();
+    const topic = (
+        <TopicCard
+            title={mockTopics[Number(id)].title}
+            text={mockTopics[Number(id)].text}
+            id={mockTopics[Number(id)].id} />
+    );
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = (ev) => {
         ev.preventDefault();
@@ -14,7 +24,10 @@ const Topic = () => {
         (ev.target as HTMLFormElement).reset();
         comments.push(
             <div className={style.comment} key={new Date().getTime()}>
-                <h2 className={style.comment__header}>Olga</h2>
+                <header className={style.comment__header}>
+                    <img className={style.comment__avatar} src={Avatar} alt="avatar" />
+                    <h2 className={style.comment__name}>Olga</h2>
+                </header>
                 <p className={style.comment__text}>{formValue.comment}</p>
                 <p className={style.comment__time}>{new Date().toUTCString()}</p>
             </div>
@@ -24,27 +37,14 @@ const Topic = () => {
 
     return (
         <div className={style.topic__wrapper}>
-            <TopicCard
-                title="Eleifend non lacinia aenean in sed justo"
-                text={`In non hac et. Et quis, nunc dictum mattis mattis leo, et lectus in
-                consectetur odio. Sapien risus nisi tortor, quam, pulvinar faucibus.
-                In odio. Interdum dictumst. Et. Mollis nisi leo, et lorem aenean mattis
-                sit libero, ut. Tortor, dapibus consectetur libero, tortor, integer nunc
-                integer sodales ipsum malesuada odio. Molestie nisi vulputate ipsum non mattis
-                cursus dictum. In id sed accumsan ornare tempus lectus imperdiet sit ornare sit
-                eget dictum aenean habitasse amet, dui in sapien eleifend sed sit ex. Vel arcu
-                efficitur est. Lacinia non sit nunc justo leo, lacinia ipsum vitae ipsum cursus
-                lectus mauris vitae i.`}
-                id="1"
-            />
+            {topic}
             <form onSubmit={handleSubmit} className={style.form}>
                 <textarea
                     placeholder="type a comment"
                     name="comment"
                     cols={30}
                     rows={5}
-                    className={style.form__textarea}
-                />
+                    className={style.form__textarea} />
                 <Button type="submit" text="add comment" />
             </form>
             <div className={style.comment__feed}>{comments}</div>

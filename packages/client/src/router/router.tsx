@@ -8,8 +8,8 @@ import Signin from '@pages/signin/signin';
 import Signup from '@pages/signup/signup';
 import Error from '@pages/error/error';
 import Layout from '@/layout/layout';
-import CreateTopic from '@/pages/createTopic/createTopic';
-import Topic from '@/pages/topic/topic';
+import CreateTopic from '@/pages/forum/createTopic/createTopic';
+import Topic from '@/pages/forum/topic/topic';
 
 export enum RoutePaths {
     LANDING = '/',

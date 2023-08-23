@@ -34,8 +34,13 @@
         border-radius: 5px;
     }
 
-    &__header {
+    &__name {
         font-size: $fontSizeMedium;
+    }
+
+    &__header {
+        display: flex;
+        flex-direction: row;
     }
 
     &__text {
@@ -44,5 +49,11 @@
 
     &__time {
         align-self: flex-end;
+    }
+
+    &__avatar {
+        width: 25px;
+        height: 25px;
+        margin-right: 5px;
     }
 }
