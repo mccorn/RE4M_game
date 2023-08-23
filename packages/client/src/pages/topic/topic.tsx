@@ -4,19 +4,19 @@ import TopicCard from '@/components/topicCard/topicCard';
 import Button from '@/components/common/button/button';
 
 const Topic = () => {
-    const [comments, setComments] = useState(([] as ReactElement[]));
+    const [comments, setComments] = useState([] as ReactElement[]);
 
-    const handleSubmit: FormEventHandler<HTMLFormElement> = (ev) => {
+    const handleSubmit: FormEventHandler<HTMLFormElement> = ev => {
         ev.preventDefault();
-        const formValue = Object
-            .fromEntries(
-                new FormData(ev.target as HTMLFormElement)
-            ) as unknown as {comment: string};
+        const formValue = Object.fromEntries(
+            new FormData(ev.target as HTMLFormElement)
+        ) as unknown as { comment: string };
+        (ev.target as HTMLFormElement).reset();
         comments.push(
             <div className={style.comment} key={new Date().getTime()}>
                 <h2 className={style.comment__header}>Olga</h2>
                 <p className={style.comment__text}>{formValue.comment}</p>
-                <p className={style.comment__time}>{(new Date()).toUTCString()}</p>
+                <p className={style.comment__time}>{new Date().toUTCString()}</p>
             </div>
         );
         setComments(Array.from(comments));
@@ -35,14 +35,19 @@ const Topic = () => {
                 eget dictum aenean habitasse amet, dui in sapien eleifend sed sit ex. Vel arcu
                 efficitur est. Lacinia non sit nunc justo leo, lacinia ipsum vitae ipsum cursus
                 lectus mauris vitae i.`}
-                id="1" />
+                id="1"
+            />
             <form onSubmit={handleSubmit} className={style.form}>
-                <textarea placeholder="type a comment" name="comment" cols={30} rows={5} className={style.form__textarea} />
+                <textarea
+                    placeholder="type a comment"
+                    name="comment"
+                    cols={30}
+                    rows={5}
+                    className={style.form__textarea}
+                />
                 <Button type="submit" text="add comment" />
             </form>
-            <div className={style.comment__feed}>
-                {comments}
-            </div>
+            <div className={style.comment__feed}>{comments}</div>
         </div>
     );
 };
