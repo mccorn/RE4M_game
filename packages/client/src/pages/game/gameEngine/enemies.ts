@@ -98,11 +98,6 @@ class EnemyManager {
                 this.context.drawImage(this.enemyFirstImage, point.x, point.y);
                 break;
         }
-
-        /* else {
-            this.context.fillStyle = enemy.color;
-            this.context.fillRect(point.x, point.y, enemy.size, enemy.size);
-        } */
     };
 
     private static calculateEnemyGapInCell = (type: EnemyTypes) =>
@@ -118,9 +113,9 @@ class EnemyManager {
     };
 
     /* public api */
-    public drawEnemiesOnGameStart = () => {
-        // todo animation on start !!!
-        /* let point: TPoint = {
+    // public drawEnemiesOnGameStart = () => {
+    // todo animation on start !!!
+    /* let point: TPoint = {
             x: -300,
             y: params.ENEMIES_START_POINT.y,
         };
@@ -128,9 +123,16 @@ class EnemyManager {
             drawEnemiesGridFromStartPoint(point, ctx);
             point.x = point.x + i;
         } */
+    // let i = 0,
+    //      point = { x: -300, y: params.ENEMIES_START_POINT.y };
+    // while (i < 450) {
+    // window.requestAnimationFrame(this.drawEnemiesFromPoint.bind(this));
+    // point.x += i;
+    // i++;
+    // }
 
-        this.drawEnemiesGridFromStartPoint();
-    };
+    // this.drawEnemiesGridFromStartPoint();
+    //  };
 }
 
 export default EnemyManager;

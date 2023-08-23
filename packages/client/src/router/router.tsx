@@ -23,14 +23,13 @@ export enum RoutePaths {
 
 const Router = () => (
     <Routes>
-        <Route element={<Layout isAuthorized={false} />}>
+        <Route element={<Layout />}>
             <Route path={RoutePaths.LANDING} element={<Landing />} />
             <Route path={RoutePaths.SIGNIN} element={<Signin />} />
             <Route path={RoutePaths.SIGNUP} element={<Signup />} />
             <Route path={RoutePaths.SERVER_ERROR} element={<Error code={500} />} />
             <Route path={RoutePaths.NOT_FOUND} element={<Error code={404} />} />
-        </Route>
-        <Route element={<Layout />}>
+
             <Route path={RoutePaths.FORUM} element={<Forum />} />
             <Route path={RoutePaths.PROFILE} element={<Profile />} />
             <Route path={RoutePaths.GAME} element={<Game />} />

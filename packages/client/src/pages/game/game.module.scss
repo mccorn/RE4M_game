@@ -13,3 +13,12 @@
     color: $alertColor;
     font-size: 50px;
 }
+
+.game__buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.game__canvas {
+    border: 3px solid $alertColor;
+}
