@@ -6,7 +6,7 @@ import Button from '@/components/common/button/button';
 const Topic = () => {
     const [comments, setComments] = useState([] as ReactElement[]);
 
-    const handleSubmit: FormEventHandler<HTMLFormElement> = ev => {
+    const handleSubmit: FormEventHandler<HTMLFormElement> = (ev) => {
         ev.preventDefault();
         const formValue = Object.fromEntries(
             new FormData(ev.target as HTMLFormElement)
