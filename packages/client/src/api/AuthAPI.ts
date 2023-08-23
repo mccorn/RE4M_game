@@ -1,4 +1,4 @@
-import { HTTPTransport } from '@/utils/HTTPTransport';
+import { HTTPTransport } from '@/utils/HTTPTransport/HTTPTransport';
 import { BASE_URL } from '.';
 import { someObject } from '@/const/types';
 
