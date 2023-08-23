@@ -5,7 +5,7 @@ const METHODS = XHR_METHODS_TYPES;
 function queryStringify(data: someObject) {
     let result = '';
 
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach((key: string | number) => {
         result += `${result ? '&' : '?'}${key}=${data[key]}`;
     });
 
@@ -40,7 +40,7 @@ export class HTTPTransport {
             xhr.open(method, url);
             xhr.withCredentials = true;
 
-            Object.keys(headers).forEach(key => xhr.setRequestHeader(key, headers[key]));
+            Object.keys(headers).forEach((key: string) => xhr.setRequestHeader(key, headers[key]));
 
             xhr.onload = () => {
                 resolve(xhr);
