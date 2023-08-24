@@ -4,20 +4,7 @@ import Form from '@/components/common/form/form';
 import Button from '@/components/common/button/button';
 import './index.scss';
 
-type SignupUserData = {
-    first_name: string;
-    second_name: string;
-    login: string;
-    email: string;
-    password: string;
-    phone: string;
-};
-
-type SignupProps = {
-    data: SignupUserData;
-};
-
-const Signup: FC<SignupProps> = () => {
+const Signup: FC = () => {
     const [firstName, changeFirstName] = useState('');
     const [secondName, changeSecondName] = useState('');
     const [login, changeLogin] = useState('');
