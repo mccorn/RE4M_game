@@ -66,6 +66,7 @@ const Signup: FC<SignupProps> = () => {
                 <Input
                     value={firstName}
                     onChange={handleChangeFirstName}
+                    name="first_name"
                     label="first_name"
                     placeholder="first_name"
                     inputStyle="normal"
@@ -73,30 +74,35 @@ const Signup: FC<SignupProps> = () => {
                 <Input
                     value={secondName}
                     onChange={handleChangeSecondName}
+                    name="second_name"
                     label="second_name"
                     placeholder="second_name"
                 />
                 <Input
                     value={login}
                     onChange={handleChangeLogin}
+                    name="login"
                     label="login"
                     placeholder="login"
                 />
                 <Input
                     value={email}
                     onChange={handleChangeEmail}
+                    name="email"
                     label="email"
                     placeholder="email"
                 />
                 <Input
                     value={password}
                     onChange={handleChangePassword}
+                    name="password"
                     label="password"
                     placeholder="password"
                 />
                 <Input
                     value={phone}
                     onChange={handleChangePhone}
+                    name="phone"
                     label="phone"
                     placeholder="phone"
                 />
