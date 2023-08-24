@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
 import style from './forum.module.scss';
 import Button from '@/components/common/button/button';
 import TopicCard from '@/components/forum/topicCard/topicCard';
@@ -8,11 +9,8 @@ import { RoutePaths } from '@/router/router';
 
 const Forum: FC = () => {
     const navigate = useNavigate();
-    const topics = mockTopics.map((topic) => (
-        <TopicCard
-            title={topic.title}
-            text={topic.text}
-            id={topic.id} />
+    const topics = mockTopics.map(topic => (
+        <TopicCard title={topic.title} text={topic.text} id={topic.id} />
     ));
 
     return (
@@ -22,10 +20,10 @@ const Forum: FC = () => {
                     click={() => {
                         navigate(RoutePaths.CREATE_TOPIC);
                     }}
-                    text="Create a topic" />
+                    text="Create a topic"
+                />
             </div>
-            {topics}
-
+            <ErrorBoundary fallback={<div>something went wrond</div>}>{topics}</ErrorBoundary>
         </div>
     );
 };
