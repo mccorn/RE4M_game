@@ -21,8 +21,8 @@ const Input: FC<TInputProps> = ({
     label = 'button',
     placeholder,
 }) => (
-    <label className={classNames(style[size], style[inputStyle])}>
-        {label}
+    <label className={classNames('column', style[size], style[inputStyle])}>
+        <span>{label}</span>
         <input onChange={onChange} value={value} disabled={!isActive} placeholder={placeholder} />
     </label>
 );

@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import Input from '@/components/common/input/input';
 import Form from '@/components/common/form/form';
 import Button from '@/components/common/button/button';
+import './index.scss';
 
 type SignupUserData = {
     first_name: string;
@@ -60,8 +61,8 @@ const Signup: FC<SignupProps> = () => {
     };
 
     return (
-        <div>
-            <Form className="column">
+        <div className="formWrapper">
+            <Form className="column withGap">
                 <Input
                     value={firstName}
                     onChange={handleChangeFirstName}
