@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ErrorBoundary } from 'react-error-boundary';
 import style from './forum.module.scss';
 import Button from '@/components/common/button/button';
 import TopicCard from '@/components/forum/topicCard/topicCard';
@@ -22,7 +21,7 @@ const Forum: FC = () => {
                     }}
                     text="Create a topic" />
             </div>
-            <ErrorBoundary fallback={<div>something went wrond</div>}>{topics}</ErrorBoundary>
+            {topics}
         </div>
     );
 };
