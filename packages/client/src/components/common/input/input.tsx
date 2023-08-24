@@ -8,6 +8,7 @@ type TInputProps = {
     isActive?: boolean;
     onChange?: ChangeEventHandler;
     value: string;
+    name?: string;
     label?: string;
     placeholder?: string;
 };
@@ -17,13 +18,20 @@ const Input: FC<TInputProps> = ({
     inputStyle = 'normal',
     isActive = true,
     onChange,
-    value = 'button',
-    label = 'button',
+    value = '',
+    label = '',
+    name = '',
     placeholder,
 }) => (
     <label className={classNames('column', style[size], style[inputStyle])}>
         <span>{label}</span>
-        <input onChange={onChange} value={value} disabled={!isActive} placeholder={placeholder} />
+        <input
+            onChange={onChange}
+            name={name}
+            value={value}
+            disabled={!isActive}
+            placeholder={placeholder}
+        />
     </label>
 );
 
