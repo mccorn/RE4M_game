@@ -20,8 +20,7 @@ const Forum: FC = () => {
                     click={() => {
                         navigate(RoutePaths.CREATE_TOPIC);
                     }}
-                    text="Create a topic"
-                />
+                    text="Create a topic" />
             </div>
             <ErrorBoundary fallback={<div>something went wrond</div>}>{topics}</ErrorBoundary>
         </div>

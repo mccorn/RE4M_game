@@ -27,16 +27,14 @@ const CreateTopic = () => {
                         placeholder="title of topic"
                         className={style.createTopic__input}
                         name="title"
-                        type="text"
-                    />
+                        type="text" />
                     <textarea
                         placeholder="text of topic"
                         className={style.createTopic__textarea}
                         name="text"
                         id=""
                         cols={30}
-                        rows={10}
-                    />
+                        rows={10} />
                     <Button type="submit" text="Publish a topic" />
                 </form>
             </ErrorBoundary>
