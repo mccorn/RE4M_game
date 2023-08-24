@@ -1,17 +1,17 @@
-import { HTTPTransport } from '@/utils/HTTPTransport/HTTPTransport';
-import { BASE_URL } from '.';
-import { someObject } from '@/const/types';
+import HTTPTransport from '@/utils/HTTPTransport/HTTPTransport';
+import BaseAPI, { API_URL } from '.';
+import { AuthUserData } from '@/dataTypes/dataTypes';
 
-const url = `${BASE_URL}/auth`;
-const http = new HTTPTransport();
+const url = API_URL.HOST;
+const http = HTTPTransport;
 const options = {};
 const headersJSON = {
     'content-type': 'application/json', // Данные отправляем в формате JSON
 };
 
-class AuthAPI {
-    static async login(data: object = {}) {
-        const userResponse = (await AuthAPI.getAuthUser()) as someObject;
+class AuthAPI extends BaseAPI {
+    static async login(data: AuthUserData) {
+        const userResponse = (await AuthAPI.getAuthUser()) as Response;
 
         if (userResponse.status === 200) {
             await AuthAPI.logout();
@@ -41,13 +41,11 @@ class AuthAPI {
     }
 
     static getAuthUser() {
-        const reqOptions = { ...options };
-
-        return http.get(`${url}/user`, reqOptions);
+        return http.get(`${url}/user`);
     }
 
     static logout() {
-        return http.post(`${url}/logout`, {});
+        return http.post(`${url}/logout`);
     }
 }
 

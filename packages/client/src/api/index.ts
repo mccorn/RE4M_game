@@ -1,2 +1,28 @@
-export const BASE_URL = 'https://ya-praktikum.tech/api/v2';
-export const RESOURCES_URL = `${BASE_URL}/resources`;
+const APP_HOST = 'https://ya-praktikum.tech/api/';
+const HOST = `${APP_HOST}/v2`;
+
+export const API_URL = {
+    HOST,
+    APP_HOST,
+    RESOURCES: `${HOST}/resources`,
+};
+
+export class BaseAPI {
+    static create() {
+        throw new Error('Not implemented');
+    }
+
+    static request() {
+        throw new Error('Not implemented');
+    }
+
+    static update() {
+        throw new Error('Not implemented');
+    }
+
+    static delete() {
+        throw new Error('Not implemented');
+    }
+}
+
+export default BaseAPI;

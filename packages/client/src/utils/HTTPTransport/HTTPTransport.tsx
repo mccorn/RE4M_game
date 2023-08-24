@@ -14,7 +14,7 @@ function queryStringify(data: someObject) {
 
 type HTTPMethod = (url: string, options?: someObject) => Promise<unknown>;
 
-export class HTTPTransport {
+class HTTPTransport {
     get: HTTPMethod = (url, options = {}) =>
         this.request(url + queryStringify(options.data), { ...options, method: METHODS.GET });
 
@@ -72,3 +72,5 @@ export function fetchWithRetry(url: string, options: someObject) {
 
     return response;
 }
+
+export default new HTTPTransport();
