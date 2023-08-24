@@ -13,10 +13,11 @@ const Topic = () => {
         <TopicCard
             title={mockTopics[Number(id)].title}
             text={mockTopics[Number(id)].text}
-            id={mockTopics[Number(id)].id} />
+            id={mockTopics[Number(id)].id}
+        />
     );
 
-    const handleSubmit: FormEventHandler<HTMLFormElement> = (ev) => {
+    const handleSubmit: FormEventHandler<HTMLFormElement> = ev => {
         ev.preventDefault();
         const formValue = Object.fromEntries(
             new FormData(ev.target as HTMLFormElement)
@@ -44,7 +45,8 @@ const Topic = () => {
                     name="comment"
                     cols={30}
                     rows={5}
-                    className={style.form__textarea} />
+                    className={style.form__textarea}
+                />
                 <Button type="submit" text="add comment" />
             </form>
             <div className={style.comment__feed}>{comments}</div>

@@ -26,6 +26,7 @@ module.exports = {
             },
         ],
         'implicit-arrow-linebreak': ['warn', 'beside'],
+        'arrow-parens': ['error', 'as-needed'],
         'object-curly-newline': 'off',
         'no-shadow': 'off',
         'no-unused-vars': 'off',
