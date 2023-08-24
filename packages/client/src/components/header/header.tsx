@@ -39,7 +39,7 @@ const Header: FC<THeaderProps> = ({ isAuthorized }) => {
                     {isAuthorized && (
                         <>
                             <NavLink
-                                to={Paths.FORUM}
+                                to={Paths.FORUM__URL}
                                 className={({ isActive }) => calculateLinkClass(isActive)}>
                                 Forum
                             </NavLink>
