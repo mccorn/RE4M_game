@@ -7,7 +7,7 @@ import Logo from '@/assets/images/logo.svg';
 import { RoutePaths as Paths } from '@/router/router';
 import mockUser from '@/mocks/mockUser';
 import style from './header.module.scss';
-import AuthAPI from '@/api/AuthAPI';
+import AuthAPI from '@/app/api/AuthAPI';
 
 // todo move this to redux later
 type THeaderProps = {

@@ -1,5 +1,5 @@
 import HTTPTransport from '@/utils/HTTPTransport/HTTPTransport';
-import BaseAPI, { API_URL } from '.';
+import BaseAPI, { API_URL } from '../api';
 import { AuthUserData } from '@/dataTypes/dataTypes';
 
 const url = API_URL.HOST;

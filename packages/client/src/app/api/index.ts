@@ -1,4 +1,4 @@
-const APP_HOST = 'https://ya-praktikum.tech/api/';
+const APP_HOST = 'https://ya-praktikum.tech/api';
 const HOST = `${APP_HOST}/v2`;
 
 export const API_URL = {
