@@ -1,4 +1,4 @@
-import TUser from '@/dataTypes/dataTypes';
+import TUser from '../dataTypes/dataTypes';
 
 const mockUser: TUser = {
     login: 'Hellga',

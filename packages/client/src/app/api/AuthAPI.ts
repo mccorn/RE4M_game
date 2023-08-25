@@ -1,6 +1,6 @@
 import HTTPTransport from '@/utils/HTTPTransport/HTTPTransport';
 import BaseAPI, { API_URL } from '../api';
-import { AuthUserData } from '@/dataTypes/dataTypes';
+import { AuthUserData } from '@/const/dataTypes/dataTypes';
 
 const url = API_URL.HOST;
 const http = HTTPTransport;

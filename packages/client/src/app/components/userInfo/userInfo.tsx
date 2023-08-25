@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import style from './userInfo.module.scss';
 import { RoutePaths } from '@/router/router';
-import TUser from '@/dataTypes/dataTypes';
 import calculateAvatarUrl from '@/app/helpers/avatarHelper';
+import TUser from '@/const/dataTypes/dataTypes';
 
 type TUserInfoProps = {
     user: TUser;
