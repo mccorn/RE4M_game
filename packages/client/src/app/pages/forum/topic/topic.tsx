@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import style from './topic.module.scss';
 import TopicCard from '@/app/components/forum/topicCard/topicCard';
 import Button from '@/app/components/common/button/button';
-import mockTopics from '@/mocks/mockTopics';
+import mockTopics from '@/const/mocks/mockTopics';
 import Avatar from '@/assets/images/defaultAvatar.png';
 
 const Topic = () => {

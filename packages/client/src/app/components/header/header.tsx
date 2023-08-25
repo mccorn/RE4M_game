@@ -5,7 +5,7 @@ import Button from '@/app/components/common/button/button';
 import UserInfo from '@/app/components/userInfo/userInfo';
 import Logo from '@/assets/images/logo.svg';
 import { RoutePaths as Paths } from '@/router/router';
-import mockUser from '@/mocks/mockUser';
+import mockUser from '@/const/mocks/mockUser';
 import style from './header.module.scss';
 import AuthAPI from '@/app/api/AuthAPI';
 

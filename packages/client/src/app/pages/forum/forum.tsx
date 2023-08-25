@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import style from './forum.module.scss';
 import Button from '@/app/components/common/button/button';
 import TopicCard from '@/app/components/forum/topicCard/topicCard';
-import mockTopics from '@/mocks/mockTopics';
 import { RoutePaths } from '@/router/router';
+import mockTopics from '@/const/mocks/mockTopics';
 
 const Forum: FC = () => {
     const navigate = useNavigate();
-    const topics = mockTopics.map(topic => (
+    const topics = mockTopics.map((topic: { title: string; text: string; id: string }) => (
         <TopicCard key={topic.id} title={topic.title} text={topic.text} id={topic.id} />
     ));
 
