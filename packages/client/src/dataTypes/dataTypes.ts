@@ -10,4 +10,9 @@ type TUser = {
     avatar: string | null;
 };
 
+export type AuthUserData = {
+    login: string;
+    password: string;
+};
+
 export default TUser;
