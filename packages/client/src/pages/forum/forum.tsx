@@ -9,11 +9,7 @@ import { RoutePaths } from '@/router/router';
 const Forum: FC = () => {
     const navigate = useNavigate();
     const topics = mockTopics.map(topic => (
-        <TopicCard
-            key={topic.id}
-            title={topic.title}
-            text={topic.text}
-            id={topic.id} />
+        <TopicCard key={topic.id} title={topic.title} text={topic.text} id={topic.id} />
     ));
 
     return (
@@ -23,10 +19,10 @@ const Forum: FC = () => {
                     click={() => {
                         navigate(RoutePaths.CREATE_TOPIC);
                     }}
-                    text="Create a topic" />
+                    text="Create a topic"
+                />
             </div>
             {topics}
-
         </div>
     );
 };

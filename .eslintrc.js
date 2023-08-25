@@ -27,6 +27,7 @@ module.exports = {
             },
         ],
         'implicit-arrow-linebreak': ['warn', 'beside'],
+        'arrow-parens': ['error', 'as-needed'],
         'object-curly-newline': 'off',
         'no-shadow': 'off',
         'no-unused-vars': 'off',
@@ -40,6 +41,6 @@ module.exports = {
         'import/no-unresolved': 'off',
         'import/extensions': 'off',
         'import/no-extraneous-dependencies': 'off',
-        'linebreak-style': 0,
+        'linebreak-style': ['error', 'unix'],
     },
 };
