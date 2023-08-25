@@ -8,7 +8,7 @@ import { RoutePaths } from '@/router/router';
 const CreateTopic = () => {
     const navigate = useNavigate();
 
-    const handleSubmit: FormEventHandler<HTMLFormElement> = (ev) => {
+    const handleSubmit: FormEventHandler<HTMLFormElement> = ev => {
         ev.preventDefault();
         const formValue = Object.fromEntries(new FormData(ev.target as HTMLFormElement));
         console.log(formValue);
