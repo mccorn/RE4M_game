@@ -1,5 +1,5 @@
 import defaultAvatar from '@/assets/images/defaultAvatar.png';
-import { API_URL } from '../app/api';
+import { API_URL } from '../api';
 
 const calculateAvatarUrl = (avatar: string | null) => {
     if (avatar) {
