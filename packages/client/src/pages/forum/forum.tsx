@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './forum.module.scss';
-import Button from '@/components/common/button/button';
-import TopicCard from '@/components/forum/topicCard/topicCard';
+import Button from '@/app/components/common/button/button';
+import TopicCard from '@/app/components/forum/topicCard/topicCard';
 import mockTopics from '@/mocks/mockTopics';
 import { RoutePaths } from '@/router/router';
 

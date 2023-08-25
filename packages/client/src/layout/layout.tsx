@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import style from './layout.module.scss';
-import Header from '@/components/header/header';
+import Header from '@/app/components/header/header';
 
 // todo move this to redux later
 type TLayoutProps = {

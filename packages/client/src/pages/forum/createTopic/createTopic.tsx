@@ -1,6 +1,6 @@
 import React, { FormEventHandler } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Button from '@/components/common/button/button';
+import Button from '@/app/components/common/button/button';
 import style from './createTopic.module.scss';
 import Close from '@/assets/images/cross-svgrepo-com.svg';
 import { RoutePaths } from '@/router/router';
@@ -25,14 +25,16 @@ const CreateTopic = () => {
                     placeholder="title of topic"
                     className={style.createTopic__input}
                     name="title"
-                    type="text" />
+                    type="text"
+                />
                 <textarea
                     placeholder="text of topic"
                     className={style.createTopic__textarea}
                     name="text"
                     id=""
                     cols={30}
-                    rows={10} />
+                    rows={10}
+                />
                 <Button type="submit" text="Publish a topic" />
             </form>
         </div>

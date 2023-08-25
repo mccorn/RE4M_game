@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import style from './game.module.scss';
-import Button from '@/components/common/button/button';
+import Button from '@/app/components/common/button/button';
 
 const Game: FC = () => (
     <>

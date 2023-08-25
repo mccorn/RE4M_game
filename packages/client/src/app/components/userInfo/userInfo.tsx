@@ -19,7 +19,8 @@ const UserInfo: FC<TUserInfoProps> = ({ user }) => {
                     <img
                         className={style['user__avatar-image']}
                         alt="user avatar"
-                        src={calculateAvatarUrl(user.avatar)} />
+                        src={calculateAvatarUrl(user.avatar)}
+                    />
                 </Link>
             </div>
             <div className={style.user__info}>

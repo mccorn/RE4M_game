@@ -1,8 +1,8 @@
 import React, { FC, MouseEventHandler } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import classNames from 'classnames';
-import Button from '@common/button/button';
-import UserInfo from '@components/userInfo/userInfo';
+import Button from '@/app/components/common/button/button';
+import UserInfo from '@/app/components/userInfo/userInfo';
 import Logo from '@/assets/images/logo.svg';
 import { RoutePaths as Paths } from '@/router/router';
 import mockUser from '@/mocks/mockUser';
