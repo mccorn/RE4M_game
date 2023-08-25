@@ -8,8 +8,9 @@ import { RoutePaths } from '@/router/router';
 
 const Forum: FC = () => {
     const navigate = useNavigate();
-    const topics = mockTopics.map((topic) => (
+    const topics = mockTopics.map(topic => (
         <TopicCard
+            key={topic.id}
             title={topic.title}
             text={topic.text}
             id={topic.id} />
