@@ -1,6 +1,7 @@
 import EnemyManager from './enemies';
 import PlayerManager, { TDirection } from './player';
 import BackgroundManager from './background';
+import AsteroidManager from './asteroid';
 
 // todo do we need this
 /* const checkPoint = (point: TPoint): boolean => {
@@ -41,11 +42,14 @@ class GameEngine {
     // eslint-disable-next-line
     timer: NodeJS.Timer | null;
 
+    asteroidManager: AsteroidManager;
+
     constructor(ctx: CanvasRenderingContext2D) {
         this.context = ctx;
         this.enemyManager = new EnemyManager(ctx);
         this.playerManager = new PlayerManager(ctx);
         this.backgroundManager = new BackgroundManager(ctx);
+        this.asteroidManager = new AsteroidManager(ctx);
         this.timer = null;
     }
 
@@ -56,9 +60,11 @@ class GameEngine {
     }
 
     public startGame = () => {
-        this.playerManager.drawPlayerOnGameStart();
+        // this.playerManager.drawPlayerOnGameStart();
         // this.enemyManager.drawEnemiesOnGameStart();
         // this.timer = this.backgroundManager.renderSpaceWithStars();
+
+        this.asteroidManager.init();
     };
 
     public pauseGame = () => {

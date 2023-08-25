@@ -51,8 +51,8 @@ class BackgroundManager {
     public renderGameField = () => {
         const ctx = this.context;
         ctx.clearRect(0, 0, params.WIDTH, params.HEIGHT);
-        ctx.fillStyle = params.BACKGROUND_COLOR;
-        ctx.fillRect(0, 0, params.WIDTH, params.HEIGHT);
+        // ctx.fillStyle = params.BACKGROUND_COLOR;
+        // ctx.fillRect(0, 0, params.WIDTH, params.HEIGHT);
     };
 
     // eslint-disable-next-line
