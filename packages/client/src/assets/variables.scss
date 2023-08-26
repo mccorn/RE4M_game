@@ -1,5 +1,7 @@
 /* common */
 
+$boxShadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+
 $backgroundColor: #009797;
 $backgroundColorSecondary: #95b1b0;
 $textColor: #f0efea;
@@ -33,6 +35,43 @@ $fontSizeSmall: 16px;
     font-weight: 400;
 }
 
+@mixin form {
+    display: flex;
+    width: $cardWidth;
+    box-shadow: $boxShadow;
+    background-color: $backgroundColorSecondary;
+    flex-direction: column;
+    gap: 20px;
+    padding: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+
+    &__wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100dvh - 100px);
+    }
+
+    &__input,
+    &__textarea {
+        border-radius: 5px;
+        padding: 10px;
+        font-size: $fontSizeSmall;
+        border: none;
+        box-sizing: border-box;
+    }
+
+    &__input {
+        height: 50px;
+    }
+
+    &__textarea {
+        resize: vertical;
+    }
+}
+
 /* button */
 
 $buttonBackgroundColor: #324b4b;
@@ -41,3 +80,7 @@ $buttonBackgroundColor: #324b4b;
 
 $headerHeight: 100px;
 $headerContentHeight: 70px;
+
+/* forum */
+
+$cardWidth: 700px;

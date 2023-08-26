@@ -7,6 +7,7 @@ import Logo from '@/assets/images/logo.svg';
 import { RoutePaths as Paths } from '@/router/router';
 import mockUser from '@/mocks/mockUser';
 import style from './header.module.scss';
+import AuthAPI from '@/api/AuthAPI';
 
 // todo move this to redux later
 type THeaderProps = {
@@ -14,7 +15,13 @@ type THeaderProps = {
 };
 
 const Header: FC<THeaderProps> = ({ isAuthorized }) => {
-    const logout: MouseEventHandler = () => alert('logout will be here');
+    const logout: MouseEventHandler = () => {
+        AuthAPI.logout();
+
+        // AuthAPI.logout()
+        //  .then(() => alert('success logout'))
+        // .catch((err) => console.log(err));
+    };
 
     const calculateLinkClass = (isActive: boolean) => {
         const activeClass = isActive ? style.header__link_active : '';
@@ -39,7 +46,7 @@ const Header: FC<THeaderProps> = ({ isAuthorized }) => {
                     {isAuthorized && (
                         <>
                             <NavLink
-                                to={Paths.FORUM}
+                                to={Paths.FORUM__URL}
                                 className={({ isActive }) => calculateLinkClass(isActive)}>
                                 Forum
                             </NavLink>
