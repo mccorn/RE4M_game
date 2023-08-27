@@ -1,15 +1,16 @@
 import React, { Route, Routes } from 'react-router-dom';
-import Landing from '@pages/landing/landing';
-import Forum from '@pages/forum/forum';
-import Game from '@pages/game/game';
-import LeaderBoard from '@pages/leaderboard/leaderboard';
-import Profile from '@pages/profile/profile';
-import Signin from '@pages/signin/signin';
-import Signup from '@pages/signup/signup';
-import Error from '@pages/error/error';
-import Layout from '@/layout/layout';
-import CreateTopic from '@/pages/forum/createTopic/createTopic';
-import Topic from '@/pages/forum/topic/topic';
+
+import Error from '@/app/pages/error/error';
+import CreateTopic from '@/app/pages/forum/createTopic/createTopic';
+import Forum from '@/app/pages/forum/forum';
+import Topic from '@/app/pages/forum/topic/topic';
+import Game from '@/app/pages/game/game';
+import Landing from '@/app/pages/landing/landing';
+import LeaderBoard from '@/app/pages/leaderboard/leaderboard';
+import Profile from '@/app/pages/profile/profile';
+import Signin from '@/app/pages/signin/signin';
+import Signup from '@/app/pages/signup/signup';
+import Layout from '@/app/components/layout/layout';
 
 export enum RoutePaths {
     LANDING = '/',
@@ -23,7 +24,7 @@ export enum RoutePaths {
     NOT_FOUND = '/*',
     SERVER_ERROR = '/error',
     CREATE_TOPIC = '/forum/topic/create',
-    TOPIC = '/forum/topic/:id'
+    TOPIC = '/forum/topic/:id',
 }
 
 const Router = () => (
