@@ -1,39 +1,39 @@
 import React, { FC, useState } from 'react';
-import Input from '@/components/common/input/input';
-import Form from '@/components/common/form/form';
-import Button from '@/components/common/button/button';
+import Input from '@/app/components/common/input/input';
+import Form from '@/app/components/common/form/form';
+import Button from '@/app/components/common/button/button';
 import './index.scss';
 
 const Signup: FC = () => {
-    const [firstName, changeFirstName] = useState('');
-    const [secondName, changeSecondName] = useState('');
-    const [login, changeLogin] = useState('');
-    const [email, changeEmail] = useState('');
-    const [password, changePassword] = useState('');
-    const [phone, changePhone] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [secondName, setSecondName] = useState('');
+    const [login, setLogin] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [phone, setPhone] = useState('');
 
     const handleChangeFirstName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        changeFirstName(event.target.value);
+        setFirstName(event.target.value);
     };
 
     const handleChangeSecondName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        changeSecondName(event.target.value);
+        setSecondName(event.target.value);
     };
 
     const handleChangeLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
-        changeLogin(event.target.value);
+        setLogin(event.target.value);
     };
 
     const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-        changeEmail(event.target.value);
+        setEmail(event.target.value);
     };
 
     const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-        changePassword(event.target.value);
+        setPassword(event.target.value);
     };
 
     const handleChangePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
-        changePhone(event.target.value);
+        setPhone(event.target.value);
     };
 
     const handleSubmitForm = () => {
