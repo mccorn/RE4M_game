@@ -11,6 +11,6 @@
     }
 
     &__create {
-        width: $cardWidth;
+        width: var(--cardWidth);
     }
 }
