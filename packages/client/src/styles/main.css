@@ -1,0 +1,65 @@
+/*
+$boxShadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+
+$backgroundColor: #009797;
+$backgroundColorSecondary: #95b1b0;
+$textColor: #f0efea;
+$textColorSecondary: #80472d;
+$alertColor: #ff8749;
+
+$fontSizeLarge: 30px;
+$fontSizeMedium: 20px;
+$fontSizeSmall: 16px;
+
+ button 
+
+$buttonBackgroundColor: #324b4b;
+
+ header 
+
+$headerHeight: 100px;
+$headerContentHeight: 70px;
+
+ forum 
+
+$cardWidth: 700px;
+*/
+
+html {
+    --boxShadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+
+    --backgroundColor: #009797;
+    --backgroundColorSecondary: #95b1b0;
+    --textColor: #f0efea;
+    --textColorSecondary: #80472d;
+    --alertColor: #ff8749;
+
+    --fontSizeLarge: 30px;
+    --fontSizeMedium: 20px;
+    --fontSizeSmall: 16px;
+
+    --buttonBackgroundColor: #324b4b;
+    --headerHeight: 100px;
+    --headerContentHeight: 70px;
+    --cardWidth: 700px;
+
+    --size_big: 60px;
+    --size_medium: 48px;
+    --size_default: 30px;
+    --size_small: 24px;
+    --size_x_small: 12px;
+
+    --padding_big: 32px;
+    --padding_medium: 24px;
+    --padding_default: 16px;
+    --padding_small: 12px;
+    --padding_x_small: 8px;
+
+    --margin_huge: 64px;
+    --margin_large: 48px;
+    --margin_big: 32px;
+    --margin_medium: 24px;
+    --margin_default: 16px;
+    --margin_small: 12px;
+    --margin_x_small: 8px;
+}

@@ -27,15 +27,15 @@
         flex-direction: column;
         gap: 20px;
 
-        background-color: $backgroundColorSecondary;
+        background-color: var(--backgroundColorSecondary);
         padding: 15px;
-        width: $cardWidth;
-        box-shadow: $boxShadow;
+        width: var(--cardWidth);
+        box-shadow: var(--boxShadow);
         border-radius: 5px;
     }
 
     &__name {
-        font-size: $fontSizeMedium;
+        font-size: var(--fontSizeMedium);
     }
 
     &__header {
@@ -44,7 +44,7 @@
     }
 
     &__text {
-        font-size: $fontSizeSmall;
+        font-size: var(--fontSizeSmall);
     }
 
     &__time {
