@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import style from './forum.module.scss';
 import Button from '@/app/components/common/button/button';
 import TopicCard from '@/app/components/forum/topicCard/topicCard';
-import { RoutePaths } from '@/router/router';
+import { RoutePaths } from '@/app/router/router';
 import mockTopics from '@/const/mocks/mockTopics';
 
 const Forum: FC = () => {

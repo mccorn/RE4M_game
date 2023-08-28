@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import style from './userInfo.module.scss';
-import { RoutePaths } from '@/router/router';
+import { RoutePaths } from '@/app/router/router';
 import calculateAvatarUrl from '@/app/helpers/avatarHelper';
 import TUser from '@/const/dataTypes/dataTypes';
 

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '@/app/components/common/button/button';
 import style from './createTopic.module.scss';
 import Close from '@/assets/images/cross-svgrepo-com.svg';
-import { RoutePaths } from '@/router/router';
+import { RoutePaths } from '@/app/router/router';
 
 const CreateTopic = () => {
     const navigate = useNavigate();
