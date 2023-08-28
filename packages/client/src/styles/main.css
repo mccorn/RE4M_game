@@ -25,11 +25,12 @@ $headerContentHeight: 70px;
 $cardWidth: 700px;
 */
 
-html {
+:root {
     --boxShadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 
     --backgroundColor: #009797;
     --backgroundColorSecondary: #95b1b0;
+    --backgroundInput: #fff;
     --textColor: #f0efea;
     --textColorSecondary: #80472d;
     --alertColor: #ff8749;
