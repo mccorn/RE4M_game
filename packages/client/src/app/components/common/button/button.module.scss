@@ -1,0 +1,36 @@
+@import '@/styles/variables.scss';
+
+.normal {
+    cursor: pointer;
+    border: none;
+    background-color: $buttonBackgroundColor;
+    border-radius: 5px;
+    color: $textColor;
+    @include slowTransition;
+
+    &:hover {
+        background-color: lighten($buttonBackgroundColor, 10%);
+    }
+
+    &:disabled,
+    &[disabled] {
+        cursor: default;
+        background-color: lighten($buttonBackgroundColor, 10%);
+        color: darken($textColor, 20%);
+    }
+}
+
+.large {
+    @include fontLarge;
+    padding: 12px 86px;
+}
+
+.medium {
+    @include fontNormal;
+    padding: 8px 38px;
+}
+
+.small {
+    @include fontSmall;
+    padding: 4px 12px;
+}

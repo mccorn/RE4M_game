@@ -1,0 +1,15 @@
+@import '@/styles/variables.scss';
+
+.createTopic {
+    @include form;
+
+    &__close {
+        cursor: pointer;
+        align-self: flex-end;
+    }
+
+    &__smallImage {
+        width: 15px;
+        height: 15px;
+    }
+}
