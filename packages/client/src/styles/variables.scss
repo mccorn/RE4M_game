@@ -61,6 +61,8 @@ $fontSizeSmall: 16px;
         font-size: var(--fontSizeSmall);
         border: none;
         box-sizing: border-box;
+
+        background-color: var(--backgroundInput);
     }
 
     &__input {

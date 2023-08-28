@@ -22,6 +22,13 @@
     }
 }
 
+.withoutBackGround {
+    cursor: pointer;
+    border: none;
+    color: var(--textColor);
+    background-color: rgba(0,0,0,0);
+}
+
 .large {
     @include fontLarge;
     padding: 12px 86px;

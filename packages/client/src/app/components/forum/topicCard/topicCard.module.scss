@@ -9,9 +9,16 @@
     padding: 10px;
     border-radius: 5px;
 
+    color: var(--textColor);
+
     &__header {
         margin-bottom: 10px;
+        color: var(--textColor);
         font-size: var(--fontSizeMedium);
+
+        a {
+            color: var(--textColor);
+        }
     }
 
     &__body {
