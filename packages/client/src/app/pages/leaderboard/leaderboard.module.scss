@@ -8,17 +8,19 @@
 	margin-bottom: 20px;
     margin-top: 20px;
 	border-collapse: collapse;
-    color: #f0efea;
+    color: $textColor;
     border-radius: 5px;
 
     border-radius: 5px; // 1
-    box-shadow: 0px 0px 0px 2px #95b1b0 inset;
+    box-shadow: 0px 0px 0px 2px $backgroundColorSecondary inset;
     overflow: hidden;
+
+    font-size: $fontSizeMedium;
 
     &__td {
         text-align: center; 
         vertical-align: middle;
-        border: 2px solid #95b1b0;
+        border: 2px solid $backgroundColorSecondary;
         padding: 5px;
         height: 50px;
     }
@@ -26,8 +28,8 @@
     &__th {
         font-weight: bold;
         padding: 5px;
-        background: #95b1b0;
-        border: 1px solid #95b1b0;
+        background: $backgroundColorSecondary;
+        border: 1px solid $backgroundColorSecondary;
         height: 50px;
     }
 }
