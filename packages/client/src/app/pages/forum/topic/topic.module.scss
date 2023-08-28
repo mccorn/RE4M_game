@@ -1,0 +1,59 @@
+@import '@/styles/variables.scss';
+
+.topic {
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        justify-content: center;
+        align-items: center;
+        padding-top: 25px;
+    }
+
+}
+
+.form {
+    @include form;
+}
+
+.comment {
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &__feed {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        background-color: $backgroundColorSecondary;
+        padding: 15px;
+        width: $cardWidth;
+        box-shadow: $boxShadow;
+        border-radius: 5px;
+    }
+
+    &__name {
+        font-size: $fontSizeMedium;
+    }
+
+    &__header {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__text {
+        font-size: $fontSizeSmall;
+    }
+
+    &__time {
+        align-self: flex-end;
+    }
+
+    &__avatar {
+        width: 25px;
+        height: 25px;
+        margin-right: 5px;
+    }
+}

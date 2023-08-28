@@ -1,0 +1,86 @@
+/* common */
+
+$boxShadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+
+$backgroundColor: #009797;
+$backgroundColorSecondary: #95b1b0;
+$textColor: #f0efea;
+$textColorSecondary: #80472d;
+$alertColor: #ff8749;
+
+$fontSizeLarge: 30px;
+$fontSizeMedium: 20px;
+$fontSizeSmall: 16px;
+
+@mixin transition {
+    transition: all 0.3s ease-in-out;
+}
+
+@mixin slowTransition {
+    transition: all 0.6s ease-in-out;
+}
+
+@mixin fontLarge {
+    font-size: $fontSizeLarge;
+    font-weight: 700;
+}
+
+@mixin fontNormal {
+    font-size: $fontSizeMedium;
+    font-weight: 600;
+}
+
+@mixin fontSmall {
+    font-size: $fontSizeSmall;
+    font-weight: 400;
+}
+
+@mixin form {
+    display: flex;
+    width: $cardWidth;
+    box-shadow: $boxShadow;
+    background-color: $backgroundColorSecondary;
+    flex-direction: column;
+    gap: 20px;
+    padding: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+
+    &__wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100dvh - 100px);
+    }
+
+    &__input,
+    &__textarea {
+        border-radius: 5px;
+        padding: 10px;
+        font-size: $fontSizeSmall;
+        border: none;
+        box-sizing: border-box;
+    }
+
+    &__input {
+        height: 50px;
+    }
+
+    &__textarea {
+        resize: vertical;
+    }
+}
+
+/* button */
+
+$buttonBackgroundColor: #324b4b;
+
+/* header */
+
+$headerHeight: 100px;
+$headerContentHeight: 70px;
+
+/* forum */
+
+$cardWidth: 700px;

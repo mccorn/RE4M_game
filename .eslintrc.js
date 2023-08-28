@@ -26,6 +26,7 @@ module.exports = {
             },
         ],
         'implicit-arrow-linebreak': ['warn', 'beside'],
+        'arrow-parens': ['error', 'as-needed'],
         'object-curly-newline': 'off',
         'no-shadow': 'off',
         'no-unused-vars': 'off',
@@ -45,5 +46,6 @@ module.exports = {
             controlComponents: ['CustomInput'],
             depth: 3,
         }],
+        'linebreak-style': ['error', 'unix'],
     },
 };
