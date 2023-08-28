@@ -1,0 +1,60 @@
+$size_big: 60px;
+$size_medium: 48px;
+$size_default: 30px;
+$size_small: 24px;
+$size_x_small: 12px;
+
+$padding_big: 32px;
+$padding_medium: 24px;
+$padding_default: 16px;
+$padding_small: 12px;
+$padding_x_small: 8px;
+
+$margin_huge: 64px;
+$margin_large: 48px;
+$margin_big: 32px;
+$margin_medium: 24px;
+$margin_default: 16px;
+$margin_small: 12px;
+$margin_x_small: 8px;
+
+.flex {
+    display: flex;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.section {
+    margin-bottom: $margin_large;
+}
+
+.row {
+    display: flex;
+    width: 100%;
+
+    gap: $margin_default;
+    margin-bottom: $margin_default;
+}
+
+.line {
+    margin-bottom: $margin_x_small;
+}
+
+.stretch {
+    flex: 1;
+}
+
+.withGap {
+    gap: $margin_default;
+}
+
+.column_justify_center {
+    justify-content: center;
+}
+
+.column_align_center {
+    align-items: center;
+}

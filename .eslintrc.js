@@ -40,6 +40,12 @@ module.exports = {
         'import/no-unresolved': 'off',
         'import/extensions': 'off',
         'import/no-extraneous-dependencies': 'off',
+        'jsx-a11y/label-has-associated-control': [2, {
+            labelComponents: ['CustomInputLabel'],
+            labelAttributes: ['label'],
+            controlComponents: ['CustomInput'],
+            depth: 3,
+        }],
         'linebreak-style': ['error', 'unix'],
     },
 };
