@@ -43,16 +43,17 @@ class GameEngine {
     };
 
     public start = () => {
-        // console.log('state');
-        // console.log(state);
-        this.requestId = window.requestAnimationFrame(this.animator.startMainLoop);
+        state.resetShipsToStart();
+        this.animator.resetToStart();
+        this.animator.requestId = window.requestAnimationFrame(this.animator.startMainLoop);
     };
 
     public pause = () => {
-        if (this.requestId) {
-            window.cancelAnimationFrame(this.requestId);
+        if (this.animator.requestId) {
+            console.log('in cancel animation');
+            window.cancelAnimationFrame(this.animator.requestId);
         } else {
-            // console.log('request id is null');
+            console.log('request id is null');
         }
     };
 
@@ -77,7 +78,7 @@ class GameEngine {
 
         console.log(this.animator);
 
-        const player = state.find(ship => +ship.type === ShipType.Player);
+        const player = state.ships.find(ship => +ship.type === ShipType.Player);
         // todo index?
         player?.updateState(0, direction);
     };

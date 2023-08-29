@@ -69,10 +69,14 @@ class GameObjectAnimator {
         }
     };
 
-    // todo rotate image
+    public resetToStart = () => {
+        // fast after reset - cancel bug?
+        this.frameCount = 0;
+        this.mainLoopIndex = 0;
+    };
 
     public startMainLoop = () => {
-        // console.log('in main loop');
+        console.log('in main loop');
 
         this.frameCount++;
 
@@ -80,7 +84,7 @@ class GameObjectAnimator {
         this.drawBackground();
 
         /* draw all ships */
-        state.forEach(ship => {
+        state.ships.forEach(ship => {
             this.drawShip(ship);
         });
         if (this.frameCount === this.EXPLOIDE_SPEED) {

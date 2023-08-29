@@ -11,7 +11,7 @@ const ships: Record<ShipType, TPoint[]> = {
     ],
     [ShipType.Bomber]: [{ x: 250, y: 0 }],
     [ShipType.Fighter]: [{ x: 0, y: 0 }],
-    [ShipType.Player]: [{ x: 600 / 2, y: 600 - 100 }],
+    [ShipType.Player]: [{ x: 600 / 2 - 32, y: 600 - 100 }],
     // todo circular dependency GameParameters.WIDTH GameParameters.HEIGHT
 }; // as const; todo const
 
