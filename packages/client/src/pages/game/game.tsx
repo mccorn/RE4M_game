@@ -1,53 +1,50 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import style from './game.module.scss';
 import Button from '@/components/common/button/button';
-import { GameFieldParameters as params } from './gameEngine/gameTypes';
+import params from './gameEngine/gameParameters';
 import GameEngine from './gameEngine/gameEngine';
 
-enum GameState {
+// todo!
+/* enum GameState {
     WaitForStart,
     Started,
     Paused,
     Finished,
-}
+} */
 
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
     let gameEngine: GameEngine | null = null;
-
-    // todo move to redux, make one state
-    const [gameState, setGameState] = useState<GameState>(GameState.WaitForStart);
-
-    // const startGame = () => gameEngine && gameEngine.startGame();
-
     const onKeyDown = (event: KeyboardEvent) => {
-        console.log('key pressed');
-        console.log(event);
+        // console.log('key pressed');
+        // console.log(event);
         gameEngine && gameEngine.gameControlPressed(event);
     };
 
     const startGame = () => {
-        gameEngine && gameEngine.startGame();
-
-        window.addEventListener('keydown', onKeyDown);
-        const gameEnded = false;
+        /* const gameEnded = false;
         if (gameEnded) {
             window.removeEventListener('keydown', onKeyDown);
-        }
+        } */
+
+        gameEngine && gameEngine.start();
+        window.addEventListener('keydown', onKeyDown);
     };
 
     const pauseGame = () => {
-        setGameState(gameState === GameState.Paused ? GameState.Started : GameState.Paused);
-        gameEngine && gameEngine.pauseGame();
+        gameEngine && gameEngine.pause();
     };
 
-    const endGame = () => gameEngine && gameEngine.endGame();
+    const endGame = () => {
+        gameEngine && gameEngine.finish();
+    };
 
     useEffect(() => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
+            // console.log('context found');
             gameEngine = new GameEngine(context);
-            gameEngine.loadGame();
+            gameEngine.load(); // todo reload page bug
         } else {
             console.log('no context found');
         }

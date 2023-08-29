@@ -1,87 +1,70 @@
-import EnemyManager from './enemies';
-import PlayerManager, { TDirection } from './player';
-import BackgroundManager from './background';
-import AsteroidManager from './asteroid';
+import GameObjectAnimator from './objectAnimator';
+import params from './gameParameters';
+import state from './mockGameState';
+import { ShipType } from './gameTypes';
 
-// todo do we need this
-/* const checkPoint = (point: TPoint): boolean => {
-    if (point.x > params.WIDTH || point.y > params.HEIGHT) {
-        console.log('Point coordinates are out of the canvas');
-        return false;
-    }
-    return true;
-}; */
-
-/* type TControlKey = {
-    key: {
-        Code: number;
-        Action: 'direction' | 'fire' | 'pause';
-        Direction?: TDirection;
-        // direction name
-    };
-}; */
-
+// todo move it in some control module ?
 const ControlKeys = {
     LEFT: 'ArrowLeft',
     UP: 'ArrowUp',
     RIGHT: 'ArrowRight',
     DOWN: 'ArrowDown',
     PAUSE: 'Enter',
-    FIRE: '',
+    FIRE: 'A',
 };
+
+export type TDirection = 'Up' | 'Down' | 'Left' | 'Right';
 
 class GameEngine {
     context: CanvasRenderingContext2D;
 
-    enemyManager: EnemyManager;
+    bgImage = new Image();
 
-    playerManager: PlayerManager;
+    requestId: number | null = null;
 
-    backgroundManager: BackgroundManager;
-
-    // eslint-disable-next-line
-    timer: NodeJS.Timer | null;
-
-    asteroidManager: AsteroidManager;
+    animator: GameObjectAnimator;
 
     constructor(ctx: CanvasRenderingContext2D) {
         this.context = ctx;
-        this.enemyManager = new EnemyManager(ctx);
-        this.playerManager = new PlayerManager(ctx);
-        this.backgroundManager = new BackgroundManager(ctx);
-        this.asteroidManager = new AsteroidManager(ctx);
-        this.timer = null;
+        this.bgImage.src = params.BACKGROUND_IMAGE;
+        this.animator = new GameObjectAnimator(this.context, this.renderGameField);
     }
 
-    /* public api */
-
-    public loadGame() {
-        this.backgroundManager.renderGameField();
-    }
-
-    public startGame = () => {
-        // this.playerManager.drawPlayerOnGameStart();
-        // this.enemyManager.drawEnemiesOnGameStart();
-        // this.timer = this.backgroundManager.renderSpaceWithStars();
-
-        this.asteroidManager.init();
+    public renderGameField = () => {
+        this.context.clearRect(0, 0, params.WIDTH, params.HEIGHT);
+        this.context.drawImage(this.bgImage, 0, 0, params.WIDTH, params.HEIGHT);
     };
 
-    public pauseGame = () => {
-        this.timer && clearInterval(this.timer);
+    public load = () => {
+        this.renderGameField();
+        this.context.font = 'bold 48px serif';
+        this.context.fillStyle = '#fff';
+        this.context.fillText('START GAME', 150, 200);
     };
 
-    public endGame = () => {
-        // this.backgroundManager.renderGameField();
-        this.backgroundManager.renderGameEnd();
+    public start = () => {
+        // console.log('state');
+        // console.log(state);
+        this.requestId = window.requestAnimationFrame(this.animator.startMainLoop);
+    };
+
+    public pause = () => {
+        if (this.requestId) {
+            window.cancelAnimationFrame(this.requestId);
+        } else {
+            // console.log('request id is null');
+        }
+    };
+
+    public finish = () => {
+        this.renderGameField();
+        this.context.font = 'bold 48px serif';
+        this.context.fillStyle = '#fff';
+        this.context.fillText('GAME FINISHED', 150, 200);
     };
 
     public gameControlPressed = (event: KeyboardEvent) => {
-        this.backgroundManager.renderGameField();
-
-        // todo make with direction prop??
-
-        let direction: TDirection | null = null;
+        let direction: TDirection | undefined;
         if (event.key === ControlKeys.UP) {
             direction = 'Up';
         } else if (event.key === ControlKeys.DOWN) {
@@ -92,7 +75,11 @@ class GameEngine {
             direction = 'Right';
         }
 
-        direction && this.playerManager.movePlayer(direction);
+        console.log(this.animator);
+
+        const player = state.find(ship => +ship.type === ShipType.Player);
+        // todo index?
+        player?.updateState(0, direction);
     };
 }
 

@@ -34,6 +34,7 @@ module.exports = {
         'default-case': 'off',
         'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
         'no-plusplus': 'warn',
+        'no-param-reassign': 'warn',
         'react/jsx-indent': ['error', 4],
         'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
         'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],
