@@ -1,8 +1,14 @@
+// eslint-disable-next-line
 import BattlecruiserImage from '@/assets/images/ships/Battlecruiser.png';
 import BomberImage from '@/assets/images/ships/Bomber.png';
 import FighterImage from '@/assets/images/ships/Fighter.png';
 import FrigateImage from '@/assets/images/ships/Frigate.png';
+import RocketImage from '@/assets/images/shots/Rocket.png';
+import PlayerRocketImage from '@/assets/images/shots/PlayerRocket.png';
+
 import { TDirection } from './gameEngine';
+import params from './gameParameters';
+import Trajectories from './gameTrajectories';
 
 export type TPoint = {
     x: number;
@@ -21,6 +27,8 @@ export type ShipState = {
     coordinates: TPoint;
     liveState: LiveState;
     destructionIndex: number;
+    trajectorySegmentIndex: number; // can we move this to traectory class?
+    trajectoryStartTime: number; // todo think!
 };
 
 export enum ShipType {
@@ -53,6 +61,8 @@ export class GameShip {
             coordinates,
             liveState: LiveState.Normal,
             destructionIndex: 0,
+            trajectorySegmentIndex: 0,
+            trajectoryStartTime: 0,
         };
         this.updateState = (index: number, direction?: TDirection) =>
             updateFunction(this.state, index, direction);
@@ -85,9 +95,8 @@ export const ShipTypesParameterValues: Record<ShipType, ShipTypeParameters> = {
         imageSpriteWidth: 959,
         destructionFrameCount: 18,
         updateStateFunction: (state: ShipState, index: number) => {
-            if (index === 150) {
-                state.liveState = LiveState.Exploiding;
-            }
+            // console.log(index); // todo replace with time
+            console.log(index);
             state.coordinates = { x: state.coordinates.x - 1, y: state.coordinates.y + 1 };
         },
     },
@@ -97,11 +106,22 @@ export const ShipTypesParameterValues: Record<ShipType, ShipTypeParameters> = {
         image: FighterImage,
         imageSpriteWidth: 959,
         destructionFrameCount: 18,
-        updateStateFunction: (state: ShipState, index: number) => {
-            if (index === 180) {
-                state.liveState = LiveState.Exploiding;
+        updateStateFunction: (state: ShipState, time: number) => {
+            // state.coordinates = { x: state.coordinates.x + time, y: state.coordinates.y + time };
+
+            if (state.trajectorySegmentIndex < Trajectories.Fighter.getSegmentsNumber()) {
+                // console.log('state.trajectorySegmentIndex ' + state.trajectorySegmentIndex);
+                state.coordinates = Trajectories.Fighter.getCoordinates(
+                    state.trajectorySegmentIndex,
+                    time - state.trajectoryStartTime
+                );
+                console.log('state.coordinates');
+                console.log(state.coordinates);
+                if (Trajectories.Fighter.shouldSwitchSegment(state.trajectorySegmentIndex, time)) {
+                    state.trajectorySegmentIndex += 1;
+                    state.trajectoryStartTime = time;
+                }
             }
-            state.coordinates = { x: state.coordinates.x + 1, y: state.coordinates.y + 1 };
         },
     },
     [ShipType.Bomber]: {
@@ -110,10 +130,8 @@ export const ShipTypesParameterValues: Record<ShipType, ShipTypeParameters> = {
         image: BomberImage,
         imageSpriteWidth: 959,
         destructionFrameCount: 18,
-        updateStateFunction: (state: ShipState, index: number) => {
-            if (index === 210) {
-                state.liveState = LiveState.Exploiding;
-            }
+        updateStateFunction: (state: ShipState, time: number) => {
+            console.log(time); // todo replace index with performance.now???
             state.coordinates = { x: state.coordinates.x, y: state.coordinates.y + 1 };
         },
     },
@@ -128,22 +146,112 @@ export const ShipTypesParameterValues: Record<ShipType, ShipTypeParameters> = {
             index: number,
             direction: TDirection | undefined
         ) => {
+            const step = 7;
             if (direction) {
                 switch (direction) {
                     case 'Up':
-                        state.coordinates.y--;
+                        state.coordinates.y = Math.max(state.coordinates.y - step, 0);
                         break;
                     case 'Down':
-                        state.coordinates.y++;
+                        state.coordinates.y = Math.min(
+                            state.coordinates.y + step,
+                            params.WIDTH - 64 // todo 64
+                        );
                         break;
                     case 'Left':
-                        state.coordinates.x--;
+                        state.coordinates.x = Math.max(state.coordinates.x - step, 0);
                         break;
                     case 'Right':
-                        state.coordinates.x++;
+                        state.coordinates.x = Math.min(
+                            state.coordinates.x + step,
+                            params.WIDTH - 64 // todo 64
+                        );
                         break;
                 }
             }
         },
     },
 } as const;
+
+type ShotState = {
+    coordinates: TPoint;
+    show: boolean;
+    frameIndex: number;
+};
+
+type ShotParameters = {
+    width: number;
+    height: number;
+    image: string;
+    imageSpriteWidth: number;
+    frameCount: number;
+    updateStateFunction: (state: ShotState, frameCount: number, index: number) => void;
+};
+
+const enemyShot: ShotParameters = {
+    width: 9,
+    height: 16,
+    image: RocketImage,
+    imageSpriteWidth: 36,
+    frameCount: 4,
+    updateStateFunction: (state: ShotState, frameCount: number) => {
+        state.coordinates.y += 1;
+        if (state.frameIndex >= frameCount) {
+            state.frameIndex = 0;
+        } else {
+            state.frameIndex += 1;
+        }
+    },
+};
+
+const playerShot: ShotParameters = {
+    width: 9,
+    height: 16,
+    image: PlayerRocketImage,
+    imageSpriteWidth: 36,
+    frameCount: 4,
+    updateStateFunction: (state: ShotState, frameCount: number) => {
+        state.coordinates.y -= 1;
+        if (state.frameIndex >= frameCount) {
+            state.frameIndex = 0;
+        } else {
+            state.frameIndex += 1;
+        }
+    },
+};
+
+export enum ShotType {
+    Enemy,
+    Player,
+}
+
+export const ShotParametersValues: Record<ShotType, ShotParameters> = {
+    [ShotType.Enemy]: enemyShot,
+    [ShotType.Player]: playerShot,
+};
+
+export class GameShot {
+    type: ShotType;
+
+    image = new Image();
+
+    state: ShotState;
+
+    updateState: (index: number) => void;
+
+    constructor(
+        type: ShotType,
+        coordinates: TPoint,
+        updateFunction: (state: ShotState, frameCount: number, index: number) => void
+    ) {
+        this.type = type;
+        this.state = {
+            coordinates: { x: coordinates.x, y: coordinates.y },
+            show: true,
+            frameIndex: 0,
+        };
+        this.updateState = (index: number) =>
+            updateFunction(this.state, ShotParametersValues[type].frameCount, index);
+        this.image.src = ShotParametersValues[type].image; // todo make the same for GameShip
+    }
+}

@@ -14,6 +14,12 @@
     font-size: 50px;
 }
 
+.game__controls {
+    color: $alertColor;
+    font-size: $fontSizeMedium;
+    padding: 10px;
+}
+
 .game__buttons {
     display: flex;
     gap: 20px;

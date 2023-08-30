@@ -1,7 +1,7 @@
-import GameObjectAnimator from './objectAnimator';
+import GameObjectAnimator from './gameObjectAnimator';
 import params from './gameParameters';
 import state from './mockGameState';
-import { ShipType } from './gameTypes';
+import { GameShot, ShipType, ShotParametersValues, ShotType } from './gameTypes';
 
 // todo move it in some control module ?
 const ControlKeys = {
@@ -10,7 +10,7 @@ const ControlKeys = {
     RIGHT: 'ArrowRight',
     DOWN: 'ArrowDown',
     PAUSE: 'Enter',
-    FIRE: 'A',
+    SHOOT: 'a',
 };
 
 export type TDirection = 'Up' | 'Down' | 'Left' | 'Right';
@@ -33,6 +33,15 @@ class GameEngine {
     public renderGameField = () => {
         this.context.clearRect(0, 0, params.WIDTH, params.HEIGHT);
         this.context.drawImage(this.bgImage, 0, 0, params.WIDTH, params.HEIGHT);
+
+        this.context.beginPath();
+        this.context.moveTo(500, 0);
+        this.context.lineTo(500, 600);
+        this.context.moveTo(250, 0);
+        this.context.lineTo(250, 600);
+        this.context.moveTo(100, 0);
+        this.context.lineTo(100, 600);
+        this.context.stroke();
     };
 
     public load = () => {
@@ -48,7 +57,7 @@ class GameEngine {
         this.animator.requestId = window.requestAnimationFrame(this.animator.startMainLoop);
     };
 
-    public pause = () => {
+    private cancelAnimation = () => {
         if (this.animator.requestId) {
             console.log('in cancel animation');
             window.cancelAnimationFrame(this.animator.requestId);
@@ -57,7 +66,18 @@ class GameEngine {
         }
     };
 
+    public pause = () => {
+        this.cancelAnimation();
+    };
+
+    public resume = () => {
+        console.log('game engine resume');
+        this.animator.requestId = window.requestAnimationFrame(this.animator.startMainLoop);
+        console.log('game engine resume 2');
+    };
+
     public finish = () => {
+        this.cancelAnimation();
         this.renderGameField();
         this.context.font = 'bold 48px serif';
         this.context.fillStyle = '#fff';
@@ -75,13 +95,38 @@ class GameEngine {
         } else if (event.key === ControlKeys.RIGHT) {
             direction = 'Right';
         }
+        if (direction !== undefined) {
+            console.log('in player move');
+            const player = state.ships.find(ship => +ship.type === ShipType.Player);
+            // todo index?
+            player?.updateState(0, direction);
+        }
+
+        if (event.key === ControlKeys.SHOOT) {
+            console.log(event.key);
+            const player = state.ships.find(ship => +ship.type === ShipType.Player);
+            if (player) {
+                console.log('add shot');
+                state.shots.push(
+                    new GameShot(
+                        ShotType.Player,
+                        player.state.coordinates,
+                        ShotParametersValues[ShotType.Player].updateStateFunction
+                    )
+                );
+            }
+        }
 
         console.log(this.animator);
-
-        const player = state.ships.find(ship => +ship.type === ShipType.Player);
-        // todo index?
-        player?.updateState(0, direction);
     };
+    // todo can we make animation more smooth??? with rightPressed param
+    /* public gameControlUp = (event: KeyboardEvent) => {
+        if (event.key === 'Right' || event.key === 'ArrowRight') {
+            this.animator.rightPressed = false;
+        } else if (event.key === 'Left' || event.key === 'ArrowLeft') {
+            this.animator.leftPressed = false;
+        }
+    }; */
 }
 
 export default GameEngine;

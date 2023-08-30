@@ -1,9 +1,11 @@
-import { ShipTypesParameterValues, ShipType, GameShip } from './gameTypes';
+import { ShipTypesParameterValues, ShipType, GameShip, GameShot } from './gameTypes';
 import params from './gameParameters';
 
 // in state we will store all ship objects which are created from game parameters
 class GameState {
     public ships: GameShip[] = [];
+
+    public shots: GameShot[] = [];
 
     constructor() {
         this.resetShipsToStart();
@@ -27,6 +29,7 @@ class GameState {
             });
         });
         this.ships = ships;
+        this.shots = [];
     };
 }
 

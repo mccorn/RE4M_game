@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import style from './game.module.scss';
 import Button from '@/components/common/button/button';
 import params from './gameEngine/gameParameters';
@@ -14,11 +14,38 @@ import GameEngine from './gameEngine/gameEngine';
 
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
+
     let gameEngine: GameEngine | null = null;
+    /* const context = (ref.current as HTMLCanvasElement).getContext('2d');
+    if (context) {
+        gameEngine = new GameEngine(context);
+    } else {
+        console.log('no context found');
+    } */
+
+    const [paused, setIsPaused] = useState(false);
+
     const onKeyDown = (event: KeyboardEvent) => {
         // console.log('key pressed');
         // console.log(event);
         gameEngine && gameEngine.gameControlPressed(event);
+    };
+
+    const onKeyUp = (event: KeyboardEvent) => {
+        // console.log('key up');
+        console.log(event);
+        // gameEngine && gameEngine.gameControlUp(event);
+    };
+
+    const checkGameEngine = () => {
+        if (!gameEngine) {
+            const context = (ref.current as HTMLCanvasElement).getContext('2d');
+            if (context) {
+                gameEngine = new GameEngine(context);
+            } else {
+                console.log('no context found');
+            }
+        }
     };
 
     const startGame = () => {
@@ -29,10 +56,23 @@ const Game: FC = () => {
 
         gameEngine && gameEngine.start();
         window.addEventListener('keydown', onKeyDown);
+        window.addEventListener('keyup', onKeyUp, false);
     };
 
     const pauseGame = () => {
-        gameEngine && gameEngine.pause();
+        if (paused) {
+            console.log('in resume');
+            console.log(gameEngine);
+            checkGameEngine();
+            gameEngine && gameEngine.resume();
+            setIsPaused(false);
+        } else {
+            console.log('in pause');
+            console.log(gameEngine);
+            checkGameEngine();
+            gameEngine && gameEngine.pause();
+            setIsPaused(true);
+        }
     };
 
     const endGame = () => {
@@ -53,6 +93,9 @@ const Game: FC = () => {
     return (
         <div className={style.game}>
             <div className={style.game__header}>Play game online</div>
+            <div className={style.game__controls}>
+                Game controls: Arrow buttons to move. A button to fire
+            </div>
             <div>
                 <canvas
                     ref={ref}
