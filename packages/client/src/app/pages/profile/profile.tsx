@@ -16,9 +16,6 @@ type TProfileData = {
     secondName: string;
     email: string;
     phone: string;
-
-    // oldPassword: string,
-    // newPassword: string,
 };
 
 type TProfilePageProps = {
@@ -32,6 +29,9 @@ const Profile: FC<TProfilePageProps> = ({ data }) => {
     const [secondName, setSecondName] = useState(data?.secondName);
     const [email, setEmail] = useState(data?.email);
     const [phone, setPhone] = useState(data?.phone);
+
+    const [oldPassword, setOldPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
 
     useEffect(() => {
         AuthAPI.getAuthUser().then((response: TResponse | unknown) => {
@@ -54,6 +54,19 @@ const Profile: FC<TProfilePageProps> = ({ data }) => {
             email,
             display_name: displayName,
             phone,
+        }).then(response => {
+            // eslint-disable-next-line no-alert
+            alert((response as TResponse)?.status);
+        });
+    };
+
+    const handleSubmitPassword = () => {
+        UserAPI.updatePassword({
+            oldPassword,
+            newPassword,
+        }).then(response => {
+            // eslint-disable-next-line no-alert
+            alert((response as TResponse)?.status);
         });
     };
 
@@ -67,11 +80,19 @@ const Profile: FC<TProfilePageProps> = ({ data }) => {
                     { name: 'secondName', value: secondName, handler: setSecondName },
                     { name: 'email', value: email, handler: setEmail },
                     { name: 'phone', value: phone, handler: setPhone },
-
-                    // { name: 'password', handler: setSecondName },
-                    // { name: 'password', handler: setSecondName },
                 ]}>
                 <Button text="Save" click={handleSubmitForm} />
+            </LazyForm>
+
+            <div className="row stretch" />
+            <div className="row stretch" />
+
+            <LazyForm
+                inputs={[
+                    { name: 'oldPassword', value: oldPassword, handler: setOldPassword },
+                    { name: 'newPassword', value: newPassword, handler: setNewPassword },
+                ]}>
+                <Button text="Change password" click={handleSubmitPassword} />
             </LazyForm>
         </div>
     );

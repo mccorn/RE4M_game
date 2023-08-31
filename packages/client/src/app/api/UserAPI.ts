@@ -24,16 +24,14 @@ class UserAPI extends BaseAPI {
     //     return http.put(url + '/profile/avatar', reqOptions);
     // }
 
-    // updatePassword(data: object = {}) {
-    //     const reqOptions = Object.assign(options,
-    //         {
-    //             headers: headersJSON,
-    //             data: JSON.stringify(data)
-    //         }
-    //     )
+    static updatePassword(data: object = {}) {
+        const reqOptions = Object.assign(options, {
+            headers: headersJSON,
+            data: JSON.stringify(data),
+        });
 
-    //     return http.put(url + '/password', reqOptions);
-    // }
+        return http.put(`${url}/password`, reqOptions);
+    }
 
     // getUserById(id: string | number) {
     //     const reqOptions = Object.assign(options, {})
