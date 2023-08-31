@@ -95,9 +95,11 @@ const Profile: FC<TProfilePageProps> = ({ data }) => {
     return (
         <div className="page profile">
             <div className="box">
-                <header>
-                    <h1>{login}</h1>
-                    <h3>{displayName}</h3>
+                <header className="flex">
+                    <div>
+                        <h1>{login}</h1>
+                        <h3>{displayName}</h3>
+                    </div>
                     <div className={classNames('avatar', { empty: !avatar })}>
                         {!!avatar && <img src={`${API_URL.RESOURCES}/${avatar}`} alt="" />}
 

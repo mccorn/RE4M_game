@@ -25,7 +25,7 @@ const LazyInput: FC<TInputProps> = ({
     placeholder,
     className,
 }) => (
-    <label className={classNames('column inputWrapper', style[size], style[inputStyle], className)}>
+    <label className={classNames('inputWrapper', style[size], style[inputStyle], className)}>
         <span>{label}</span>
         <input
             onChange={onChange}
@@ -33,6 +33,7 @@ const LazyInput: FC<TInputProps> = ({
             value={value}
             disabled={!isActive}
             placeholder={placeholder}
+            type="text"
         />
     </label>
 );
