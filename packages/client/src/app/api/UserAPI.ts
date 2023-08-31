@@ -18,11 +18,11 @@ class UserAPI extends BaseAPI {
         return http.put(`${url}/profile`, reqOptions);
     }
 
-    // updateAvatar(data: unknown) {
-    //     const reqOptions = Object.assign({}, { data }, options)
+    static updateAvatar(data: unknown) {
+        const reqOptions = { ...options, data };
 
-    //     return http.put(url + '/profile/avatar', reqOptions);
-    // }
+        return http.put(`${url}/profile/avatar`, reqOptions);
+    }
 
     static updatePassword(data: object = {}) {
         const reqOptions = Object.assign(options, {

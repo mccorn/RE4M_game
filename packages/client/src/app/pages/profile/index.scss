@@ -1,7 +1,21 @@
 @import '../../../styles/variables.scss';
 
-.formWrapper {
+.profile {
+    .box {
+        width: 400px;
+        margin: 0 auto;
     
+    }
+
+    header {
+        display: block;
+        
+        position: relative;
+    }
+}
+
+
+.formWrapper {
     &.onOneLine {
         label {
             position: relative;
@@ -25,7 +39,7 @@
             }
         }
     
-        input {
+        input[type="text"] {
             position: absolute;
             height: auto;
             z-index: 0;
@@ -41,4 +55,31 @@
             }
         }
     }
+}
+
+.avatar {
+	position: relative;
+	width: 60px;
+	height: 60px;
+
+	float: right;
+
+	border: 1px solid white;
+	border-radius: 50%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+
+    background: white;
+
+	&.empty {
+		background: url("../../../assets/images/defaultAvatar.png") center center no-repeat;
+		background-size: contain;
+	}
+
+	& img {
+		width: 80%;
+	}
 }

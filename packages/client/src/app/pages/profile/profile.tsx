@@ -1,16 +1,21 @@
 import React, { FC, useEffect, useState } from 'react';
+import classNames from 'classnames';
+import utils from '@/utils';
+
+import { API_URL } from '@/app/api';
+import UserAPI from '@/app/api/UserAPI';
+import AuthAPI from '@/app/api/AuthAPI';
 
 import Button from '@/app/components/common/button/button';
 import LazyForm from '@/app/components/lazy/lazyForm/lazyForm';
+import InputFile from '@/app/components/common/inputFile/inputFile';
 
-import './index.scss';
-import UserAPI from '@/app/api/UserAPI';
-import AuthAPI from '@/app/api/AuthAPI';
 import { TResponse } from '@/const/types';
-import utils from '@/utils';
+import './index.scss';
 
 type TProfileData = {
     login: string;
+    avatar: string;
     displayName: string;
     firstName: string;
     secondName: string;
@@ -23,6 +28,8 @@ type TProfilePageProps = {
 };
 
 const Profile: FC<TProfilePageProps> = ({ data }) => {
+    const [avatar, setAvatar] = useState(data?.login);
+
     const [login, setLogin] = useState(data?.login);
     const [displayName, setDisplayName] = useState(data?.displayName);
     const [firstName, setFirstName] = useState(data?.firstName);
@@ -37,6 +44,8 @@ const Profile: FC<TProfilePageProps> = ({ data }) => {
         AuthAPI.getAuthUser().then((response: TResponse | unknown) => {
             const responseData = utils.safeGetData(response);
 
+            setAvatar(responseData.avatar);
+
             setLogin(responseData.login);
             setDisplayName(responseData.display_name);
             setFirstName(responseData.first_name);
@@ -45,6 +54,19 @@ const Profile: FC<TProfilePageProps> = ({ data }) => {
             setPhone(responseData.phone);
         });
     }, []);
+
+    const handleChangeAvatar = (event: Event) => {
+        const target = event.target as HTMLInputElement;
+        const file = (target.files as FileList)[0];
+        const form = new FormData();
+
+        form.set('avatar', file);
+
+        UserAPI.updateAvatar(form).then(response => {
+            const responseData = utils.safeGetData(response);
+            setAvatar(responseData.avatar);
+        });
+    };
 
     const handleSubmitForm = () => {
         UserAPI.update({
@@ -71,29 +93,43 @@ const Profile: FC<TProfilePageProps> = ({ data }) => {
     };
 
     return (
-        <div className="formWrapper onOneLine">
-            <LazyForm
-                inputs={[
-                    { name: 'login', value: login, handler: setLogin },
-                    { name: 'displayName', value: displayName, handler: setDisplayName },
-                    { name: 'firstName', value: firstName, handler: setFirstName },
-                    { name: 'secondName', value: secondName, handler: setSecondName },
-                    { name: 'email', value: email, handler: setEmail },
-                    { name: 'phone', value: phone, handler: setPhone },
-                ]}>
-                <Button text="Save" click={handleSubmitForm} />
-            </LazyForm>
+        <div className="page profile">
+            <div className="box">
+                <header>
+                    <h1>{login}</h1>
+                    <h3>{displayName}</h3>
+                    <div className={classNames('avatar', { empty: !avatar })}>
+                        {!!avatar && <img src={`${API_URL.RESOURCES}/${avatar}`} alt="" />}
 
-            <div className="row stretch" />
-            <div className="row stretch" />
+                        <InputFile onChange={handleChangeAvatar} />
+                    </div>
+                </header>
 
-            <LazyForm
-                inputs={[
-                    { name: 'oldPassword', value: oldPassword, handler: setOldPassword },
-                    { name: 'newPassword', value: newPassword, handler: setNewPassword },
-                ]}>
-                <Button text="Change password" click={handleSubmitPassword} />
-            </LazyForm>
+                <div className="formWrapper onOneLine">
+                    <LazyForm
+                        inputs={[
+                            { name: 'login', value: login, handler: setLogin },
+                            { name: 'displayName', value: displayName, handler: setDisplayName },
+                            { name: 'firstName', value: firstName, handler: setFirstName },
+                            { name: 'secondName', value: secondName, handler: setSecondName },
+                            { name: 'email', value: email, handler: setEmail },
+                            { name: 'phone', value: phone, handler: setPhone },
+                        ]}>
+                        <Button text="Save" click={handleSubmitForm} />
+                    </LazyForm>
+
+                    <div className="row stretch" />
+                    <div className="row stretch" />
+
+                    <LazyForm
+                        inputs={[
+                            { name: 'oldPassword', value: oldPassword, handler: setOldPassword },
+                            { name: 'newPassword', value: newPassword, handler: setNewPassword },
+                        ]}>
+                        <Button text="Change password" click={handleSubmitPassword} />
+                    </LazyForm>
+                </div>
+            </div>
         </div>
     );
 };
