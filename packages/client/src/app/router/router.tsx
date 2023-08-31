@@ -10,7 +10,10 @@ import LeaderBoard from '@/app/pages/leaderboard/leaderboard';
 import Profile from '@/app/pages/profile/profile';
 import Signin from '@/app/pages/signin/signin';
 import Signup from '@/app/pages/signup/signup';
+
 import Layout from '@/app/components/layout/layout';
+
+import mockUser from '@/const/mocks/mockUser';
 
 export enum RoutePaths {
     LANDING = '/',
@@ -38,7 +41,7 @@ const Router = () => (
             <Route path={RoutePaths.FORUM} element={<Forum />} />
             <Route path={RoutePaths.CREATE_TOPIC} element={<CreateTopic />} />
             <Route path={RoutePaths.TOPIC} element={<Topic />} />
-            <Route path={RoutePaths.PROFILE} element={<Profile />} />
+            <Route path={RoutePaths.PROFILE} element={<Profile data={mockUser} />} />
             <Route path={RoutePaths.GAME} element={<Game />} />
             <Route path={RoutePaths.LEADERBOARD} element={<LeaderBoard />} />
         </Route>

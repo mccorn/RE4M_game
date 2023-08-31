@@ -1,6 +1,6 @@
 import React, { FC, ChangeEventHandler } from 'react';
 import classNames from 'classnames';
-import style from './input.module.scss';
+import style from './lazyInput.module.scss';
 
 type TInputProps = {
     size?: 'large' | 'medium' | 'small';
