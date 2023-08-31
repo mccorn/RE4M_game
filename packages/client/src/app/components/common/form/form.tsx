@@ -7,8 +7,8 @@ type TFormProps = {
     className: string;
 };
 
-const Input: FC<TFormProps> = ({ children, className }) => (
+const Form: FC<TFormProps> = ({ children, className }) => (
     <form className={className}>{children}</form>
 );
 
-export default Input;
+export default Form;

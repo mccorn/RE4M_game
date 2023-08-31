@@ -14,7 +14,7 @@ type TInputProps = {
     className?: string;
 };
 
-const Input: FC<TInputProps> = ({
+const LazyInput: FC<TInputProps> = ({
     size = 'medium',
     inputStyle = 'normal',
     isActive = true,
@@ -37,4 +37,4 @@ const Input: FC<TInputProps> = ({
     </label>
 );
 
-export default Input;
+export default LazyInput;
