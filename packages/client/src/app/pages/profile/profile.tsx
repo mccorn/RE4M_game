@@ -10,18 +10,11 @@ import Button from '@/app/components/common/button/button';
 import LazyForm from '@/app/components/lazy/lazyForm/lazyForm';
 import InputFile from '@/app/components/common/inputFile/inputFile';
 
+import TUser from '@/const/dataTypes/dataTypes';
 import { TResponse } from '@/const/types';
 import './index.scss';
 
-type TProfileData = {
-    login: string;
-    avatar: string;
-    displayName: string;
-    firstName: string;
-    secondName: string;
-    email: string;
-    phone: string;
-};
+type TProfileData = TUser;
 
 type TProfilePageProps = {
     data?: TProfileData;
