@@ -3,6 +3,8 @@ import React, { FC, useState } from 'react';
 import Form from '@/app/components/common/form/form';
 import Button from '@/app/components/common/button/button';
 import Input from '@/app/components/common/input/input';
+import AuthAPI from '@/app/api/AuthAPI';
+import { TResponse } from '@/const/types';
 
 const Signin: FC = () => {
     const [login, setLogin] = useState('');
@@ -17,9 +19,12 @@ const Signin: FC = () => {
     };
 
     const handleSubmitForm = () => {
-        console.log({
+        AuthAPI.login({
             login,
             password,
+        }).then(response => {
+            // eslint-disable-next-line no-alert
+            alert((response as TResponse)?.status);
         });
     };
 

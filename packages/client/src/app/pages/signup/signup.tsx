@@ -3,6 +3,8 @@ import Input from '@/app/components/common/input/input';
 import Form from '@/app/components/common/form/form';
 import Button from '@/app/components/common/button/button';
 import './index.scss';
+import AuthAPI from '@/app/api/AuthAPI';
+import { TResponse } from '@/const/types';
 
 const Signup: FC = () => {
     const [firstName, setFirstName] = useState('');
@@ -37,13 +39,16 @@ const Signup: FC = () => {
     };
 
     const handleSubmitForm = () => {
-        console.log({
+        AuthAPI.signup({
             first_name: firstName,
             second_name: secondName,
             login,
             email,
             password,
             phone,
+        }).then(response => {
+            // eslint-disable-next-line no-alert
+            alert((response as TResponse)?.status);
         });
     };
 

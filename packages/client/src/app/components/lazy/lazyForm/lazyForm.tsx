@@ -17,21 +17,23 @@ type TLazyFormProps = {
     inputs: any[];
     children?: ReactNode;
     className?: string;
+    wrapType?: 'line' | 'row';
 };
 
-const LazyForm: FC<TLazyFormProps> = ({ children, className, inputs }) => (
+const LazyForm: FC<TLazyFormProps> = ({ children, className, inputs, wrapType = 'line' }) => (
     <Form className={className}>
         {inputs.map(inputData => (
-            <LazyInput
-                key={inputData.name}
-                value={inputData.value}
-                className="onOneLine"
-                onChange={e => handleChange(e as ChangeInputEvent, inputData.handler)}
-                name={inputData.name}
-                label={inputData.label || inputData.name}
-                placeholder={inputData.placeholder || inputData.name}
-                inputStyle="normal"
-            />
+            <div key={inputData.name} className={wrapType}>
+                <LazyInput
+                    value={inputData.value}
+                    className="onOneLine"
+                    onChange={e => handleChange(e as ChangeInputEvent, inputData.handler)}
+                    name={inputData.name}
+                    label={inputData.label || inputData.name}
+                    placeholder={inputData.placeholder || inputData.name}
+                    inputStyle="normal"
+                />
+            </div>
         ))}
 
         {children}

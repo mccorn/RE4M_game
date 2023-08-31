@@ -1,9 +1,13 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import Button from '@/app/components/common/button/button';
 import LazyForm from '@/app/components/lazy/lazyForm/lazyForm';
 
 import './index.scss';
+import UserAPI from '@/app/api/UserAPI';
+import AuthAPI from '@/app/api/AuthAPI';
+import { TResponse } from '@/const/types';
+import utils from '@/utils';
 
 type TProfileData = {
     login: string;
@@ -29,14 +33,26 @@ const Profile: FC<TProfilePageProps> = ({ data }) => {
     const [email, setEmail] = useState(data?.email);
     const [phone, setPhone] = useState(data?.phone);
 
+    useEffect(() => {
+        AuthAPI.getAuthUser().then((response: TResponse | unknown) => {
+            const responseData = utils.safeGetData(response);
+
+            setLogin(responseData.login);
+            setDisplayName(responseData.display_name);
+            setFirstName(responseData.first_name);
+            setSecondName(responseData.second_name);
+            setEmail(responseData.email);
+            setPhone(responseData.phone);
+        });
+    }, []);
+
     const handleSubmitForm = () => {
-        console.log({
+        UserAPI.update({
             login,
             first_name: firstName,
             second_name: secondName,
             email,
-            displayName,
-            // password,
+            display_name: displayName,
             phone,
         });
     };

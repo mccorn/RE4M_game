@@ -2,7 +2,7 @@ import HTTPTransport from '@/utils/HTTPTransport/HTTPTransport';
 import BaseAPI, { API_URL } from '../api';
 import { AuthUserData } from '@/const/dataTypes/dataTypes';
 
-const url = API_URL.HOST;
+const url = `${API_URL.HOST}/auth`;
 const http = HTTPTransport;
 const options = {};
 const headersJSON = {
