@@ -14,7 +14,7 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 1,
         '@typescript-eslint/no-unused-vars': 2,
         '@typescript-eslint/no-shadow': ['error'],
-        indent: ['error', 4, { SwitchCase: 1 }],
+        indent: ['error', 4],
         'comma-dangle': [
             'error',
             {
