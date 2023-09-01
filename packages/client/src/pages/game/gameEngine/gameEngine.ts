@@ -1,7 +1,10 @@
-import GameObjectAnimator from './gameObjectAnimator';
-import params from './gameParameters';
-import state from './mockGameState';
-import { GameShot, ShipType, ShotParametersValues, ShotType } from './gameTypes';
+import GameObjectAnimator from './objectAnimator';
+import params from './parameters/gameParameters';
+import state from './store/mockGameState';
+import { GameShot, ShotParametersValues, ShotType } from './types/gameTypes';
+import { ShipType } from './types/commonTypes';
+import { GameLevelList } from './parameters/gameLevels';
+import Trajectory from './types/gameTrajectories';
 
 // todo move it in some control module ?
 const ControlKeys = {
@@ -52,7 +55,9 @@ class GameEngine {
     };
 
     public start = () => {
-        state.resetShipsToStart();
+        state.startLevel(GameLevelList.Level1);
+        console.log('ships');
+        console.log(state.ships);
         this.animator.resetToStart();
         this.animator.requestId = window.requestAnimationFrame(this.animator.startMainLoop);
     };
@@ -95,10 +100,10 @@ class GameEngine {
         } else if (event.key === ControlKeys.RIGHT) {
             direction = 'Right';
         }
-        if (direction !== undefined) {
-            console.log('in player move');
+        if (direction) {
+            // console.log('in player move');
             const player = state.ships.find(ship => +ship.type === ShipType.Player);
-            // todo index?
+            // todo index not used
             player?.updateState(0, direction);
         }
 
@@ -111,6 +116,7 @@ class GameEngine {
                     new GameShot(
                         ShotType.Player,
                         player.state.coordinates,
+                        new Trajectory([{ x: 0, y: 0 }]),
                         ShotParametersValues[ShotType.Player].updateStateFunction
                     )
                 );
@@ -119,14 +125,6 @@ class GameEngine {
 
         console.log(this.animator);
     };
-    // todo can we make animation more smooth??? with rightPressed param
-    /* public gameControlUp = (event: KeyboardEvent) => {
-        if (event.key === 'Right' || event.key === 'ArrowRight') {
-            this.animator.rightPressed = false;
-        } else if (event.key === 'Left' || event.key === 'ArrowLeft') {
-            this.animator.leftPressed = false;
-        }
-    }; */
 }
 
 export default GameEngine;

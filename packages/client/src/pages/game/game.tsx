@@ -1,27 +1,13 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import style from './game.module.scss';
 import Button from '@/components/common/button/button';
-import params from './gameEngine/gameParameters';
+import params from './gameEngine/parameters/gameParameters';
 import GameEngine from './gameEngine/gameEngine';
-
-// todo!
-/* enum GameState {
-    WaitForStart,
-    Started,
-    Paused,
-    Finished,
-} */
 
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
 
     let gameEngine: GameEngine | null = null;
-    /* const context = (ref.current as HTMLCanvasElement).getContext('2d');
-    if (context) {
-        gameEngine = new GameEngine(context);
-    } else {
-        console.log('no context found');
-    } */
 
     const [paused, setIsPaused] = useState(false);
 
@@ -29,12 +15,6 @@ const Game: FC = () => {
         // console.log('key pressed');
         // console.log(event);
         gameEngine && gameEngine.gameControlPressed(event);
-    };
-
-    const onKeyUp = (event: KeyboardEvent) => {
-        // console.log('key up');
-        console.log(event);
-        // gameEngine && gameEngine.gameControlUp(event);
     };
 
     const checkGameEngine = () => {
@@ -56,7 +36,6 @@ const Game: FC = () => {
 
         gameEngine && gameEngine.start();
         window.addEventListener('keydown', onKeyDown);
-        window.addEventListener('keyup', onKeyUp, false);
     };
 
     const pauseGame = () => {
@@ -82,7 +61,6 @@ const Game: FC = () => {
     useEffect(() => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
-            // console.log('context found');
             gameEngine = new GameEngine(context);
             gameEngine.load(); // todo reload page bug
         } else {

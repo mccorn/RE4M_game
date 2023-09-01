@@ -1,12 +1,13 @@
+import { ShipType } from './types/commonTypes';
 import {
     GameShip,
     LiveState,
-    ShipType,
     ShipTypesParameterValues,
     ShotParametersValues,
     ShotType,
-} from './gameTypes';
-import state from './mockGameState';
+    TShipState,
+} from './types/gameTypes';
+import state from './store/mockGameState';
 
 class CollisionManager {
     private static detectEnemyCollisionAndSetExploiding = (
@@ -19,7 +20,9 @@ class CollisionManager {
         player?: GameShip
     ) => {
         state.ships.forEach(ship => {
-            if (+ship.type !== ShipType.Player && +ship.state.liveState === LiveState.Normal) {
+            const shipState = ship.state as TShipState;
+
+            if (+ship.type !== ShipType.Player && +shipState.liveState === LiveState.Flying) {
                 const shipParams = ShipTypesParameterValues[ship.type];
                 const shipX = ship.state.coordinates.x;
                 const shipY = ship.state.coordinates.y;
@@ -31,11 +34,12 @@ class CollisionManager {
                     (shipY + shipParams.height >= y && shipY + shipParams.height <= y + height);
                 if (xCollision && yCollision) {
                     if (player) {
-                        player.state.liveState = LiveState.Exploiding;
+                        const playerState = player.state as TShipState;
+                        playerState.liveState = LiveState.Exploiding;
                         console.log('player hit');
                     } else {
                         console.log('ship hit');
-                        ship.state.liveState = LiveState.Exploiding;
+                        shipState.liveState = LiveState.Exploiding;
                     }
                 }
             }
