@@ -1,4 +1,4 @@
-import bg from '@/assets/images/game/bg.jpeg';
+import bg from '@/assets/images/bg.jpeg';
 
 const width = 600;
 const height = 600;
