@@ -1,10 +1,10 @@
 // eslint-disable-next-line
-import BattlecruiserImage from '@/assets/images/ships/Battlecruiser.png';
-import BomberImage from '@/assets/images/ships/Bomber.png';
-import FighterImage from '@/assets/images/ships/Fighter.png';
-import FrigateImage from '@/assets/images/ships/Frigate.png';
-import RocketImage from '@/assets/images/shots/Rocket.png';
-import PlayerRocketImage from '@/assets/images/shots/PlayerRocket.png';
+import BattlecruiserImage from '@/assets/images/game/ships/Battlecruiser.png';
+import BomberImage from '@/assets/images/game/ships/Bomber.png';
+import FighterImage from '@/assets/images/game/ships/Fighter.png';
+import FrigateImage from '@/assets/images/game/ships/Frigate.png';
+import RocketImage from '@/assets/images/game/shots/Rocket.png';
+import PlayerRocketImage from '@/assets/images/game/shots/PlayerRocket.png';
 import { TDirection } from '../gameEngine';
 import params from '../parameters/gameParameters';
 import { ShipType, TPoint } from './commonTypes';
