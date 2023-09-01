@@ -1,6 +1,30 @@
 @import '@/styles/variables.scss';
 
 .game {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+    padding: 60px 30px 30px;
+}
+
+.game__header {
     color: $alertColor;
     font-size: 50px;
+}
+
+.game__controls {
+    color: $alertColor;
+    font-size: $fontSizeMedium;
+    padding: 10px;
+}
+
+.game__buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.game__canvas {
+    border: 3px solid $alertColor;
 }
