@@ -1,4 +1,4 @@
-import { ShipTypesParameterValues, GameShip, GameShot } from '../types/gameTypes';
+import { GameShip, GameShot } from '../types/gameTypes';
 import params from '../parameters/gameParameters';
 import { NEXT_SHIP_DELAY, ShipType, TEnemyType } from '../types/commonTypes';
 import GameLevels, { GameLevelList } from '../parameters/gameLevels';
@@ -13,40 +13,38 @@ class GameState {
         this.startLevel(GameLevelList.Level1);
     }
 
-    public startLevel(level: GameLevelList) {
-        const levelParams = GameLevels[level];
+    private static initPlayer = () =>
+        new GameShip(
+            ShipType.Player,
+            new Trajectory([{ x: 0, y: 0 }]), // todo can we remove trajectory for player
+            params.PLAYER_COORDINATES
+        );
+
+    private static initEnemies = (level: GameLevelList) => {
         const ships: GameShip[] = [];
-        /**/ Object.keys(levelParams.enemies).forEach(key => {
+        const levelParams = GameLevels[level];
+        Object.keys(levelParams.enemies).forEach(key => {
             const type = key as unknown as TEnemyType;
-            const typeParameters = ShipTypesParameterValues[type];
-            console.log(type);
-            console.log(ShipTypesParameterValues);
-            const imageSrc = typeParameters.image;
-            const updateFunction = typeParameters.updateStateFunction;
-            const enemyTypeParams = levelParams.enemies[type];
-            if (enemyTypeParams) {
-                for (let i = 0; i < enemyTypeParams.number; i++) {
-                    const delay = i * NEXT_SHIP_DELAY;
-                    const traectory = new Trajectory(enemyTypeParams.trajectoryPoints, delay);
-                    const ship = new GameShip(type, traectory, updateFunction);
-                    ship.image.src = imageSrc;
-                    // todo img.onload = init !!!
-                    ships.push(ship);
+            const enemyLevelParams = levelParams.enemies[type];
+            if (enemyLevelParams) {
+                for (let i = 0; i < enemyLevelParams.number; i++) {
+                    const trajectory = new Trajectory(
+                        enemyLevelParams.trajectoryPoints,
+                        i * NEXT_SHIP_DELAY
+                    );
+                    ships.push(new GameShip(type, trajectory));
                 }
             }
         });
-        // todo trajectory for player remove
-        const playerParams = ShipTypesParameterValues[ShipType.Player];
-        const playerShip = new GameShip(
-            ShipType.Player,
-            new Trajectory([{ x: 0, y: 0 }]),
-            playerParams.updateStateFunction
-        );
-        playerShip.state.coordinates = params.PLAYER_COORDINATES;
-        ships.push(playerShip);
-        this.ships = ships;
+        return ships;
+    };
+
+    public startLevel = (level: GameLevelList) => {
+        this.ships = []; // reset list on every game start
+        this.ships.push(GameState.initPlayer());
+        this.ships.push(...GameState.initEnemies(level));
         this.shots = [];
-    }
+    };
 }
 
 export default new GameState();

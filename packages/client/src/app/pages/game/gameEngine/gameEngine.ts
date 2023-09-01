@@ -1,7 +1,7 @@
 import GameObjectAnimator from './objectAnimator';
 import params from './parameters/gameParameters';
 import state from './store/mockGameState';
-import { GameShot, ShotParametersValues, ShotType } from './types/gameTypes';
+import { GameShot, ShotType } from './types/gameTypes';
 import { ShipType } from './types/commonTypes';
 import { GameLevelList } from './parameters/gameLevels';
 import Trajectory from './types/trajectory';
@@ -116,8 +116,7 @@ class GameEngine {
                     new GameShot(
                         ShotType.Player,
                         player.state.coordinates,
-                        new Trajectory([{ x: 0, y: 0 }]),
-                        ShotParametersValues[ShotType.Player].updateStateFunction
+                        new Trajectory([{ x: 0, y: 0 }])
                     )
                 );
             }

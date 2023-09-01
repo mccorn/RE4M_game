@@ -27,7 +27,7 @@ class Trajectory {
     ): number => {
         console.log(this.points);
 
-        return start + ((end - start) * time) / length; // todo speed coeficient
+        return start + ((end - start) * time) / length; // todo speed coefficient
     };
 
     public getCoordinates = (time: number): TPoint => {
@@ -35,14 +35,14 @@ class Trajectory {
         const endPoint = this.points[this.segmentIndex + 1];
         const length = Trajectory.getSegmentLength(startPoint, endPoint);
         const segmentTime = time - this.segmentStartTime - this.delay;
-        console.log('start');
+        /* console.log('start');
         console.log(startPoint);
         console.log('end');
         console.log(endPoint);
         console.log('length');
         console.log(length);
         console.log('time');
-        console.log(time); /**/
+        console.log(time); */
 
         const point = {
             x: this.getNextCoordinate(startPoint.x, endPoint.x, segmentTime, length),

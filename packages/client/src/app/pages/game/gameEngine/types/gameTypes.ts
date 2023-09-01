@@ -240,9 +240,11 @@ export class DrawableGameObject {
         this.type = type;
 
         if (isShip) {
+            const liveState = +type === ShipType.Player ? LiveState.Flying : LiveState.WaitForStart;
+            const coords = +type === ShipType.Player && coordinates ? coordinates : { x: 0, y: 0 };
             this.state = {
-                coordinates: { x: 0, y: 0 },
-                liveState: LiveState.WaitForStart,
+                coordinates: coords,
+                liveState,
                 frameIndex: 0,
                 trajectory,
             };
@@ -260,14 +262,12 @@ export class DrawableGameObject {
 export class GameShip extends DrawableGameObject {
     updateState: (index: number, direction?: TDirection) => void;
 
-    constructor(
-        type: ShipType | ShotType,
-        trajectory: Trajectory,
-        updateFunction: (state: TShipState, index: number, direction?: TDirection) => void
-    ) {
-        super(type, trajectory);
+    constructor(type: ShipType, trajectory: Trajectory, coordinates?: TPoint) {
+        super(type, trajectory, coordinates);
+        const parameters = ShipTypesParameterValues[type];
         this.updateState = (time: number, direction?: TDirection) =>
-            updateFunction(this.state as TShipState, time, direction);
+            parameters.updateStateFunction(this.state as TShipState, time, direction);
+        this.image.src = parameters.image;
     }
 }
 
@@ -275,19 +275,14 @@ export class GameShot extends DrawableGameObject {
     updateState: (index: number) => void;
 
     constructor(
-        type: ShipType | ShotType,
+        type: ShotType,
         coordinates: TPoint, // todo replace coordinates with trajectory
-        trajectory: Trajectory,
-        updateFunction: (state: TShotState, frameCount: number, index: number) => void
+        trajectory: Trajectory
     ) {
         super(type, trajectory, coordinates, false);
-        const shotType = type as ShotType;
+        const parameters = ShotParametersValues[type];
         this.updateState = (index: number) =>
-            updateFunction(
-                this.state as TShotState,
-                ShotParametersValues[shotType].frameCount,
-                index
-            );
-        this.image.src = ShotParametersValues[shotType].image;
+            parameters.updateStateFunction(this.state as TShotState, parameters.frameCount, index);
+        this.image.src = parameters.image;
     }
 }
