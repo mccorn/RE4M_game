@@ -30,7 +30,12 @@ class GameEngine {
     constructor(ctx: CanvasRenderingContext2D) {
         this.context = ctx;
         this.bgImage.src = params.BACKGROUND_IMAGE;
-        this.animator = new GameObjectAnimator(this.context, this.renderGameField);
+        this.animator = new GameObjectAnimator(
+            this.context,
+            this.renderGameField,
+            this.gameEnd,
+            this.levelEnd
+        );
     }
 
     public renderGameField = () => {
@@ -52,8 +57,22 @@ class GameEngine {
             this.renderGameField();
             this.context.font = 'bold 48px serif';
             this.context.fillStyle = '#fff';
-            this.context.fillText('START GAME', 150, 200);
+            this.context.fillText('START GAME', 140, 200);
         };
+    };
+
+    public gameEnd = () => {
+        this.renderGameField();
+        this.context.font = 'bold 48px serif';
+        this.context.fillStyle = '#fff';
+        this.context.fillText('GAME FINISHED', 100, 200);
+    };
+
+    public levelEnd = () => {
+        this.renderGameField();
+        this.context.font = 'bold 48px serif';
+        this.context.fillStyle = '#fff';
+        this.context.fillText('LEVEL FINISHED', 100, 200);
     };
 
     public start = () => {

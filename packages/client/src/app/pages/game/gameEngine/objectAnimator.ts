@@ -21,15 +21,26 @@ class GameObjectAnimator {
 
     currentLevelLength = gameParams.FIRST_LEVEL_LENGTH;
 
-    drawBackground: () => void;
-
     requestId = -1;
 
     IMAGE_CHANGE_SPEED = 5; // 1 per 5 frames image changes
 
-    constructor(ctx: CanvasRenderingContext2D, drawBackground: () => void) {
+    drawBackground: () => void;
+
+    drawGameEnd: () => void;
+
+    drawLevelEnd: () => void;
+
+    constructor(
+        ctx: CanvasRenderingContext2D,
+        drawBackground: () => void,
+        drawGameEnd: () => void,
+        drawLevelEnd: () => void
+    ) {
         this.context = ctx;
         this.drawBackground = drawBackground;
+        this.drawGameEnd = drawGameEnd;
+        this.drawLevelEnd = drawLevelEnd;
     }
 
     private drawFrame = (object: DrawableGameObject) => {
@@ -91,8 +102,9 @@ class GameObjectAnimator {
         /* set end game or end level by player dead or level time end */
         const playerShip = state.ships.find(ship => +ship.type === ShipType.Player);
         if (+(playerShip?.state as TShipState).liveState === LiveState.Dead) {
-            console.log('game ends');
+            // console.log('game ends');
             window.cancelAnimationFrame(this.requestId);
+            this.drawGameEnd();
         }
 
         if (this.mainLoopIndex === this.currentLevelLength) {
