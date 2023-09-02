@@ -1,7 +1,5 @@
 import {
     DrawableGameObject,
-    DrawableObjectParams,
-    GameShip,
     LiveState,
     ShipTypesParameterValues,
     ShotParametersValues,
@@ -12,6 +10,7 @@ import {
 import gameParams from './parameters/gameParameters';
 import state from './store/mockGameState';
 import CollisionManager from './collisionManager';
+import { ShipType } from './types/commonTypes';
 
 class GameObjectAnimator {
     context: CanvasRenderingContext2D;
@@ -24,21 +23,20 @@ class GameObjectAnimator {
 
     drawBackground: () => void;
 
-    requestId: number;
+    requestId = -1;
 
-    FRAME_CHANGE_SPEED = 5; // 1 per 5 frames image changes
+    IMAGE_CHANGE_SPEED = 5; // 1 per 5 frames image changes
 
     constructor(ctx: CanvasRenderingContext2D, drawBackground: () => void) {
         this.context = ctx;
         this.drawBackground = drawBackground;
-        this.requestId = -1;
     }
 
-    private drawFrame = (
-        object: DrawableGameObject,
-        params: DrawableObjectParams,
-        spriteX: number
-    ) => {
+    private drawFrame = (object: DrawableGameObject) => {
+        const params = object.isShip
+            ? ShipTypesParameterValues[object.type]
+            : ShotParametersValues[object.type as ShotType];
+        const spriteX = params.width * object.state.frameIndex;
         this.context.drawImage(
             object.image,
             spriteX,
@@ -52,68 +50,59 @@ class GameObjectAnimator {
         );
     };
 
-    private drawChangingFrame = (object: DrawableGameObject) => {
-        const params = object.isShip
-            ? ShipTypesParameterValues[object.type]
-            : ShotParametersValues[object.type as ShotType];
-        const sx = params.width * object.state.frameIndex;
-        this.drawFrame(object, params, sx);
-    };
-
-    private drawBaseFrame = (ship: GameShip) => {
-        const shipParams = ShipTypesParameterValues[ship.type];
-        this.drawFrame(ship, shipParams, 0);
-    };
-
-    private drawShip = (ship: GameShip) => {
-        const shipState = ship.state as TShipState;
-        if (+shipState.liveState === LiveState.Exploiding) {
-            this.drawChangingFrame(ship); // todo move all logic to draw changing frame
-        } else if (+shipState.liveState === LiveState.Flying) {
-            this.drawBaseFrame(ship);
-        }
-    };
-
     public resetToStart = () => {
         // reset speed bug!!!
         this.frameCount = 0;
         this.mainLoopIndex = 0;
+        this.requestId = -1;
     };
 
     public startMainLoop = () => {
-        this.frameCount++;
-
-        /* draw background */
         this.drawBackground();
 
-        const shouldChangeFrame = this.frameCount === this.FRAME_CHANGE_SPEED;
+        this.frameCount++;
+
+        const shouldChangeFrame = this.frameCount === this.IMAGE_CHANGE_SPEED;
         /* draw all ships: enemies and player */
         state.ships.forEach(ship => {
-            const shipState = ship.state as TShipState;
-            if (+shipState.liveState !== LiveState.Dead) {
+            const liveState = +(ship.state as TShipState).liveState;
+            if (liveState !== LiveState.Dead) {
                 ship.updateState(this.mainLoopIndex, shouldChangeFrame);
-                this.drawShip(ship);
+                if (liveState !== LiveState.WaitForStart) {
+                    this.drawFrame(ship);
+                }
             }
         });
         /* draw all shots */
         state.shots.forEach(shot => {
             if ((shot.state as TShotState).show) {
                 shot.updateState(this.mainLoopIndex, shouldChangeFrame);
-                this.drawChangingFrame(shot);
+                this.drawFrame(shot);
             }
         });
-
-        CollisionManager.collisionDetection();
 
         if (shouldChangeFrame) {
             this.frameCount = 0;
         }
-        this.mainLoopIndex++; // do we need to replace this with time?
 
-        if (this.mainLoopIndex === this.currentLevelLength) {
-            console.log('in cancel first');
+        /* detect if any ship is hit */
+        CollisionManager.collisionDetection();
+
+        /* set end game or end level by player dead or level time end */
+        const playerShip = state.ships.find(ship => +ship.type === ShipType.Player);
+        if (+(playerShip?.state as TShipState).liveState === LiveState.Dead) {
+            console.log('game ends');
             window.cancelAnimationFrame(this.requestId);
         }
+
+        if (this.mainLoopIndex === this.currentLevelLength) {
+            console.log('level ends');
+            window.cancelAnimationFrame(this.requestId);
+            // todo send to gameEngine - level ended
+        }
+
+        this.mainLoopIndex++; // do we need to replace this with time?
+
         this.requestId = window.requestAnimationFrame(this.startMainLoop);
     };
 }
