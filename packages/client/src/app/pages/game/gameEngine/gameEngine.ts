@@ -48,10 +48,12 @@ class GameEngine {
     };
 
     public load = () => {
-        this.renderGameField();
-        this.context.font = 'bold 48px serif';
-        this.context.fillStyle = '#fff';
-        this.context.fillText('START GAME', 150, 200);
+        this.bgImage.onload = () => {
+            this.renderGameField();
+            this.context.font = 'bold 48px serif';
+            this.context.fillStyle = '#fff';
+            this.context.fillText('START GAME', 150, 200);
+        };
     };
 
     public start = () => {
@@ -104,7 +106,7 @@ class GameEngine {
             // console.log('in player move');
             const player = state.ships.find(ship => +ship.type === ShipType.Player);
             // todo index not used
-            player?.updateState(0, direction);
+            player?.updateState(0, false, direction); // todo shouldChangeFrame can be overwritten
         }
 
         if (event.key === ControlKeys.SHOOT) {
@@ -112,17 +114,19 @@ class GameEngine {
             const player = state.ships.find(ship => +ship.type === ShipType.Player);
             if (player) {
                 console.log('add shot');
+                const { coordinates } = player.state;
                 state.shots.push(
                     new GameShot(
                         ShotType.Player,
-                        player.state.coordinates,
-                        new Trajectory([{ x: 0, y: 0 }])
+                        new Trajectory([
+                            { x: coordinates.x, y: coordinates.y },
+                            { x: coordinates.x, y: -20 }, // todo set show false in the end
+                        ]),
+                        this.animator.mainLoopIndex // todo do we need to move this ??
                     )
                 );
             }
         }
-
-        console.log(this.animator);
     };
 }
 

@@ -26,7 +26,7 @@ class GameObjectAnimator {
 
     requestId: number;
 
-    EXPLOIDE_SPEED = 5; // 1 per 5 frames exploide image changes
+    FRAME_CHANGE_SPEED = 5; // 1 per 5 frames image changes
 
     constructor(ctx: CanvasRenderingContext2D, drawBackground: () => void) {
         this.context = ctx;
@@ -68,16 +68,7 @@ class GameObjectAnimator {
     private drawShip = (ship: GameShip) => {
         const shipState = ship.state as TShipState;
         if (+shipState.liveState === LiveState.Exploiding) {
-            const shipParams = ShipTypesParameterValues[ship.type];
-            if (ship.state.frameIndex < shipParams.frameCount) {
-                this.drawChangingFrame(ship);
-                if (this.frameCount === this.EXPLOIDE_SPEED) {
-                    ship.state.frameIndex++;
-                }
-            } else {
-                shipState.liveState = LiveState.Dead; // check ?
-                console.log('not drawing, ship is dead');
-            }
+            this.drawChangingFrame(ship); // todo move all logic to draw changing frame
         } else if (+shipState.liveState === LiveState.Flying) {
             this.drawBaseFrame(ship);
         }
@@ -95,25 +86,26 @@ class GameObjectAnimator {
         /* draw background */
         this.drawBackground();
 
+        const shouldChangeFrame = this.frameCount === this.FRAME_CHANGE_SPEED;
         /* draw all ships: enemies and player */
         state.ships.forEach(ship => {
             const shipState = ship.state as TShipState;
             if (+shipState.liveState !== LiveState.Dead) {
-                ship.updateState(this.mainLoopIndex);
+                ship.updateState(this.mainLoopIndex, shouldChangeFrame);
                 this.drawShip(ship);
             }
         });
         /* draw all shots */
         state.shots.forEach(shot => {
             if ((shot.state as TShotState).show) {
-                shot.updateState(this.mainLoopIndex);
+                shot.updateState(this.mainLoopIndex, shouldChangeFrame);
                 this.drawChangingFrame(shot);
             }
         });
 
         CollisionManager.collisionDetection();
 
-        if (this.frameCount === this.EXPLOIDE_SPEED) {
+        if (shouldChangeFrame) {
             this.frameCount = 0;
         }
         this.mainLoopIndex++; // do we need to replace this with time?

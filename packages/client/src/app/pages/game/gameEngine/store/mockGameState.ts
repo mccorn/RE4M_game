@@ -40,6 +40,7 @@ class GameState {
     };
 
     public startLevel = (level: GameLevelList) => {
+        console.log('start level');
         this.ships = []; // reset list on every game start
         this.ships.push(GameState.initPlayer());
         this.ships.push(...GameState.initEnemies(level));

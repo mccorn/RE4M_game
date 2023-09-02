@@ -12,10 +12,11 @@ import Trajectory from './trajectory';
 
 /* Ships and shots states */
 
-// we draw ship in Flying and Exploiding states
+// we draw ship in Flying, Shooting and Exploiding states
 export enum LiveState {
     WaitForStart,
-    Flying, // todo add Shooting state here?
+    Flying,
+    Shooting,
     Exploiding,
     Dead,
 }
@@ -23,16 +24,12 @@ export enum LiveState {
 export type TCommonGameObjectState = {
     coordinates: TPoint;
     frameIndex: number;
-    trajectory: Trajectory; // todo make trajectory for shots
+    trajectory: Trajectory;
 };
 
-export type TShipState = TCommonGameObjectState & {
-    liveState: LiveState;
-};
+export type TShipState = TCommonGameObjectState & { liveState: LiveState };
 
-export type TShotState = TCommonGameObjectState & {
-    show: boolean;
-};
+export type TShotState = TCommonGameObjectState & { show: boolean };
 
 /* Common parameters type for ships and shots */
 
@@ -65,7 +62,13 @@ export class DrawableObjectParams {
 /* Shots parameters */
 
 class ShotParameters extends DrawableObjectParams {
-    updateStateFunction: (state: TShotState, frameCount: number, time: number) => void;
+    updateStateFunction: (
+        state: TShotState,
+        frameCount: number,
+        startTime: number,
+        time: number,
+        shouldChangeFrame: boolean
+    ) => void;
 
     constructor(
         width: number,
@@ -73,7 +76,13 @@ class ShotParameters extends DrawableObjectParams {
         image: string,
         imageSpriteWidth: number,
         frameCount: number,
-        updateStateFunction: (state: TShotState, frameCount: number, time: number) => void
+        updateStateFunction: (
+            state: TShotState,
+            frameCount: number,
+            startTime: number,
+            time: number,
+            shouldChangeFrame: boolean
+        ) => void
     ) {
         super(width, height, image, imageSpriteWidth, frameCount);
         this.updateStateFunction = updateStateFunction;
@@ -85,42 +94,33 @@ export enum ShotType {
     Player,
 }
 
-const commonShotParameters = {
+const shotParams = {
     width: 9,
     height: 16,
     imageSpriteWidth: 36,
     frameCount: 4,
+    updateStateFunction: (
+        state: TShotState,
+        frameCount: number,
+        startTime: number,
+        time: number
+    ) => {
+        const { trajectory } = state;
+        const deltaTime = time - startTime;
+        if (trajectory && trajectory.shouldMove(deltaTime)) {
+            state.coordinates = trajectory.getCoordinates(deltaTime);
+        }
+        if (state.frameIndex >= frameCount) {
+            state.frameIndex = 0;
+        } else {
+            state.frameIndex += 1;
+        }
+    },
 };
 
 export const ShotParametersValues: Record<ShotType, ShotParameters> = {
-    [ShotType.Enemy]: {
-        ...commonShotParameters,
-        ...{
-            image: RocketImage,
-            updateStateFunction: (state: TShotState, frameCount: number) => {
-                state.coordinates.y += 1;
-                if (state.frameIndex >= frameCount) {
-                    state.frameIndex = 0;
-                } else {
-                    state.frameIndex += 1;
-                }
-            },
-        },
-    },
-    [ShotType.Player]: {
-        ...commonShotParameters,
-        ...{
-            image: PlayerRocketImage,
-            updateStateFunction: (state: TShotState, frameCount: number) => {
-                state.coordinates.y -= 1;
-                if (state.frameIndex >= frameCount) {
-                    state.frameIndex = 0;
-                } else {
-                    state.frameIndex += 1;
-                }
-            },
-        },
-    },
+    [ShotType.Enemy]: { ...shotParams, ...{ image: RocketImage } },
+    [ShotType.Player]: { ...shotParams, ...{ image: PlayerRocketImage } },
 };
 
 /* Ships parameters */
@@ -128,7 +128,9 @@ export const ShotParametersValues: Record<ShotType, ShotParameters> = {
 class ShipTypeParams extends DrawableObjectParams {
     updateStateFunction: (
         state: TShipState,
-        index: number,
+        time: number,
+        shouldChangeFrame: boolean,
+        frameCount: number,
         direction: TDirection | undefined
     ) => void;
 
@@ -141,21 +143,38 @@ class ShipTypeParams extends DrawableObjectParams {
         updateStateFunction: (
             state: TShipState,
             time: number,
+            shouldChangeFrame: boolean,
+            frameCount: number,
             direction: TDirection | undefined
         ) => void
     ) {
         super(width, height, image, imageSpriteWidth, frameCount);
-        this.updateStateFunction = updateStateFunction;
+        this.updateStateFunction = updateStateFunction; // todo this instead of frameCount??
     }
 }
 
 const commonEnemyParameters = {
     imageSpriteWidth: 959,
     frameCount: 18,
-    updateStateFunction: (state: TShipState, time: number) => {
+    updateStateFunction: (
+        state: TShipState,
+        time: number,
+        shouldChangeFrame: boolean,
+        frameCount: number
+    ) => {
         const { trajectory } = state;
         if (trajectory && trajectory.shouldMove(time)) {
             state.coordinates = trajectory.getCoordinates(time);
+        }
+
+        if (+state.liveState === LiveState.Exploiding) {
+            if (state.frameIndex > frameCount) {
+                state.liveState = LiveState.Dead; // check ?
+                // trigger game end if player dead => check in animator
+                console.log('not drawing, ship is dead');
+            } else if (shouldChangeFrame) {
+                state.frameIndex++;
+            }
         }
 
         if (+state.liveState === LiveState.WaitForStart && trajectory.shouldStartMoving(time)) {
@@ -190,6 +209,8 @@ export const ShipTypesParameterValues: Record<ShipType, ShipTypeParams> = {
         updateStateFunction: (
             state: TShipState,
             time: number,
+            shouldChangeFrame: boolean,
+            frameCount: number,
             direction: TDirection | undefined
         ) => {
             const step = 7;
@@ -239,50 +260,62 @@ export class DrawableGameObject {
         this.isShip = isShip;
         this.type = type;
 
+        const isPlayerShip = +type === ShipType.Player;
+        const coords = isShip && isPlayerShip && coordinates ? coordinates : { x: 0, y: 0 };
+        const commonStateParams = {
+            coordinates: coords,
+            frameIndex: 0,
+            trajectory,
+        };
+
         if (isShip) {
-            const liveState = +type === ShipType.Player ? LiveState.Flying : LiveState.WaitForStart;
-            const coords = +type === ShipType.Player && coordinates ? coordinates : { x: 0, y: 0 };
             this.state = {
-                coordinates: coords,
-                liveState,
-                frameIndex: 0,
-                trajectory,
+                ...commonStateParams,
+                ...{
+                    liveState: isPlayerShip ? LiveState.Flying : LiveState.WaitForStart,
+                },
             };
         } else {
-            this.state = {
-                coordinates: { x: coordinates?.x || 0, y: coordinates?.y || 0 },
-                show: true,
-                frameIndex: 0,
-                trajectory,
-            };
+            this.state = { ...commonStateParams, ...{ show: true } };
         }
     }
 }
 
 export class GameShip extends DrawableGameObject {
-    updateState: (index: number, direction?: TDirection) => void;
+    updateState: (time: number, shouldChangeFrame: boolean, direction?: TDirection) => void;
 
     constructor(type: ShipType, trajectory: Trajectory, coordinates?: TPoint) {
         super(type, trajectory, coordinates);
         const parameters = ShipTypesParameterValues[type];
-        this.updateState = (time: number, direction?: TDirection) =>
-            parameters.updateStateFunction(this.state as TShipState, time, direction);
+        this.updateState = (time: number, shouldChangeFrame: boolean, direction?: TDirection) =>
+            parameters.updateStateFunction(
+                this.state as TShipState,
+                time,
+                shouldChangeFrame,
+                parameters.frameCount, // todo
+                direction
+            );
         this.image.src = parameters.image;
     }
 }
 
 export class GameShot extends DrawableGameObject {
-    updateState: (index: number) => void;
+    updateState: (time: number, shouldChangeFrame: boolean) => void;
 
-    constructor(
-        type: ShotType,
-        coordinates: TPoint, // todo replace coordinates with trajectory
-        trajectory: Trajectory
-    ) {
-        super(type, trajectory, coordinates, false);
+    startTime: number;
+
+    constructor(type: ShotType, trajectory: Trajectory, startTime: number) {
+        super(type, trajectory, undefined, false); // coordinates, false);
         const parameters = ShotParametersValues[type];
-        this.updateState = (index: number) =>
-            parameters.updateStateFunction(this.state as TShotState, parameters.frameCount, index);
+        this.updateState = (time: number, shouldChangeFrame: boolean) =>
+            parameters.updateStateFunction(
+                this.state as TShotState,
+                parameters.frameCount,
+                startTime,
+                time,
+                shouldChangeFrame
+            );
         this.image.src = parameters.image;
+        this.startTime = startTime;
     }
 }

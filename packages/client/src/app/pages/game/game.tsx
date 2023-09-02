@@ -29,7 +29,7 @@ const Game: FC = () => {
     };
 
     const startGame = () => {
-        /* const gameEnded = false;
+        /* todo remove evetything on game end
         if (gameEnded) {
             window.removeEventListener('keydown', onKeyDown);
         } */
@@ -62,7 +62,7 @@ const Game: FC = () => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
             gameEngine = new GameEngine(context);
-            gameEngine.load(); // todo reload page bug
+            gameEngine.load();
         } else {
             console.log('no context found');
         }
