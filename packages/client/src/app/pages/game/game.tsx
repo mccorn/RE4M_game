@@ -12,8 +12,6 @@ const Game: FC = () => {
     const [paused, setIsPaused] = useState(false);
 
     const onKeyDown = (event: KeyboardEvent) => {
-        // console.log('key pressed');
-        // console.log(event);
         gameEngine && gameEngine.gameControlPressed(event);
     };
 

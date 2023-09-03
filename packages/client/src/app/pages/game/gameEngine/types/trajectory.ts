@@ -1,3 +1,4 @@
+import TrajectoryHelper from '../helpers/trajectoryHelper';
 import { TPoint } from './commonTypes';
 
 class Trajectory {
@@ -29,58 +30,127 @@ class Trajectory {
     public getCoordinates = (time: number): TPoint => {
         const startPoint = this.points[this.segmentIndex];
         const endPoint = this.points[this.segmentIndex + 1];
-        const length = Trajectory.getSegmentLength(startPoint, endPoint);
+
+        /* calculate segments params */
+
         const segmentTime = time - this.segmentStartTime - this.delay;
+        const segmentLength = Trajectory.getSegmentLength(startPoint, endPoint);
+        let pathLength = segmentLength;
 
-        // const isFirstSegment: boolean = this.segmentIndex === 0;
+        // temp fot testing
+        const isFirstSegment: boolean = this.segmentIndex === 0;
+        // const isFirstSegment = false;
+        let point: TPoint;
 
-        // const isFirstSegment = true;
-        /* console.log('start');
-        console.log(startPoint);
-        console.log('end');
-        console.log(endPoint);
-        console.log('length');
-        console.log(length);
-        console.log('time');
-        console.log(time); */
-
-        // let point;
-        // if (isFirstSegment) {
-        const point = {
-            x: Trajectory.getNextCoordinate(startPoint.x, endPoint.x, segmentTime, length),
-            y: Trajectory.getNextCoordinate(startPoint.y, endPoint.y, segmentTime, length),
-        };
-        /* } else {
-             point = { x: 0, y: 0 };
-            const prevPoint = this.points[this.segmentIndex - 1];
-
-            const alpha = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x);
-
-            const alphaV = Math.atan2(endPoint.y, endPoint.x);
-
-            const deltaVector = (alpha - alphaV) / 2; //
-
-            const radius = (length / 2) * Math.asin(deltaVector);
-            //todo
-            let temp = alpha + Math.PI / 2;
-            if (radius > 0) {
-                if (temp > Math.PI) {
-                    temp = temp - 2 * Math.PI;
-                }
-            } else {
-                let temp = alpha - Math.PI / 2;
-                if (temp < -Math.PI) {
-                    temp = temp + 2 * Math.PI;
-                }
-            }
+        if (isFirstSegment) {
+            // this block is ok for small angles
+            // todo apply the logic for small angles
             point = {
-                x: startPoint.x + radius * Math.cos(temp),
-                y: startPoint.y + radius * Math.sin(temp),
+                x: Trajectory.getNextCoordinate(
+                    startPoint.x,
+                    endPoint.x,
+                    segmentTime,
+                    segmentLength
+                ),
+                y: Trajectory.getNextCoordinate(
+                    startPoint.y,
+                    endPoint.y,
+                    segmentTime,
+                    segmentLength
+                ),
             };
-        } */
+        } else {
+            /* calc vector angle by previous segment's vector angle and dif angle */
+
+            // todo move this to trajectory initialization to calculate this once for every segment
+
+            const { difAngle, vectorAngle } = TrajectoryHelper.getPreviousAngles(
+                this.points,
+                this.segmentIndex
+            );
+
+            /* radius and arc center coordinates */
+
+            let radiusLength: number;
+            let arcCenterX: number;
+            let arcCenterY: number;
+            // if very big angle
+            if (difAngle > -0.1 && difAngle < 0.1) {
+                point = {
+                    x: Trajectory.getNextCoordinate(
+                        startPoint.x,
+                        endPoint.x,
+                        segmentTime,
+                        segmentLength
+                    ),
+                    y: Trajectory.getNextCoordinate(
+                        startPoint.y,
+                        endPoint.y,
+                        segmentTime,
+                        segmentLength
+                    ),
+                };
+            } else {
+                const difAngleAbs = Math.abs(difAngle);
+                if (difAngleAbs > Math.PI / 2 - 0.1 && difAngleAbs < Math.PI / 2 + 0.1) {
+                    radiusLength = segmentLength / 2;
+                    arcCenterX = (startPoint.x + endPoint.x) / 2;
+                    arcCenterY = (startPoint.y + endPoint.y) / 2;
+                    pathLength = 2 * difAngle * radiusLength;
+                } else {
+                    radiusLength = segmentLength / (2 * Math.sin(difAngle));
+                    arcCenterX = startPoint.x - radiusLength * Math.sin(vectorAngle);
+                    arcCenterY = startPoint.y + radiusLength * Math.cos(vectorAngle);
+                    pathLength = 2 * difAngle * radiusLength;
+                }
+                const currentAngle =
+                    vectorAngle + Math.PI / 2 + (2 * difAngle * segmentTime) / pathLength;
+
+                /* if (this.segmentIndex === 1) {
+                    console.log('difAngle');
+                    console.log(difAngle);
+                    console.log('segmentAngle');
+                    console.log(segmentAngle);
+                    console.log('vectorAngle');
+                    console.log(vectorAngle);
+                    console.log('currentAngle');
+                    console.log(currentAngle);
+                    console.log('segmentTime');
+                    console.log(segmentTime);
+                    console.log('pathLength');
+                    console.log(pathLength);
+                    console.log('segmentLength');
+                    console.log(segmentLength);
+                    console.log('startPoint');
+                    console.log(startPoint);
+                    console.log('endPoint');
+                    console.log(endPoint);
+                    console.log('radiusLength');
+                    console.log(radiusLength);
+                    console.log('arcCenterX, arcCenterY');
+                    console.log(arcCenterX, arcCenterY);
+                    console.log('this.segmentIndex');
+                    console.log(this.segmentIndex);
+                    console.log('Math.cos(currentAngle)');
+                    console.log(Math.cos(currentAngle)); // check if -
+                    console.log('Math.sin(currentAngle)');
+                    console.log(Math.sin(currentAngle));
+                } */
+
+                point = {
+                    x: arcCenterX - radiusLength * Math.cos(currentAngle),
+                    y: arcCenterY - radiusLength * Math.sin(currentAngle),
+                };
+            }
+        }
+
+        /* console.log('point.x');
+        console.log(point.x);
+        console.log('point.y');
+        console.log(point.y); */
 
         // switch segment if needed
-        if (this.shouldSwitchSegment(time - this.delay)) {
+        if (Trajectory.shouldSwitchSegment(segmentTime, Math.abs(pathLength))) {
             this.segmentIndex += 1;
             this.segmentStartTime = time - this.delay;
         }
@@ -89,13 +159,7 @@ class Trajectory {
 
     public getSegmentsNumber = (): number => this.points.length - 1;
 
-    public shouldSwitchSegment = (time: number): boolean => {
-        let length = 0;
-        for (let i = 0; i <= this.segmentIndex; i++) {
-            length += Trajectory.getSegmentLength(this.points[i], this.points[i + 1]);
-        }
-        return time >= length;
-    };
+    public static shouldSwitchSegment = (time: number, length: number): boolean => time >= length;
 
     public shouldMove = (time: number) =>
         this.segmentIndex < this.getSegmentsNumber() && this.shouldStartMoving(time);

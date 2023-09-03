@@ -153,6 +153,16 @@ class ShipTypeParams extends DrawableObjectParams {
     }
 }
 
+const changeFrameIndex = (state: TShipState, frameCount: number, shouldChangeFrame: boolean) => {
+    if (+state.liveState === LiveState.Exploiding) {
+        if (state.frameIndex >= frameCount) {
+            state.liveState = LiveState.Dead;
+        } else if (shouldChangeFrame) {
+            state.frameIndex++;
+        }
+    }
+};
+
 const commonEnemyParameters = {
     imageSpriteWidth: 959,
     frameCount: 18,
@@ -167,15 +177,7 @@ const commonEnemyParameters = {
             state.coordinates = trajectory.getCoordinates(time);
         }
 
-        if (+state.liveState === LiveState.Exploiding) {
-            if (state.frameIndex > frameCount) {
-                state.liveState = LiveState.Dead; // check ?
-                // trigger game end if player dead => check in animator
-                console.log('not drawing, ship is dead');
-            } else if (shouldChangeFrame) {
-                state.frameIndex++;
-            }
-        }
+        changeFrameIndex(state, frameCount, shouldChangeFrame);
 
         if (+state.liveState === LiveState.WaitForStart && trajectory.shouldStartMoving(time)) {
             // if ship starts moving set state to Flying
@@ -236,6 +238,8 @@ export const ShipTypesParameterValues: Record<ShipType, ShipTypeParams> = {
                         break;
                 }
             }
+
+            changeFrameIndex(state, frameCount, shouldChangeFrame);
         },
     },
 } as const;

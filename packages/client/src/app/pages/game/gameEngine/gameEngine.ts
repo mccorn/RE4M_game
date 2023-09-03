@@ -33,7 +33,7 @@ class GameEngine {
         this.animator = new GameObjectAnimator(
             this.context,
             this.renderGameField,
-            this.gameEnd,
+            this.finish,
             this.levelEnd
         );
     }
@@ -42,14 +42,29 @@ class GameEngine {
         this.context.clearRect(0, 0, params.WIDTH, params.HEIGHT);
         this.context.drawImage(this.bgImage, 0, 0, params.WIDTH, params.HEIGHT);
 
-        this.context.beginPath();
+        // temp for testing
+        /* this.context.beginPath();
         this.context.moveTo(500, 0);
         this.context.lineTo(500, 600);
-        this.context.moveTo(250, 0);
-        this.context.lineTo(250, 600);
+        this.context.moveTo(400, 0);
+        this.context.lineTo(400, 600);
+        this.context.moveTo(300, 0);
+        this.context.lineTo(300, 600);
+        this.context.moveTo(200, 0);
+        this.context.lineTo(200, 600);
         this.context.moveTo(100, 0);
         this.context.lineTo(100, 600);
-        this.context.stroke();
+        this.context.moveTo(0, 100);
+        this.context.lineTo(600, 100);
+        this.context.moveTo(0, 200);
+        this.context.lineTo(600, 200);
+        this.context.moveTo(0, 300);
+        this.context.lineTo(600, 300);
+        this.context.moveTo(0, 400);
+        this.context.lineTo(600, 400);
+        this.context.moveTo(0, 500);
+        this.context.lineTo(600, 500);
+        this.context.stroke(); */
     };
 
     public load = () => {
@@ -59,13 +74,6 @@ class GameEngine {
             this.context.fillStyle = '#fff';
             this.context.fillText('START GAME', 140, 200);
         };
-    };
-
-    public gameEnd = () => {
-        this.renderGameField();
-        this.context.font = 'bold 48px serif';
-        this.context.fillStyle = '#fff';
-        this.context.fillText('GAME FINISHED', 100, 200);
     };
 
     public levelEnd = () => {
@@ -122,7 +130,6 @@ class GameEngine {
             direction = 'Right';
         }
         if (direction) {
-            // console.log('in player move');
             const player = state.ships.find(ship => +ship.type === ShipType.Player);
             // todo index not used
             player?.updateState(0, false, direction); // todo shouldChangeFrame can be overwritten

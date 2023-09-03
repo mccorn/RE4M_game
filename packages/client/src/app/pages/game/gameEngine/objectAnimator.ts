@@ -103,6 +103,7 @@ class GameObjectAnimator {
         const playerShip = state.ships.find(ship => +ship.type === ShipType.Player);
         if (+(playerShip?.state as TShipState).liveState === LiveState.Dead) {
             // console.log('game ends');
+            // todo end game bug
             window.cancelAnimationFrame(this.requestId);
             this.drawGameEnd();
         }
@@ -110,7 +111,7 @@ class GameObjectAnimator {
         if (this.mainLoopIndex === this.currentLevelLength) {
             console.log('level ends');
             window.cancelAnimationFrame(this.requestId);
-            // todo send to gameEngine - level ended
+            this.drawLevelEnd();
         }
 
         this.mainLoopIndex++; // do we need to replace this with time?
