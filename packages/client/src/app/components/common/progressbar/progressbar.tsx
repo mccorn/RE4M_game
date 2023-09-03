@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-mixed-operators */
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
+import style from './progressbar.module.scss';
 
 type TProgressbarProps = {
     text?: string;
@@ -10,17 +11,15 @@ type TProgressbarProps = {
 };
 
 const Progressbar: FC<TProgressbarProps> = ({ value, min = 0, max = 100, text = '' }) => {
-    let percent = Math.ceil((value / (max - min)) * 100);
-
-    useEffect(() => {
-        percent = Math.ceil((value / (max - min)) * 100);
-    });
+    const percent = Math.ceil((value / (max - min)) * 100);
 
     return (
-        <div>
-            {text ?? ''}
-            &nbsp;
-            {percent}%
+        <div className={style.progressbar_wrapper}>
+            <div className={style.progressbar_wrapper_progress} style={{ width: `${percent}%` }}>
+                {text ?? ''}
+                &nbsp;
+                {percent}%
+            </div>
         </div>
     );
 };
