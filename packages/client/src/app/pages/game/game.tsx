@@ -54,10 +54,6 @@ const Game: FC = () => {
         }
     };
 
-    const endGame = () => {
-        gameEngine && gameEngine.finish();
-    };
-
     useEffect(() => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
@@ -87,8 +83,6 @@ const Game: FC = () => {
                 <Button text="Start game" size="medium" click={startGame} />
 
                 <Button text="Pause game" size="medium" click={pauseGame} />
-
-                <Button text="End game" size="medium" click={endGame} />
             </div>
         </div>
     );
