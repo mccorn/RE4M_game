@@ -1,18 +1,29 @@
 :root {
     --boxShadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 
-    --backgroundColor: #009797;
-    --backgroundColorSecondary: #95b1b0;
-    --backgroundInput: #fff;
     --textColor: #f0efea;
     --textColorSecondary: #80472d;
     --alertColor: #ff8749;
+
+    --backgroundColorDarkMode: #000218;
+    --backgroundColorSecondaryDarkMode: #344756;
+    --backgroundInputDarkMode: #d2d2d2;
+    --buttonBackgroundColorDarkMode: #595b82;
+
+    --backgroundColorLightMode: #009797;
+    --backgroundColorSecondaryLightMode: #95b1b0;
+    --backgroundInputLightMode: #fff;
+    --buttonBackgroundColorLightMode: #324b4b;
+
+    --backgroundColor: var(--backgroundColorLightMode);
+    --backgroundColorSecondary: var(--backgroundColorSecondaryLightMode);
+    --backgroundInput: var(--backgroundInputLightMode);
+    --buttonBackgroundColor: var(--buttonBackgroundColorLightMode);
 
     --fontSizeLarge: 30px;
     --fontSizeMedium: 20px;
     --fontSizeSmall: 16px;
 
-    --buttonBackgroundColor: #324b4b;
     --headerHeight: 100px;
     --headerContentHeight: 70px;
     --cardWidth: 700px;
