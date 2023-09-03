@@ -10,6 +10,7 @@ import { RoutePaths as Paths } from '@/app/router/router';
 import mockUser from '@/const/mocks/mockUser';
 import style from './header.module.scss';
 import AuthAPI from '@/app/api/AuthAPI';
+import changeColorMode from '@/app/helpers/changeColorMode';
 
 // todo move this to redux later
 type THeaderProps = {
@@ -32,27 +33,15 @@ const Header: FC<THeaderProps> = ({ isAuthorized }) => {
         return classNames(style.header__link, activeClass);
     };
 
-    const changeColorMode = () => {
+    const onClickColorModeButton = () => {
         if (imageForChangeColorMode === Moon) {
             setimageForChangeColorMode(Sun);
 
-            document.documentElement.style.setProperty('--backgroundColor', '#000218');
-
-            document.documentElement.style.setProperty('--backgroundColorSecondary', '#344756');
-
-            document.documentElement.style.setProperty('--backgroundInput', '#D2D2D2');
-
-            document.documentElement.style.setProperty('--buttonBackgroundColor', '#595B82');
+            changeColorMode('Dark');
         } else {
             setimageForChangeColorMode(Moon);
 
-            document.documentElement.style.setProperty('--backgroundColor', '#009797');
-
-            document.documentElement.style.setProperty('--backgroundColorSecondary', '#95b1b0');
-
-            document.documentElement.style.setProperty('--backgroundInput', '#fff');
-
-            document.documentElement.style.setProperty('--buttonBackgroundColor', '#324b4b');
+            changeColorMode('Light');
         }
     };
 
@@ -65,7 +54,7 @@ const Header: FC<THeaderProps> = ({ isAuthorized }) => {
             </div>
 
             <div className={style.header__navigation}>
-                <Button buttonStyle="withoutBackGround" size="small" click={changeColorMode}>
+                <Button buttonStyle="withoutBackGround" size="small" click={onClickColorModeButton}>
                     <img
                         className={style.header__changeColorMode}
                         src={imageForChangeColorMode}
