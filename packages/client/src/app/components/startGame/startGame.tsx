@@ -1,6 +1,7 @@
 /* eslint-disable no-plusplus */
 import React, { FC, useEffect, useState } from 'react';
 import Progressbar from '../common/progressbar/progressbar';
+import style from './startgame.module.scss';
 
 const StartGame: FC = () => {
     const [value, setValue] = useState(0);
@@ -19,9 +20,23 @@ const StartGame: FC = () => {
     });
 
     return (
-        <div>
-            <h1>Get Ready</h1>
-            <Progressbar value={value} text="Loading" />
+        <div className={style.startGameBackground}>
+            <h1 className={style.startGameBackground_title}>Get Ready</h1>
+            <div className={style.startGameBackground_footer}>
+                <Progressbar value={value} text="Loading" />
+                {value >= 100 ? (
+                    <a className={style.startGameBackground_footer_playBtn} href="/game">
+                        START
+                    </a>
+                ) : (
+                    ''
+                )}
+            </div>
+            <img
+                className={style.startGameBackground_battleCruiser}
+                src="/src/assets/images/battle-cruiser.png"
+                alt="battle cruiser"
+            />
         </div>
     );
 };
