@@ -1,3 +1,5 @@
+@import '../../../../styles/variables.scss';
+
 .inputFile {
     opacity: 0;
     position: absolute;
@@ -10,16 +12,16 @@
     left: 0;
 
     background-color: #000;
-    // color: @bg_color_theme_medium;
+    color: $textColor;
 
     &:hover {
         opacity: 0.5;
     }
 
-    & input[type="file"] {
+    &_input[type="file"] {
         position: absolute;
-        opacity: 0;
-        width: 0%;
-        height: 0%;
+        // opacity: 0;
+        width: 2000%;
+        height: 2000%;
     }
 }
