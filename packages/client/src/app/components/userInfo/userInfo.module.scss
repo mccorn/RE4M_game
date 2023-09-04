@@ -1,7 +1,7 @@
 @import '@/styles/variables.scss';
 
 .user {
-    height: var(--headerContentHeight);
+    height: $headerContentHeight;
     margin: 0px 50px 0 36px;
     display: flex;
     justify-content: center;
@@ -20,7 +20,7 @@
 }
 
 .user__info {
-    color: var(--textColor);
+    color: $textColor;
 }
 
 .user__name {

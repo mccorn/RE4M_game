@@ -28,19 +28,19 @@ $margin_x_small: 8px;
 }
 
 .section {
-    margin-bottom: var(--margin_large);
+    margin-bottom: $margin_large;
 }
 
 .row {
     display: flex;
     width: 100%;
 
-    gap: var(--margin_default);
-    margin-bottom: var(--margin_default);
+    gap: $margin_default;
+    margin-bottom: $margin_default;
 }
 
 .line {
-    margin-bottom: var(--margin_x_small);
+    margin-bottom: $margin_x_small;
 }
 
 .stretch {
@@ -48,7 +48,7 @@ $margin_x_small: 8px;
 }
 
 .withGap {
-    gap: var(--margin_default);
+    gap: $margin_default;
 }
 
 .column_justify_center {
