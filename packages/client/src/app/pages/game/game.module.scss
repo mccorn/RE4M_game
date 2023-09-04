@@ -1,6 +1,6 @@
 @import '@/styles/variables.scss';
 
 .game {
-    color: var(--alertColor);
+    color: $alertColor;
     font-size: 50px;
 }
