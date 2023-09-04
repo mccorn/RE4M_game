@@ -23,12 +23,12 @@ type TProfilePageProps = {
 const Profile: FC<TProfilePageProps> = ({ data }) => {
     const [avatar, setAvatar] = useState(data?.login);
 
-    const [login, setLogin] = useState(data?.login);
-    const [displayName, setDisplayName] = useState(data?.displayName);
-    const [firstName, setFirstName] = useState(data?.firstName);
-    const [secondName, setSecondName] = useState(data?.secondName);
-    const [email, setEmail] = useState(data?.email);
-    const [phone, setPhone] = useState(data?.phone);
+    const [login, setLogin] = useState(data?.login || '');
+    const [displayName, setDisplayName] = useState(data?.displayName || '');
+    const [firstName, setFirstName] = useState(data?.firstName || '');
+    const [secondName, setSecondName] = useState(data?.secondName || '');
+    const [email, setEmail] = useState(data?.email || '');
+    const [phone, setPhone] = useState(data?.phone || '');
 
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');

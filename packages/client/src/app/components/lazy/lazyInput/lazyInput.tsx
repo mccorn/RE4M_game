@@ -2,7 +2,7 @@ import React, { FC, ChangeEventHandler } from 'react';
 import classNames from 'classnames';
 import Input from '../../common/input/input';
 
-type TInputProps = {
+export type TInputProps = {
     size?: 'large' | 'medium' | 'small';
     inputStyle?: 'normal';
     isActive?: boolean;

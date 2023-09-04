@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 
 import Form from '../../common/form/form';
-import LazyInput from '../lazyInput/lazyInput';
+import LazyInput, { TInputProps } from '../lazyInput/lazyInput';
 
 import { someFunction } from '@/const/types';
 
@@ -12,8 +12,12 @@ const handleChange: TInputHandler = (event, callback) => {
     callback(event.target.value);
 };
 
+interface IInputData extends TInputProps {
+    handler: someFunction;
+}
+
 type TLazyFormProps = {
-    inputs: any[];
+    inputs: IInputData[];
     children?: ReactNode;
     className?: string;
     wrapType?: 'line' | 'row' | string;
