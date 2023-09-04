@@ -3,12 +3,12 @@ import React, { FC, ReactNode } from 'react';
 // import style from './form.module.scss';
 
 type TFormProps = {
-    children: ReactNode;
-    className: string;
+    children?: ReactNode;
+    className?: string;
 };
 
-const Input: FC<TFormProps> = ({ children, className }) => (
+const Form: FC<TFormProps> = ({ children, className }) => (
     <form className={className}>{children}</form>
 );
 
-export default Input;
+export default Form;
