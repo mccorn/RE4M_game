@@ -10,7 +10,6 @@ import LeaderBoard from '@/app/pages/leaderboard/leaderboard';
 import Profile from '@/app/pages/profile/profile';
 import Signin from '@/app/pages/signin/signin';
 import Signup from '@/app/pages/signup/signup';
-
 import Layout from '@/app/components/layout/layout';
 
 export enum RoutePaths {
