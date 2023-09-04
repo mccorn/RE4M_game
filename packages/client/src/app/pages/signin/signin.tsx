@@ -5,7 +5,7 @@ import Form from '@/app/components/common/form/form';
 import Button from '@/app/components/common/button/button';
 import Input from '@/app/components/common/input/input';
 import mockUser from '@/const/mocks/mockUser';
-import { signIn } from '@/store/reducers/user';
+import { signIn } from '@/app/store/reducers/user';
 
 const Signin: FC = () => {
     const dispatch = useDispatch();
