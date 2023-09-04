@@ -3,8 +3,6 @@ import { XHR_METHODS_TYPES, someObject } from '../../const/types';
 const METHODS = XHR_METHODS_TYPES;
 
 function queryStringify(data: someObject) {
-    if (!data) return '';
-
     let result = '';
 
     Object.keys(data).forEach((key: string | number) => {

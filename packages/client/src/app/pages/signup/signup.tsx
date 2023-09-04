@@ -2,9 +2,7 @@ import React, { FC, useState } from 'react';
 import Input from '@/app/components/common/input/input';
 import Form from '@/app/components/common/form/form';
 import Button from '@/app/components/common/button/button';
-import './signup.scss';
-import AuthAPI from '@/app/api/AuthAPI';
-import { TResponse } from '@/const/types';
+import './index.scss';
 
 const Signup: FC = () => {
     const [firstName, setFirstName] = useState('');
@@ -39,16 +37,13 @@ const Signup: FC = () => {
     };
 
     const handleSubmitForm = () => {
-        AuthAPI.signup({
+        console.log({
             first_name: firstName,
             second_name: secondName,
             login,
             email,
             password,
             phone,
-        }).then(response => {
-            // eslint-disable-next-line no-alert
-            alert((response as TResponse)?.status);
         });
     };
 
@@ -62,7 +57,6 @@ const Signup: FC = () => {
                     label="first_name"
                     placeholder="first_name"
                     inputStyle="normal"
-                    className="column"
                 />
                 <Input
                     value={secondName}
@@ -70,7 +64,6 @@ const Signup: FC = () => {
                     name="second_name"
                     label="second_name"
                     placeholder="second_name"
-                    className="column"
                 />
                 <Input
                     value={login}
@@ -78,7 +71,6 @@ const Signup: FC = () => {
                     name="login"
                     label="login"
                     placeholder="login"
-                    className="column"
                 />
                 <Input
                     value={email}
@@ -86,7 +78,6 @@ const Signup: FC = () => {
                     name="email"
                     label="email"
                     placeholder="email"
-                    className="column"
                 />
                 <Input
                     value={password}
@@ -94,7 +85,6 @@ const Signup: FC = () => {
                     name="password"
                     label="password"
                     placeholder="password"
-                    className="column"
                 />
                 <Input
                     value={phone}
@@ -102,7 +92,6 @@ const Signup: FC = () => {
                     name="phone"
                     label="phone"
                     placeholder="phone"
-                    className="column"
                 />
 
                 <Button text="Signup" click={handleSubmitForm} />
