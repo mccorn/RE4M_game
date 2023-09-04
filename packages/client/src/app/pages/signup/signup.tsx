@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import Input from '@/app/components/common/input/input';
 import Form from '@/app/components/common/form/form';
 import Button from '@/app/components/common/button/button';
-import './index.scss';
+import './signup.scss';
 import AuthAPI from '@/app/api/AuthAPI';
 import { TResponse } from '@/const/types';
 

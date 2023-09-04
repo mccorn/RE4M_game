@@ -12,7 +12,7 @@ import InputFile from '@/app/components/common/inputFile/inputFile';
 
 import TUser from '@/const/dataTypes/dataTypes';
 import { TResponse } from '@/const/types';
-import './index.scss';
+import './profile.scss';
 
 type TProfileData = TUser;
 
