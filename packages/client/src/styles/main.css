@@ -8,17 +8,17 @@
     --backgroundColorDarkMode: #000218;
     --backgroundColorSecondaryDarkMode: #344756;
     --backgroundInputDarkMode: #d2d2d2;
-    --buttonBackgroundColorDarkMode: #595b82;
+    --backgroundButtonColorDarkMode: #595b82;
 
     --backgroundColorLightMode: #009797;
     --backgroundColorSecondaryLightMode: #95b1b0;
     --backgroundInputLightMode: #fff;
-    --buttonBackgroundColorLightMode: #324b4b;
+    --backgroundButtonColorLightMode: #324b4b;
 
     --backgroundColor: var(--backgroundColorLightMode);
     --backgroundColorSecondary: var(--backgroundColorSecondaryLightMode);
     --backgroundInput: var(--backgroundInputLightMode);
-    --buttonBackgroundColor: var(--buttonBackgroundColorLightMode);
+    --backgroundButtonColor: var(--backgroundButtonColorLightMode);
 
     --fontSizeLarge: 30px;
     --fontSizeMedium: 20px;

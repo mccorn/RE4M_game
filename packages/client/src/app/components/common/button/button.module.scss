@@ -3,20 +3,20 @@
 .normal {
     cursor: pointer;
     border: none;
-    background-color: var(--buttonBackgroundColor);
+    background-color: var(--backgroundButtonColor);
     border-radius: 5px;
     color: var(--textColor);
     @include slowTransition;
 
     &:hover {
-        background-color: var(--buttonBackgroundColor);
+        background-color: var(--backgroundButtonColor);
         filter: brightness(110%);
     }
 
     &:disabled,
     &[disabled] {
         cursor: default;
-        background-color: var(--buttonBackgroundColor);
+        background-color: var(--backgroundButtonColor);
         color: var(--textColor);
         filter: brightness(80%);
     }

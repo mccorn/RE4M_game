@@ -2,7 +2,7 @@ const stylesArray = [
     'backgroundColor',
     'backgroundColorSecondary',
     'backgroundInput',
-    'buttonBackgroundColor',
+    'backgroundButtonColor',
 ];
 type TColorMode = 'Light' | 'Dark';
 
