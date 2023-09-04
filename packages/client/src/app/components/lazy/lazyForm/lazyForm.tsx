@@ -1,5 +1,4 @@
 import React, { FC, ReactNode } from 'react';
-import classNames from 'classnames';
 
 import Form from '../../common/form/form';
 import LazyInput from '../lazyInput/lazyInput';
@@ -17,7 +16,7 @@ type TLazyFormProps = {
     inputs: any[];
     children?: ReactNode;
     className?: string;
-    wrapType?: 'line' | 'row';
+    wrapType?: 'line' | 'row' | string;
 };
 
 const LazyForm: FC<TLazyFormProps> = ({
@@ -31,11 +30,9 @@ const LazyForm: FC<TLazyFormProps> = ({
             <LazyInput
                 key={inputData.name}
                 value={inputData.value}
-                className={classNames('onOneLine', wrapType)}
+                wrapType={wrapType}
                 onChange={e => handleChange(e as ChangeInputEvent, inputData.handler)}
                 name={inputData.name}
-                label={inputData.label || inputData.name}
-                placeholder={inputData.placeholder || inputData.name}
                 inputStyle="normal"
             />
         ))}

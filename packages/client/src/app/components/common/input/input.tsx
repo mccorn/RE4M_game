@@ -33,6 +33,7 @@ const Input: FC<TInputProps> = ({
             value={value}
             disabled={!isActive}
             placeholder={placeholder}
+            type="text"
         />
     </label>
 );

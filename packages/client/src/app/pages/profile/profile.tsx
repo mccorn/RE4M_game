@@ -102,6 +102,7 @@ const Profile: FC<TProfilePageProps> = ({ data }) => {
 
                 <div className="formWrapper onOneLine">
                     <LazyForm
+                        wrapType="onOneLine line stretch"
                         inputs={[
                             { name: 'login', value: login, handler: setLogin },
                             { name: 'displayName', value: displayName, handler: setDisplayName },
