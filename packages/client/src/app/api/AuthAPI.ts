@@ -2,6 +2,7 @@ import HTTPTransport from '@/utils/HTTPTransport/HTTPTransport';
 import BaseAPI, { API_URL } from '../api';
 import { AuthUserData } from '@/const/dataTypes/dataTypes';
 
+const url = API_URL.HOST;
 const http = HTTPTransport;
 const options = {};
 const headersJSON = {
@@ -9,45 +10,43 @@ const headersJSON = {
 };
 
 class AuthAPI extends BaseAPI {
-    url = `${API_URL.HOST}/auth`;
-
-    async login(data: AuthUserData) {
-        const userResponse = (await this.getAuthUser()) as Response;
+    static async login(data: AuthUserData) {
+        const userResponse = (await AuthAPI.getAuthUser()) as Response;
 
         if (userResponse.status === 200) {
-            await this.logout();
+            await AuthAPI.logout();
         }
 
-        return this.signin(data);
+        return AuthAPI.signin(data);
     }
 
-    signin(data: object = {}) {
+    static signin(data: object = {}) {
         const reqOptions = {
             ...options,
             headers: headersJSON,
             data: JSON.stringify(data),
         };
 
-        return http.post(`${this.url}/signin`, reqOptions);
+        return http.post(`${url}/signin`, reqOptions);
     }
 
-    signup(data: object = {}) {
+    static signup(data: object = {}) {
         const reqOptions = {
             ...options,
             headers: headersJSON,
             data: JSON.stringify(data),
         };
 
-        return http.post(`${this.url}/signup`, reqOptions);
+        return http.post(`${url}/signup`, reqOptions);
     }
 
-    getAuthUser() {
-        return http.get(`${this.url}/user`);
+    static getAuthUser() {
+        return http.get(`${url}/user`);
     }
 
-    logout() {
-        return http.post(`${this.url}/logout`);
+    static logout() {
+        return http.post(`${url}/logout`);
     }
 }
 
-export default new AuthAPI();
+export default AuthAPI;
