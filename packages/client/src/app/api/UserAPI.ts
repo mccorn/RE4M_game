@@ -1,7 +1,6 @@
 import HTTPTransport from '@/utils/HTTPTransport/HTTPTransport';
 import BaseAPI, { API_URL } from '../api';
 
-const url = `${API_URL.HOST}/user`;
 const http = HTTPTransport;
 const options = {};
 const headersJSON = {
@@ -9,34 +8,36 @@ const headersJSON = {
 };
 
 class UserAPI extends BaseAPI {
-    static update(data: object = {}) {
+    url = `${API_URL.HOST}/user`;
+
+    update(data: object = {}) {
         const reqOptions = Object.assign(options, {
             headers: headersJSON,
             data: JSON.stringify(data),
         });
 
-        return http.put(`${url}/profile`, reqOptions);
+        return http.put(`${this.url}/profile`, reqOptions);
     }
 
-    static updateAvatar(data: unknown) {
+    updateAvatar(data: unknown) {
         const reqOptions = { ...options, data };
 
-        return http.put(`${url}/profile/avatar`, reqOptions);
+        return http.put(`${this.url}/profile/avatar`, reqOptions);
     }
 
-    static updatePassword(data: object = {}) {
+    updatePassword(data: object = {}) {
         const reqOptions = Object.assign(options, {
             headers: headersJSON,
             data: JSON.stringify(data),
         });
 
-        return http.put(`${url}/password`, reqOptions);
+        return http.put(`${this.url}/password`, reqOptions);
     }
 
     // getUserById(id: string | number) {
     //     const reqOptions = Object.assign(options, {})
 
-    //     return http.get(url + '/user/' + id, reqOptions);
+    //     return http.get(this.url + '/user/' + id, reqOptions);
     // }
 
     // search(data: { login: string } = { login: "" }) {
@@ -47,8 +48,8 @@ class UserAPI extends BaseAPI {
     //         }
     //     )
 
-    //     return http.post(url + '/search', reqOptions);
+    //     return http.post(this.url + '/search', reqOptions);
     // }
 }
 
-export default UserAPI;
+export default new UserAPI();
