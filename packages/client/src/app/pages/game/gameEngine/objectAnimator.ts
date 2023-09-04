@@ -93,7 +93,6 @@ class GameObjectAnimator {
             window.cancelAnimationFrame(this.requestId);
             return;
         }
-        console.log(this.isStop);
         this.drawBackground();
 
         this.frameCount++;
