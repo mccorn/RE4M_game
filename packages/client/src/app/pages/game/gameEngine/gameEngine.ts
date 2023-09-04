@@ -19,6 +19,9 @@ const ControlKeys = {
 export type TDirection = 'Up' | 'Down' | 'Left' | 'Right';
 
 class GameEngine {
+    // eslint-disable-next-line no-use-before-define
+    static instance: GameEngine | undefined;
+
     context: CanvasRenderingContext2D;
 
     bgImage = new Image();
@@ -36,9 +39,17 @@ class GameEngine {
             this.finish,
             this.levelEnd
         );
+
+        if (GameEngine.instance) {
+            // такой синглтон костыльно правит баг с паузой
+            // eslint-disable-next-line no-constructor-return
+            return GameEngine.instance;
+        }
+
+        GameEngine.instance = this;
     }
 
-    public renderGameField = () => {
+    private renderGameField = () => {
         this.context.clearRect(0, 0, params.WIDTH, params.HEIGHT);
         this.context.drawImage(this.bgImage, 0, 0, params.WIDTH, params.HEIGHT);
 
@@ -88,16 +99,11 @@ class GameEngine {
         console.log('ships');
         console.log(state.ships);
         this.animator.resetToStart();
-        this.animator.requestId = window.requestAnimationFrame(this.animator.startMainLoop);
+        this.animator.start();
     };
 
     private cancelAnimation = () => {
-        if (this.animator.requestId) {
-            console.log('in cancel animation');
-            window.cancelAnimationFrame(this.animator.requestId);
-        } else {
-            console.log('request id is null');
-        }
+        this.animator.stop();
     };
 
     public pause = () => {
@@ -106,7 +112,7 @@ class GameEngine {
 
     public resume = () => {
         console.log('game engine resume');
-        this.animator.requestId = window.requestAnimationFrame(this.animator.startMainLoop);
+        this.animator.start();
         console.log('game engine resume 2');
     };
 

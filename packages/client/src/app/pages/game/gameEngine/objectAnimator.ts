@@ -17,11 +17,13 @@ class GameObjectAnimator {
 
     frameCount = 0;
 
+    private isStop = false;
+
     mainLoopIndex = 0;
 
     currentLevelLength = gameParams.FIRST_LEVEL_LENGTH;
 
-    requestId = -1;
+    private requestId = -1;
 
     IMAGE_CHANGE_SPEED = 5; // 1 per 5 frames image changes
 
@@ -37,6 +39,8 @@ class GameObjectAnimator {
         drawGameEnd: () => void,
         drawLevelEnd: () => void
     ) {
+        // Смущает то что gameEngine и objectAnimator сильно связаны, пока не придумал как это
+        // организовать, но как мне кажется это надо будет поправить
         this.context = ctx;
         this.drawBackground = drawBackground;
         this.drawGameEnd = drawGameEnd;
@@ -63,12 +67,33 @@ class GameObjectAnimator {
 
     public resetToStart = () => {
         // reset speed bug!!!
+        window.cancelAnimationFrame(this.requestId);
         this.frameCount = 0;
         this.mainLoopIndex = 0;
         this.requestId = -1;
     };
 
-    public startMainLoop = () => {
+    public start = () => {
+        console.log('start');
+        this.isStop = false;
+        console.log(this.requestId);
+        this.requestId = window.requestAnimationFrame(this.startMainLoop);
+    };
+
+    public stop = () => {
+        console.log('stop');
+        this.isStop = true;
+        window.cancelAnimationFrame(this.requestId);
+    };
+
+    private startMainLoop = () => {
+        // во многом костыль пожалуй, но позволяет остановить все отрисовки которые существуют чтобы
+        // после окончания игры она не продолжалась
+        if (this.isStop) {
+            window.cancelAnimationFrame(this.requestId);
+            return;
+        }
+        console.log(this.isStop);
         this.drawBackground();
 
         this.frameCount++;
@@ -104,12 +129,14 @@ class GameObjectAnimator {
         if (+(playerShip?.state as TShipState).liveState === LiveState.Dead) {
             // console.log('game ends');
             // todo end game bug
+            this.isStop = true;
             window.cancelAnimationFrame(this.requestId);
             this.drawGameEnd();
         }
 
         if (this.mainLoopIndex === this.currentLevelLength) {
             console.log('level ends');
+            this.isStop = true;
             window.cancelAnimationFrame(this.requestId);
             this.drawLevelEnd();
         }

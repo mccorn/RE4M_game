@@ -55,6 +55,7 @@ const Game: FC = () => {
     useEffect(() => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
+            // Создается несколько экземпляров gameEngine, не уверен как это влияет на работу
             gameEngine = new GameEngine(context);
             gameEngine.load();
         } else {
