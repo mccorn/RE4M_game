@@ -2,7 +2,7 @@ import React, { FC, MouseEventHandler } from 'react';
 import classNames from 'classnames';
 import style from './button.module.scss';
 
-type TButtonStyle = 'normal';
+type TButtonStyle = 'normal' | 'withoutBackGround';
 type TButtonSize = 'large' | 'medium' | 'small';
 type TButtonType = 'button' | 'submit';
 
@@ -11,12 +11,14 @@ type TButtonProps = {
     click?: MouseEventHandler;
     buttonStyle?: TButtonStyle;
     type?: TButtonType;
-    text: string;
+    text?: string;
     isActive?: boolean;
+    children?: React.ReactNode;
 };
 
 const Button: FC<TButtonProps> = ({
     text,
+    children,
     type = 'button',
     size = 'medium',
     buttonStyle = 'normal',
@@ -28,7 +30,7 @@ const Button: FC<TButtonProps> = ({
         onClick={click}
         className={classNames(style[size], style[buttonStyle])}
         disabled={!isActive}>
-        {text}
+        {text || children}
     </button>
 );
 
