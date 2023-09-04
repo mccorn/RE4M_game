@@ -1,6 +1,8 @@
 @import '@/styles/variables.scss';
 
 .topic {
+    color: var(--textColor);
+
     &__feed {
         display: flex;
         flex-direction: column;
@@ -11,6 +13,6 @@
     }
 
     &__create {
-        width: $cardWidth;
+        width: var(--cardWidth);
     }
 }

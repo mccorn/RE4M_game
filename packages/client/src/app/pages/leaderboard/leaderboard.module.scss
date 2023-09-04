@@ -8,19 +8,19 @@
 	margin-bottom: 20px;
     margin-top: 20px;
 	border-collapse: collapse;
-    color: $textColor;
+    color: var(--textColor);
     border-radius: 5px;
 
     border-radius: 5px; // 1
-    box-shadow: 0px 0px 0px 2px $backgroundColorSecondary inset;
+    box-shadow: 0px 0px 0px 2px var(--backgroundColorSecondary) inset;
     overflow: hidden;
 
-    font-size: $fontSizeMedium;
+    font-size: var(--fontSizeMedium);
 
     &__td {
         text-align: center; 
         vertical-align: middle;
-        border: 2px solid $backgroundColorSecondary;
+        border: 2px solid var(--backgroundColorSecondary);
         padding: 5px;
         height: 50px;
     }
@@ -28,8 +28,8 @@
     &__th {
         font-weight: bold;
         padding: 5px;
-        background: $backgroundColorSecondary;
-        border: 1px solid $backgroundColorSecondary;
+        background: var(--backgroundColorSecondary);
+        border: 1px solid var(--backgroundColorSecondary);
         height: 50px;
     }
 }
