@@ -1,8 +1,8 @@
 import React, { FC, ChangeEventHandler } from 'react';
 import classNames from 'classnames';
-import style from './input.module.scss';
+import Input from '../../common/input/input';
 
-type TInputProps = {
+export type TInputProps = {
     size?: 'large' | 'medium' | 'small';
     inputStyle?: 'normal';
     isActive?: boolean;
@@ -12,9 +12,10 @@ type TInputProps = {
     label?: string;
     placeholder?: string;
     className?: string;
+    wrapType?: string;
 };
 
-const Input: FC<TInputProps> = ({
+const LazyInput: FC<TInputProps> = ({
     size = 'medium',
     inputStyle = 'normal',
     isActive = true,
@@ -24,18 +25,19 @@ const Input: FC<TInputProps> = ({
     name = '',
     placeholder,
     className,
+    wrapType,
 }) => (
-    <label className={classNames('inputWrapper', style[size], style[inputStyle], className)}>
-        <span>{label}</span>
-        <input
-            onChange={onChange}
-            name={name}
-            value={value}
-            disabled={!isActive}
-            placeholder={placeholder}
-            type="text"
-        />
-    </label>
+    <Input
+        onChange={onChange}
+        name={name}
+        value={value}
+        placeholder={placeholder || name}
+        label={label || name}
+        isActive={isActive}
+        className={classNames(className, wrapType)}
+        inputStyle={inputStyle}
+        size={size}
+    />
 );
 
-export default Input;
+export default LazyInput;
