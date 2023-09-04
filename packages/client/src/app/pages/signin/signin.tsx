@@ -37,6 +37,7 @@ const Signin: FC = () => {
                     name="login"
                     label="login"
                     placeholder="login"
+                    className="column"
                 />
 
                 <Input
@@ -45,6 +46,7 @@ const Signin: FC = () => {
                     name="password"
                     label="password"
                     placeholder="password"
+                    className="column"
                 />
 
                 <Button text="Signin" click={handleSubmitForm} />

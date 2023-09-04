@@ -62,6 +62,7 @@ const Signup: FC = () => {
                     label="first_name"
                     placeholder="first_name"
                     inputStyle="normal"
+                    className="column"
                 />
                 <Input
                     value={secondName}
@@ -69,6 +70,7 @@ const Signup: FC = () => {
                     name="second_name"
                     label="second_name"
                     placeholder="second_name"
+                    className="column"
                 />
                 <Input
                     value={login}
@@ -76,6 +78,7 @@ const Signup: FC = () => {
                     name="login"
                     label="login"
                     placeholder="login"
+                    className="column"
                 />
                 <Input
                     value={email}
@@ -83,6 +86,7 @@ const Signup: FC = () => {
                     name="email"
                     label="email"
                     placeholder="email"
+                    className="column"
                 />
                 <Input
                     value={password}
@@ -90,6 +94,7 @@ const Signup: FC = () => {
                     name="password"
                     label="password"
                     placeholder="password"
+                    className="column"
                 />
                 <Input
                     value={phone}
@@ -97,6 +102,7 @@ const Signup: FC = () => {
                     name="phone"
                     label="phone"
                     placeholder="phone"
+                    className="column"
                 />
 
                 <Button text="Signup" click={handleSubmitForm} />
