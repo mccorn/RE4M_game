@@ -3,7 +3,6 @@ import params from './parameters/gameParameters';
 import state from './store/mockGameState';
 import { GameShot, ShotType } from './types/gameTypes';
 import { ShipType } from './types/commonTypes';
-import { GameLevelList } from './parameters/gameLevels';
 import Trajectory from './types/trajectory';
 
 // todo move it in some control module ?
@@ -96,7 +95,7 @@ class GameEngine {
     };
 
     public start = () => {
-        state.startLevel(GameLevelList.Level1);
+        state.startLevel();
         console.log('ships');
         console.log(state.ships);
         this.animator.resetToStart();

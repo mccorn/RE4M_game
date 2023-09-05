@@ -9,8 +9,11 @@ class GameState {
 
     public shots: GameShot[] = [];
 
+    public currentLevel: GameLevelList;
+
     constructor() {
-        this.startLevel(GameLevelList.Level1);
+        this.currentLevel = GameLevelList.Level1;
+        this.startLevel();
     }
 
     private static initPlayer = () =>
@@ -20,9 +23,9 @@ class GameState {
             params.PLAYER_COORDINATES
         );
 
-    private static initEnemies = (level: GameLevelList) => {
+    private initEnemies = () => {
         const ships: GameShip[] = [];
-        const levelParams = GameLevels[level];
+        const levelParams = GameLevels[this.currentLevel];
         Object.keys(levelParams.enemies).forEach(key => {
             const type = key as unknown as TEnemyType;
             const enemyLevelParams = levelParams.enemies[type];
@@ -39,11 +42,16 @@ class GameState {
         return ships;
     };
 
-    public startLevel = (level: GameLevelList) => {
+    public getLevelTime = (): number => {
+        const levelParams = GameLevels[this.currentLevel];
+        return levelParams.time;
+    };
+
+    public startLevel = () => {
         console.log('start level');
         this.ships = []; // reset list on every game start
         this.ships.push(GameState.initPlayer());
-        this.ships.push(...GameState.initEnemies(level));
+        this.ships.push(...this.initEnemies());
         this.shots = [];
     };
 }

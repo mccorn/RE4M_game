@@ -17,7 +17,7 @@ type TLevelParams = {
 
 const GameLevels: Record<GameLevelList, TLevelParams> = {
     [GameLevelList.Level1]: {
-        time: 1000,
+        time: 500000,
         enemies: {
             [ShipType.Fighter]: {
                 number: 5,

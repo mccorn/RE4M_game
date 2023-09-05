@@ -7,7 +7,6 @@ import {
     TShipState,
     TShotState,
 } from './types/gameTypes';
-import gameParams from './parameters/gameParameters';
 import state from './store/mockGameState';
 import CollisionManager from './collisionManager';
 import { ShipType } from './types/commonTypes';
@@ -18,8 +17,6 @@ class GameObjectAnimator {
     private frameCount = 0;
 
     public mainLoopIndex = 0;
-
-    private currentLevelLength = gameParams.FIRST_LEVEL_LENGTH;
 
     private requestId = -1;
 
@@ -125,7 +122,7 @@ class GameObjectAnimator {
             this.drawGameEnd();
         }
 
-        if (this.mainLoopIndex === this.currentLevelLength) {
+        if (this.mainLoopIndex === state.getLevelTime()) {
             console.log('level ends');
             this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);
