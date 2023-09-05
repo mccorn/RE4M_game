@@ -13,23 +13,25 @@ import CollisionManager from './collisionManager';
 import { ShipType } from './types/commonTypes';
 
 class GameObjectAnimator {
-    context: CanvasRenderingContext2D;
+    private context: CanvasRenderingContext2D;
 
-    frameCount = 0;
+    private frameCount = 0;
 
-    mainLoopIndex = 0;
+    public mainLoopIndex = 0;
 
-    currentLevelLength = gameParams.FIRST_LEVEL_LENGTH;
+    private currentLevelLength = gameParams.FIRST_LEVEL_LENGTH;
 
-    requestId = -1;
+    private requestId = -1;
 
-    IMAGE_CHANGE_SPEED = 5; // 1 per 5 frames image changes
+    private IMAGE_CHANGE_SPEED = 5; // 1 per 5 frames image changes
 
-    drawBackground: () => void;
+    private isStopped = false;
 
-    drawGameEnd: () => void;
+    private drawBackground: () => void;
 
-    drawLevelEnd: () => void;
+    private drawGameEnd: () => void;
+
+    private drawLevelEnd: () => void;
 
     constructor(
         ctx: CanvasRenderingContext2D,
@@ -62,13 +64,28 @@ class GameObjectAnimator {
     };
 
     public resetToStart = () => {
-        // reset speed bug!!!
+        window.cancelAnimationFrame(this.requestId);
         this.frameCount = 0;
         this.mainLoopIndex = 0;
         this.requestId = -1;
     };
 
-    public startMainLoop = () => {
+    public start = () => {
+        this.isStopped = false;
+        this.requestId = window.requestAnimationFrame(this.startMainLoop);
+    };
+
+    public stop = () => {
+        this.isStopped = true;
+        window.cancelAnimationFrame(this.requestId);
+    };
+
+    private startMainLoop = () => {
+        if (this.isStopped) {
+            window.cancelAnimationFrame(this.requestId);
+            return;
+        }
+
         this.drawBackground();
 
         this.frameCount++;
@@ -102,14 +119,15 @@ class GameObjectAnimator {
         /* set end game or end level by player dead or level time end */
         const playerShip = state.ships.find(ship => +ship.type === ShipType.Player);
         if (+(playerShip?.state as TShipState).liveState === LiveState.Dead) {
-            // console.log('game ends');
-            // todo end game bug
+            console.log('game ends');
+            this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);
             this.drawGameEnd();
         }
 
         if (this.mainLoopIndex === this.currentLevelLength) {
             console.log('level ends');
+            this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);
             this.drawLevelEnd();
         }

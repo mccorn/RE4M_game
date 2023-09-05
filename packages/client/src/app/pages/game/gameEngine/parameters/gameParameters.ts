@@ -10,7 +10,7 @@ const GameParameters = {
     WIDTH: width,
     HEIGHT: height,
     BACKGROUND_IMAGE: bg,
-    FIRST_LEVEL_LENGTH: 500,
+    FIRST_LEVEL_LENGTH: 500000,
     PLAYER_COORDINATES: { x: width / 2 - playerSize / 2, y: height - playerSize },
 } as const;
 

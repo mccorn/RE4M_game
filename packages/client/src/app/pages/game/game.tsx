@@ -7,23 +7,10 @@ import GameEngine from './gameEngine/gameEngine';
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
 
-    let gameEngine: GameEngine | null = null;
-
     const [paused, setIsPaused] = useState(false);
 
     const onKeyDown = (event: KeyboardEvent) => {
-        gameEngine && gameEngine.gameControlPressed(event);
-    };
-
-    const checkGameEngine = () => {
-        if (!gameEngine) {
-            const context = (ref.current as HTMLCanvasElement).getContext('2d');
-            if (context) {
-                gameEngine = new GameEngine(context);
-            } else {
-                console.log('no context found');
-            }
-        }
+        GameEngine.instance?.gameControlPressed(event);
     };
 
     const startGame = () => {
@@ -32,22 +19,16 @@ const Game: FC = () => {
             window.removeEventListener('keydown', onKeyDown);
         } */
 
-        gameEngine && gameEngine.start();
+        GameEngine.instance?.start();
         window.addEventListener('keydown', onKeyDown);
     };
 
     const pauseGame = () => {
         if (paused) {
-            console.log('in resume');
-            console.log(gameEngine);
-            checkGameEngine();
-            gameEngine && gameEngine.resume();
+            GameEngine.instance?.resume();
             setIsPaused(false);
         } else {
-            console.log('in pause');
-            console.log(gameEngine);
-            checkGameEngine();
-            gameEngine && gameEngine.pause();
+            GameEngine.instance?.pause();
             setIsPaused(true);
         }
     };
@@ -55,8 +36,9 @@ const Game: FC = () => {
     useEffect(() => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
-            gameEngine = new GameEngine(context);
-            gameEngine.load();
+            // eslint-disable-next-line
+            new GameEngine(context);
+            GameEngine.instance?.load();
         } else {
             console.log('no context found');
         }

@@ -106,6 +106,7 @@ class Trajectory {
                 const currentAngle =
                     vectorAngle + Math.PI / 2 + (2 * difAngle * segmentTime) / pathLength;
 
+                // temp for testing in 6 sprint, will remove before 6 sprint demo
                 /* if (this.segmentIndex === 1) {
                     console.log('difAngle');
                     console.log(difAngle);
@@ -144,6 +145,7 @@ class Trajectory {
             }
         }
 
+        // temp for testing in 6 sprint, will remove before 6 sprint demo
         /* console.log('point.x');
         console.log(point.x);
         console.log('point.y');
@@ -167,7 +169,8 @@ class Trajectory {
     public shouldStartMoving = (time: number) => time > this.delay;
 
     public movedOutOfGameField = (time: number): boolean => {
-        // todo calculate if outside boundaries to set dead state
+        // todo calculate if ship or shoot coordinate is outside of canvas
+        // to set dead state not to render this objects
         console.log(time);
         console.log(this.delay);
         return false;

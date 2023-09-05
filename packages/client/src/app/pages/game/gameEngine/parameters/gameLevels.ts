@@ -20,7 +20,7 @@ const GameLevels: Record<GameLevelList, TLevelParams> = {
         time: 1000,
         enemies: {
             [ShipType.Fighter]: {
-                number: 1,
+                number: 5,
                 trajectoryPoints: [
                     { x: 0, y: 0 },
                     { x: 0, y: 100 },
@@ -40,7 +40,7 @@ const GameLevels: Record<GameLevelList, TLevelParams> = {
                 ],
             },
             [ShipType.Battlecruiser]: {
-                number: 0,
+                number: 3,
                 trajectoryPoints: [
                     { x: 600, y: 0 },
                     { x: 570, y: 120 },
@@ -55,7 +55,7 @@ const GameLevels: Record<GameLevelList, TLevelParams> = {
                 ],
             },
             [ShipType.Bomber]: {
-                number: 0,
+                number: 3,
                 trajectoryPoints: [
                     { x: 300, y: 0 },
                     { x: 300, y: 100 },
