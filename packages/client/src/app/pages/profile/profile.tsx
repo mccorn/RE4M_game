@@ -113,10 +113,9 @@ const Profile: FC<TProfilePageProps> = ({ data }) => {
                         ]}>
                         <Button text="Save" click={handleSubmitForm} />
                     </LazyForm>
+                </div>
 
-                    <div className="row stretch" />
-                    <div className="row stretch" />
-
+                <div className="formWrapper onOneLine">
                     <LazyForm
                         inputs={[
                             { name: 'oldPassword', value: oldPassword, handler: setOldPassword },

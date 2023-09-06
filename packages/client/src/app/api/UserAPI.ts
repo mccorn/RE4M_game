@@ -11,10 +11,11 @@ class UserAPI extends BaseAPI {
     url = `${API_URL.HOST}/user`;
 
     update(data: object = {}) {
-        const reqOptions = Object.assign(options, {
+        const reqOptions = {
+            ...options,
             headers: headersJSON,
             data: JSON.stringify(data),
-        });
+        };
 
         return http.put(`${this.url}/profile`, reqOptions);
     }
@@ -26,30 +27,14 @@ class UserAPI extends BaseAPI {
     }
 
     updatePassword(data: object = {}) {
-        const reqOptions = Object.assign(options, {
+        const reqOptions = {
+            ...options,
             headers: headersJSON,
             data: JSON.stringify(data),
-        });
+        };
 
         return http.put(`${this.url}/password`, reqOptions);
     }
-
-    // getUserById(id: string | number) {
-    //     const reqOptions = Object.assign(options, {})
-
-    //     return http.get(this.url + '/user/' + id, reqOptions);
-    // }
-
-    // search(data: { login: string } = { login: "" }) {
-    //     const reqOptions = Object.assign(options,
-    //         {
-    //             headers: headersJSON,
-    //             data: JSON.stringify(data)
-    //         }
-    //     )
-
-    //     return http.post(this.url + '/search', reqOptions);
-    // }
 }
 
 export default new UserAPI();
