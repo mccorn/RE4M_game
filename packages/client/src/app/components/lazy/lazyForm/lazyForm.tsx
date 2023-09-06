@@ -24,7 +24,7 @@ type TLazyFormProps = {
     inputs: IInputData[];
     children?: ReactNode;
     className?: string;
-    wrapType?: 'line' | 'row' | string;
+    wrapType?: string;
 };
 
 const LazyForm: FC<TLazyFormProps> = ({
