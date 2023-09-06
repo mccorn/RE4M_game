@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactNode, useMemo } from 'react';
 
 import Form from '../../common/form/form';
 import LazyInput, { TInputProps } from '../lazyInput/lazyInput';
@@ -15,6 +15,10 @@ const handleChange: TInputHandler = (event, callback) => {
 interface IInputData extends TInputProps {
     handler: someFunction;
 }
+
+export const memo = (data: IInputData) => useMemo(() => data, [data.value]);
+
+export const memoAll = (array: IInputData[]) => array.map(node => memo(node));
 
 type TLazyFormProps = {
     inputs: IInputData[];
