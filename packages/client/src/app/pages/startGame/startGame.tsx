@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus */
 import React, { FC, useEffect, useState } from 'react';
-import Progressbar from '../../components/common/progressbar/progressbar';
+import Progressbar from '@/app/components/common/progressbar/progressbar';
 import style from './startgame.module.scss';
 
 const StartGame: FC = () => {

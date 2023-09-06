@@ -1,10 +1,5 @@
 import React, { FC } from 'react';
-import StartGame from '@/app/pages/startGame/startGame';
 
-const Landing: FC = () => (
-    <div>
-        <StartGame />
-    </div>
-);
+const Landing: FC = () => <div>Landing stub</div>;
 
 export default Landing;
