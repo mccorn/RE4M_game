@@ -3,20 +3,33 @@
 .progressbar_wrapper {
 
     width: 100%;
-    display: flex;
-    justify-content: start;
+    overflow: hidden;
     background-color: #d1d5db80;
 
-     border-radius: 9999px;
-     padding: 0.15rem;
-    &_progress{
+    border-radius: 9999px;
+    padding: 0.15rem;
+    text-align: center;
+    position: relative;
+
+
+    &_progress {
         background-color: #00dffc83;
-        color: #fff;
         border-radius: 9999px;
-        display: flex;
-        justify-content: center;
+        height: 11px;
         padding: 0.15rem;
-        text-shadow: 1px 1px 2px rgb(16, 16, 20), 0 0 1em blue, 0 0 0.2em blue;
-        overflow: hidden;
+
+        &_label {
+            text-shadow: 1px 1px 2px rgb(16, 16, 20), 0 0 1em blue, 0 0 0.2em blue;
+            color: #fff;
+            font-size: .9em;
+            position: absolute;
+            margin: 0;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+
     }
 }

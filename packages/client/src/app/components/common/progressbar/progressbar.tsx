@@ -16,9 +16,11 @@ const Progressbar: FC<TProgressbarProps> = ({ value, min = 0, max = 100, text = 
     return (
         <div className={style.progressbar_wrapper}>
             <div className={style.progressbar_wrapper_progress} style={{ width: `${percent}%` }}>
-                {text ?? ''}
-                &nbsp;
-                {percent}%
+                <p className={style.progressbar_wrapper_progress_label}>
+                    {text ?? ''}
+                    &nbsp;
+                    {percent}%
+                </p>
             </div>
         </div>
     );
