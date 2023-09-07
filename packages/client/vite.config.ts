@@ -2,6 +2,7 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dotenv from 'dotenv';
+import { VitePWA } from 'vite-plugin-pwa';
 
 dotenv.config();
 
@@ -21,5 +22,26 @@ export default defineConfig({
     define: {
         __SERVER_PORT__: process.env.SERVER_PORT,
     },
-    plugins: [react()],
+    plugins: [
+        react(),
+        VitePWA({
+            strategies: 'injectManifest',
+            srcDir: 'src/utils/ServiceWorker',
+            filename: 'serviceWorker.js',
+            outDir: 'dist',
+            devOptions: {
+                enabled: true,
+            },
+            injectManifest: {
+                globPatterns: ['***.{ts,js,css,tsx,scss,woff2,png,svg,jpg,js}'],
+            },
+            workbox: {},
+            manifest: {
+                name: "Re4m's game",
+                short_name: 'r4 Game',
+                description: "Re4m's game for praktikum",
+                theme_color: '#ffffff',
+            },
+        }),
+    ],
 });
