@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import utils from '@/utils';
 
@@ -7,7 +7,7 @@ import UserAPI from '@/app/api/UserAPI';
 import AuthAPI from '@/app/api/AuthAPI';
 
 import Button from '@/app/components/common/button/button';
-import LazyForm, { memoAll } from '@/app/components/lazy/lazyForm/lazyForm';
+import LazyForm from '@/app/components/lazy/lazyForm/lazyForm';
 import InputFile from '@/app/components/common/inputFile/inputFile';
 
 import TUser from '@/const/dataTypes/dataTypes';
@@ -103,14 +103,21 @@ const Profile: FC<TProfilePageProps> = ({ data }) => {
                 <div className="formWrapper onOneLine">
                     <LazyForm
                         wrapType="onOneLine line stretch"
-                        inputs={memoAll([
-                            { name: 'login', value: login, handler: setLogin },
-                            { name: 'displayName', value: displayName, handler: setDisplayName },
-                            { name: 'firstName', value: firstName, handler: setFirstName },
-                            { name: 'secondName', value: secondName, handler: setSecondName },
-                            { name: 'email', value: email, handler: setEmail },
-                            { name: 'phone', value: phone, handler: setPhone },
-                        ])}>
+                        inputs={useMemo(
+                            () => [
+                                { name: 'login', value: login, handler: setLogin },
+                                {
+                                    name: 'displayName',
+                                    value: displayName,
+                                    handler: setDisplayName,
+                                },
+                                { name: 'firstName', value: firstName, handler: setFirstName },
+                                { name: 'secondName', value: secondName, handler: setSecondName },
+                                { name: 'email', value: email, handler: setEmail },
+                                { name: 'phone', value: phone, handler: setPhone },
+                            ],
+                            [login, displayName, firstName, secondName, email, phone]
+                        )}>
                         <Button text="Save" click={handleSubmitForm} />
                     </LazyForm>
                 </div>
