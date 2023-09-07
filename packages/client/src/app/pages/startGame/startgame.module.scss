@@ -1,0 +1,70 @@
+@import '@/styles/variables.scss';
+
+@keyframes moveUpDown {
+    0% {
+        transform: translateY(280px);
+      }
+       50% {
+        transform: translateY(300px);
+      }
+      100% {
+        transform: translateY(280px);
+      }
+}
+
+.startGameBackground {
+    width: 100%;
+    height: calc(100vh - 100px);
+    background: url('/src/assets/images/start-game-backgound.jpg');
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    &_title {
+        color: #f5f536b3;
+        font-size: 115px;
+        margin: 70px;
+        margin-bottom: 5px;
+    }
+
+    &_battleCruiser {
+        position: absolute;
+        width: 662px;
+       
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        text-align: center;
+        animation: moveUpDown 7s  ease-in-out infinite both;
+    }
+
+    &_footer {
+        width: 50%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: column;
+        clear: both;
+        &_playBtn {
+            font-size: 18px;
+            width: 80%;
+            text-align: center;
+            padding: 15px;
+            padding-left: 50px;
+            padding-right: 50px;
+            border: 1px solid #00DFFC;
+            color: #00DFFC;
+            border-radius: 50px;
+            margin: 40px;
+            z-index: 999;
+        }
+
+        &_playBtn:hover {
+            border: 1px solid #89f1ff;
+            color: #89f1ff;
+            box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+        }
+    }
+}
