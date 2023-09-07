@@ -10,7 +10,7 @@ import Sun from '@/assets/images/sun.svg';
 import { RoutePaths as Paths } from '@/app/router/router';
 import style from './header.module.scss';
 import AuthAPI from '@/app/api/AuthAPI';
-import { signOut } from '@/app/store/reducers/user';
+import { signOut } from '@/app/store/reducers/userReducer';
 import TUser from '@/const/dataTypes/dataTypes';
 import changeColorMode from '@/app/helpers/changeColorMode';
 
