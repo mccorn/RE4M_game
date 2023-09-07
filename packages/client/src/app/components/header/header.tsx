@@ -1,4 +1,5 @@
 import React, { FC, MouseEventHandler, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import Button from '@/app/components/common/button/button';
@@ -7,9 +8,10 @@ import Logo from '@/assets/images/logo.svg';
 import Moon from '@/assets/images/moon.svg';
 import Sun from '@/assets/images/sun.svg';
 import { RoutePaths as Paths } from '@/app/router/router';
-import mockUser from '@/const/mocks/mockUser';
 import style from './header.module.scss';
 import AuthAPI from '@/app/api/AuthAPI';
+import { signOut } from '@/app/store/reducers/userReducer';
+import TUser from '@/const/dataTypes/dataTypes';
 import changeColorMode from '@/app/helpers/changeColorMode';
 
 // todo move this to redux later
@@ -17,11 +19,13 @@ type THeaderProps = {
     isAuthorized?: boolean;
 };
 
-const Header: FC<THeaderProps> = ({ isAuthorized }) => {
+const Header: FC<THeaderProps> = () => {
     const [imageForChangeColorMode, setimageForChangeColorMode] = useState(Moon);
+    const user = useSelector(state => (state as { user: unknown }).user) as TUser;
+    const dispatch = useDispatch();
 
     const logout: MouseEventHandler = () => {
-        AuthAPI.logout();
+        AuthAPI.logout().then(() => dispatch(signOut()));
 
         // AuthAPI.logout()
         //  .then(() => alert('success logout'))
@@ -67,7 +71,15 @@ const Header: FC<THeaderProps> = ({ isAuthorized }) => {
                         className={({ isActive }) => calculateLinkClass(isActive)}>
                         Game
                     </NavLink>
-                    {isAuthorized && (
+                    {!user && (
+                        <NavLink
+                            to={Paths.SIGNIN}
+                            className={({ isActive }) => calculateLinkClass(isActive)}>
+                            Login
+                        </NavLink>
+                    )}
+
+                    {user && (
                         <>
                             <NavLink
                                 to={Paths.FORUM__URL}
@@ -83,9 +95,12 @@ const Header: FC<THeaderProps> = ({ isAuthorized }) => {
                     )}
                 </nav>
 
-                {isAuthorized && <UserInfo user={mockUser} />}
-
-                <Button size="medium" text="Logout" click={logout} />
+                {user && (
+                    <>
+                        <UserInfo user={user} />
+                        <Button size="medium" text="Logout" click={logout} />
+                    </>
+                )}
             </div>
         </div>
     );

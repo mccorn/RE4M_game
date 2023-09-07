@@ -1,10 +1,15 @@
 import React, { FC, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import Form from '@/app/components/common/form/form';
 import Button from '@/app/components/common/button/button';
 import Input from '@/app/components/common/input/input';
+import mockUser from '@/const/mocks/mockUser';
+import { signIn } from '@/app/store/reducers/userReducer';
 
 const Signin: FC = () => {
+    const dispatch = useDispatch();
+
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
 
@@ -17,6 +22,11 @@ const Signin: FC = () => {
     };
 
     const handleSubmitForm = () => {
+        const user = {
+            ...mockUser,
+            login,
+        };
+        dispatch(signIn(user));
         console.log({
             login,
             password,
