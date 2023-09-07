@@ -21,25 +21,25 @@ $fontSizeSmall: 16px;
 }
 
 @mixin fontLarge {
-    font-size: $fontSizeLarge;
+    font-size: var(--fontSizeLarge);
     font-weight: 700;
 }
 
 @mixin fontNormal {
-    font-size: $fontSizeMedium;
+    font-size: var(--fontSizeMedium);
     font-weight: 600;
 }
 
 @mixin fontSmall {
-    font-size: $fontSizeSmall;
+    font-size: var(--fontSizeSmall);
     font-weight: 400;
 }
 
 @mixin form {
     display: flex;
-    width: $cardWidth;
-    box-shadow: $boxShadow;
-    background-color: $backgroundColorSecondary;
+    width: var(--cardWidth);
+    box-shadow: var(--boxShadow);
+    background-color: var(--backgroundColorSecondary);
     flex-direction: column;
     gap: 20px;
     padding: 25px;
@@ -58,9 +58,11 @@ $fontSizeSmall: 16px;
     &__textarea {
         border-radius: 5px;
         padding: 10px;
-        font-size: $fontSizeSmall;
+        font-size: var(--fontSizeSmall);
         border: none;
         box-sizing: border-box;
+
+        background-color: var(--backgroundInput);
     }
 
     &__input {
