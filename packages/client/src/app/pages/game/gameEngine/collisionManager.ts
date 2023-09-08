@@ -47,7 +47,7 @@ class CollisionManager {
     };
 
     private static detectEnemyShipCollision = () => {
-        const player = state.ships.find(ship => +ship.type === ShipType.Player);
+        const player = state.getPlayer();
         if (player) {
             const playerX = player.state.coordinates.x;
             const playerY = player.state.coordinates.y;

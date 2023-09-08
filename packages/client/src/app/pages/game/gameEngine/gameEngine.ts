@@ -2,7 +2,6 @@ import GameObjectAnimator from './objectAnimator';
 import params from './parameters/gameParameters';
 import state from './store/mockGameState';
 import { GameShot, ShotType } from './types/gameTypes';
-import { ShipType } from './types/commonTypes';
 import Trajectory from './types/trajectory';
 
 // todo move it in some control module ?
@@ -113,14 +112,14 @@ class GameEngine {
             direction = 'Right';
         }
         if (direction) {
-            const player = state.ships.find(ship => +ship.type === ShipType.Player);
+            const player = state.getPlayer();
             // todo index not used
             player?.updateState(0, false, direction); // todo shouldChangeFrame can be overwritten
         }
 
         if (event.key === ControlKeys.SHOOT) {
             console.log(event.key);
-            const player = state.ships.find(ship => +ship.type === ShipType.Player);
+            const player = state.getPlayer();
             if (player) {
                 console.log('add shot');
                 const { coordinates } = player.state;

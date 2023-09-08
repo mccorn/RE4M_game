@@ -54,6 +54,14 @@ class GameState {
         this.ships.push(...this.initEnemies());
         this.shots = [];
     };
+
+    public getPlayer = (): GameShip => {
+        const player = this.ships.find(ship => +ship.type === ShipType.Player);
+        if (player) {
+            return player;
+        }
+        throw Error('Player not found in state');
+    };
 }
 
 export default new GameState();

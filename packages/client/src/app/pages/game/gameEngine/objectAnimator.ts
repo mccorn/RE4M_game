@@ -9,7 +9,6 @@ import {
 } from './types/gameTypes';
 import state from './store/mockGameState';
 import CollisionManager from './collisionManager';
-import { ShipType } from './types/commonTypes';
 
 class GameObjectAnimator {
     private context: CanvasRenderingContext2D;
@@ -114,7 +113,7 @@ class GameObjectAnimator {
         CollisionManager.collisionDetection();
 
         /* set end game or end level by player dead or level time end */
-        const playerShip = state.ships.find(ship => +ship.type === ShipType.Player);
+        const playerShip = state.getPlayer();
         if (+(playerShip?.state as TShipState).liveState === LiveState.Dead) {
             console.log('game ends');
             this.isStopped = true;
