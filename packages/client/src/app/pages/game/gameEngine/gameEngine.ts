@@ -19,7 +19,7 @@ export type TDirection = 'Up' | 'Down' | 'Left' | 'Right';
 
 class GameEngine {
     // eslint-disable-next-line no-use-before-define
-    static instance: GameEngine | undefined;
+    private static instance?: GameEngine;
 
     context: CanvasRenderingContext2D;
 
@@ -29,7 +29,7 @@ class GameEngine {
 
     animator: GameObjectAnimator;
 
-    constructor(ctx: CanvasRenderingContext2D) {
+    private constructor(ctx: CanvasRenderingContext2D) {
         this.context = ctx;
         this.bgImage.src = params.BACKGROUND_IMAGE;
         this.animator = new GameObjectAnimator(
@@ -38,44 +38,23 @@ class GameEngine {
             this.finish,
             this.levelEnd
         );
+    }
+
+    public static getInstance = (ctx?: CanvasRenderingContext2D) => {
+        if (!GameEngine.instance && ctx) {
+            GameEngine.instance = new GameEngine(ctx);
+        }
 
         if (GameEngine.instance) {
-            // такой синглтон костыльно правит баг с паузой
-            // eslint-disable-next-line no-constructor-return
             return GameEngine.instance;
         }
 
-        GameEngine.instance = this;
-    }
+        throw new Error('no context provided for gameEngine');
+    };
 
     private renderGameField = () => {
         this.context.clearRect(0, 0, params.WIDTH, params.HEIGHT);
         this.context.drawImage(this.bgImage, 0, 0, params.WIDTH, params.HEIGHT);
-
-        // temp for testing trajectory smoothing, will remove
-        // before 6 sprint demo
-        /* this.context.beginPath();
-        this.context.moveTo(500, 0);
-        this.context.lineTo(500, 600);
-        this.context.moveTo(400, 0);
-        this.context.lineTo(400, 600);
-        this.context.moveTo(300, 0);
-        this.context.lineTo(300, 600);
-        this.context.moveTo(200, 0);
-        this.context.lineTo(200, 600);
-        this.context.moveTo(100, 0);
-        this.context.lineTo(100, 600);
-        this.context.moveTo(0, 100);
-        this.context.lineTo(600, 100);
-        this.context.moveTo(0, 200);
-        this.context.lineTo(600, 200);
-        this.context.moveTo(0, 300);
-        this.context.lineTo(600, 300);
-        this.context.moveTo(0, 400);
-        this.context.lineTo(600, 400);
-        this.context.moveTo(0, 500);
-        this.context.lineTo(600, 500);
-        this.context.stroke(); */
     };
 
     public load = () => {

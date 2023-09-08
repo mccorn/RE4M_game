@@ -10,7 +10,7 @@ const Game: FC = () => {
     const [paused, setIsPaused] = useState(false);
 
     const onKeyDown = (event: KeyboardEvent) => {
-        GameEngine.instance?.gameControlPressed(event);
+        GameEngine.getInstance().gameControlPressed(event);
     };
 
     const startGame = () => {
@@ -19,16 +19,16 @@ const Game: FC = () => {
             window.removeEventListener('keydown', onKeyDown);
         } */
 
-        GameEngine.instance?.start();
+        GameEngine.getInstance().start();
         window.addEventListener('keydown', onKeyDown);
     };
 
     const pauseGame = () => {
         if (paused) {
-            GameEngine.instance?.resume();
+            GameEngine.getInstance().resume();
             setIsPaused(false);
         } else {
-            GameEngine.instance?.pause();
+            GameEngine.getInstance().pause();
             setIsPaused(true);
         }
     };
@@ -36,9 +36,7 @@ const Game: FC = () => {
     useEffect(() => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
-            // eslint-disable-next-line
-            new GameEngine(context);
-            GameEngine.instance?.load();
+            GameEngine.getInstance(context).load();
         } else {
             console.log('no context found');
         }
