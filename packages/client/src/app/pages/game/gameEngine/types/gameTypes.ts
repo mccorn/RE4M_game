@@ -215,7 +215,7 @@ export const ShipTypesParameterValues: Record<ShipType, ShipTypeParams> = {
             frameCount: number,
             direction: TDirection | undefined
         ) => {
-            const step = 7;
+            const step = 2;
             if (direction) {
                 switch (direction) {
                     case 'Up':
@@ -233,6 +233,34 @@ export const ShipTypesParameterValues: Record<ShipType, ShipTypeParams> = {
                     case 'Right':
                         state.coordinates.x = Math.min(
                             state.coordinates.x + step,
+                            params.WIDTH - 64
+                        );
+                        break;
+                    case 'UpLeft':
+                        state.coordinates.x = Math.max(state.coordinates.x - step, 0);
+                        state.coordinates.y = Math.max(state.coordinates.y - step, 0);
+                        break;
+                    case 'UpRight':
+                        state.coordinates.x = Math.min(
+                            state.coordinates.x + step,
+                            params.WIDTH - 64
+                        );
+                        state.coordinates.y = Math.max(state.coordinates.y - step, 0);
+                        break;
+                    case 'DownLeft':
+                        state.coordinates.x = Math.max(state.coordinates.x - step, 0);
+                        state.coordinates.y = Math.min(
+                            state.coordinates.y + step,
+                            params.WIDTH - 64
+                        );
+                        break;
+                    case 'DownRight':
+                        state.coordinates.x = Math.min(
+                            state.coordinates.x + step,
+                            params.WIDTH - 64
+                        );
+                        state.coordinates.y = Math.min(
+                            state.coordinates.y + step,
                             params.WIDTH - 64
                         );
                         break;

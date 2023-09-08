@@ -1,17 +1,13 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState, SyntheticEvent } from 'react';
 import style from './game.module.scss';
 import Button from '@/app/components/common/button/button';
 import params from './gameEngine/parameters/gameParameters';
-import GameEngine from './gameEngine/gameEngine';
+import GameEngine, { TDirection } from './gameEngine/gameEngine';
 
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
 
     const [paused, setIsPaused] = useState(false);
-
-    const onKeyDown = (event: KeyboardEvent) => {
-        GameEngine.getInstance().gameControlPressed(event);
-    };
 
     const startGame = () => {
         /* todo remove evetything on game end
@@ -20,7 +16,6 @@ const Game: FC = () => {
         } */
 
         GameEngine.getInstance().start();
-        window.addEventListener('keydown', onKeyDown);
     };
 
     const pauseGame = () => {
@@ -34,6 +29,7 @@ const Game: FC = () => {
     };
 
     useEffect(() => {
+        console.log('ddd');
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
             GameEngine.getInstance(context).load();
@@ -41,6 +37,41 @@ const Game: FC = () => {
             console.log('no context found');
         }
     }, []);
+
+    const getDirection = (mouseX: number, mouseY: number, playerX: number, playerY: number) => {
+        let direction = '';
+        const shipSize = 25;
+        if (mouseY - playerY < -shipSize) {
+            direction += 'Up';
+        }
+        if (mouseY - playerY > shipSize) {
+            direction += 'Down';
+        }
+        if (mouseX - playerX > shipSize) {
+            direction += 'Right';
+        }
+        if (mouseX - playerX < -shipSize) {
+            direction += 'Left';
+        }
+
+        return direction as TDirection;
+    };
+
+    const handleMouseMove = (ev: SyntheticEvent) => {
+        const mouseX =
+            (ev.nativeEvent as MouseEvent).clientX - (ev.target as HTMLElement).offsetLeft - 25;
+        const mouseY =
+            (ev.nativeEvent as MouseEvent).clientY - (ev.target as HTMLElement).offsetTop - 25;
+        const gameEngine = GameEngine.getInstance();
+        const { x: playerX, y: playerY } = gameEngine.getPlayerCoordinates();
+
+        const direction = getDirection(mouseX, mouseY, playerX, playerY);
+        gameEngine.setDirectionForPlayer(direction as TDirection);
+    };
+
+    setInterval(() => {
+        GameEngine.getInstance().playerShot();
+    }, 500);
 
     return (
         <div className={style.game}>
@@ -53,6 +84,7 @@ const Game: FC = () => {
                     ref={ref}
                     width={params.WIDTH}
                     height={params.HEIGHT}
+                    onMouseMove={handleMouseMove}
                     className={style.game__canvas}>
                     the game should be here
                 </canvas>

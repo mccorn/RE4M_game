@@ -4,17 +4,15 @@ import state from './store/mockGameState';
 import { GameShot, ShotType } from './types/gameTypes';
 import Trajectory from './types/trajectory';
 
-// todo move it in some control module ?
-const ControlKeys = {
-    LEFT: 'ArrowLeft',
-    UP: 'ArrowUp',
-    RIGHT: 'ArrowRight',
-    DOWN: 'ArrowDown',
-    PAUSE: 'Enter',
-    SHOOT: 'a',
-};
-
-export type TDirection = 'Up' | 'Down' | 'Left' | 'Right';
+export type TDirection =
+    | 'Up'
+    | 'Down'
+    | 'Left'
+    | 'Right'
+    | 'UpLeft'
+    | 'UpRight'
+    | 'DownLeft'
+    | 'DownRight';
 
 class GameEngine {
     // eslint-disable-next-line no-use-before-define
@@ -100,40 +98,33 @@ class GameEngine {
         this.context.fillText('GAME FINISHED', 150, 200);
     };
 
-    public gameControlPressed = (event: KeyboardEvent) => {
-        let direction: TDirection | undefined;
-        if (event.key === ControlKeys.UP) {
-            direction = 'Up';
-        } else if (event.key === ControlKeys.DOWN) {
-            direction = 'Down';
-        } else if (event.key === ControlKeys.LEFT) {
-            direction = 'Left';
-        } else if (event.key === ControlKeys.RIGHT) {
-            direction = 'Right';
-        }
-        if (direction) {
-            const player = state.getPlayer();
-            // todo index not used
-            player?.updateState(0, false, direction); // todo shouldChangeFrame can be overwritten
-        }
+    // eslint-disable-next-line class-methods-use-this
+    public getPlayerCoordinates = () => {
+        const player = state.getPlayer();
+        return { x: player.state.coordinates.x, y: player.state.coordinates.y };
+    };
 
-        if (event.key === ControlKeys.SHOOT) {
-            console.log(event.key);
-            const player = state.getPlayer();
-            if (player) {
-                console.log('add shot');
-                const { coordinates } = player.state;
-                state.shots.push(
-                    new GameShot(
-                        ShotType.Player,
-                        new Trajectory([
-                            { x: coordinates.x, y: coordinates.y },
-                            { x: coordinates.x, y: -20 }, // todo set show false in the end
-                        ]),
-                        this.animator.mainLoopIndex // todo do we need to move this ??
-                    )
-                );
-            }
+    // eslint-disable-next-line class-methods-use-this
+    public setDirectionForPlayer = (direction: TDirection) => {
+        const player = state.getPlayer();
+        // todo index not used
+        player?.updateState(0, false, direction); // todo shouldChangeFrame can be overwritten
+    };
+
+    public playerShot = () => {
+        const player = state.getPlayer();
+        if (player) {
+            const { coordinates } = player.state;
+            state.shots.push(
+                new GameShot(
+                    ShotType.Player,
+                    new Trajectory([
+                        { x: coordinates.x, y: coordinates.y },
+                        { x: coordinates.x, y: -20 }, // todo set show false in the end
+                    ]),
+                    this.animator.mainLoopIndex // todo do we need to move this ??
+                )
+            );
         }
     };
 }
