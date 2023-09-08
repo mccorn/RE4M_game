@@ -7,7 +7,7 @@ type TUser = {
     secondName: string;
     displayName: string;
     phone: string;
-    avatar: string | null;
+    avatar?: string | null;
 };
 
 export type AuthUserData = {

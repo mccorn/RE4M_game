@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-interface UserState {
+export interface UserState {
     id: number;
     firstName: string;
     secondName: string;
