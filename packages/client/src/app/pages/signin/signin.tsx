@@ -45,6 +45,8 @@ const Signin: FC = () => {
             });
     };
 
+    console.log(this);
+
     return (
         <div className="formWrapper">
             <Form className="column withGap">
