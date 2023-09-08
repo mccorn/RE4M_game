@@ -10,6 +10,7 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 11,
     },
+    ignorePatterns: ['dist/'],
     plugins: ['@typescript-eslint'],
     rules: {
         '@typescript-eslint/ban-ts-comment': 1,
