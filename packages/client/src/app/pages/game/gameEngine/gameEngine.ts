@@ -74,8 +74,6 @@ class GameEngine {
 
     public start = () => {
         state.startLevel();
-        console.log('ships');
-        console.log(state.ships);
         this.animator.resetToStart();
         this.animator.start();
     };
@@ -111,29 +109,26 @@ class GameEngine {
         } else if (event.key === ControlKeys.RIGHT) {
             direction = 'Right';
         }
+        const { player } = state;
         if (direction) {
-            const player = state.getPlayer();
             // todo index not used
-            player?.updateState(0, false, direction); // todo shouldChangeFrame can be overwritten
+            player.updateState(0, false, direction); // todo shouldChangeFrame can be overwritten
         }
 
         if (event.key === ControlKeys.SHOOT) {
             console.log(event.key);
-            const player = state.getPlayer();
-            if (player) {
-                console.log('add shot');
-                const { coordinates } = player.state;
-                state.shots.push(
-                    new GameShot(
-                        ShotType.Player,
-                        new Trajectory([
-                            { x: coordinates.x, y: coordinates.y },
-                            { x: coordinates.x, y: -20 }, // todo set show false in the end
-                        ]),
-                        this.animator.mainLoopIndex // todo do we need to move this ??
-                    )
-                );
-            }
+            console.log('add shot');
+            const { coordinates } = player.state;
+            state.shots.push(
+                new GameShot(
+                    ShotType.Player,
+                    new Trajectory([
+                        { x: coordinates.x, y: coordinates.y },
+                        { x: coordinates.x, y: -20 }, // todo set show false in the end
+                    ]),
+                    this.animator.mainLoopIndex // todo do we need to move this ??
+                )
+            );
         }
     };
 }

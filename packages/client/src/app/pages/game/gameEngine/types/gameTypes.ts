@@ -27,6 +27,7 @@ export type TCommonGameObjectState = {
     trajectory: Trajectory;
 };
 
+// todo private liveState
 export type TShipState = TCommonGameObjectState & { liveState: LiveState };
 
 export type TShotState = TCommonGameObjectState & { show: boolean };
@@ -255,6 +256,8 @@ export class DrawableGameObject {
 
     state: TShipState | TShotState;
 
+    // todo shouldUpdateState: ()=>boolean;
+
     constructor(
         type: ShipType | ShotType,
         trajectory: Trajectory,
@@ -288,6 +291,16 @@ export class DrawableGameObject {
 export class GameShip extends DrawableGameObject {
     updateState: (time: number, shouldChangeFrame: boolean, direction?: TDirection) => void;
 
+    public getState = () => this.state as TShipState;
+
+    // todo common in DrawableGameObject or how?
+    public shouldBeUpdated = () => this.getState().liveState !== LiveState.Dead;
+
+    // todo rename properly, do we need +?
+    public isDead = () => +this.getState().liveState === LiveState.Dead;
+
+    public shouldDetectCollision = () => +this.getState().liveState === LiveState.Flying;
+
     constructor(type: ShipType, trajectory: Trajectory, coordinates?: TPoint) {
         super(type, trajectory, coordinates);
         const parameters = ShipTypesParameterValues[type];
@@ -304,7 +317,11 @@ export class GameShip extends DrawableGameObject {
 }
 
 export class GameShot extends DrawableGameObject {
-    updateState: (time: number, shouldChangeFrame: boolean) => void;
+    public updateState: (time: number, shouldChangeFrame: boolean) => void;
+
+    public isVisible = () => (this.state as TShotState).show;
+
+    public isPlayerShot = () => +this.type === ShotType.Player;
 
     startTime: number;
 

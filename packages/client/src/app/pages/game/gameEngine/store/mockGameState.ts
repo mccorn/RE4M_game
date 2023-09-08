@@ -5,18 +5,22 @@ import GameLevels, { GameLevelList } from '../parameters/gameLevels';
 import Trajectory from '../types/trajectory';
 
 class GameState {
-    public ships: GameShip[] = [];
+    public player: GameShip;
+
+    public enemies: GameShip[] = [];
 
     public shots: GameShot[] = [];
 
-    public currentLevel: GameLevelList;
+    private currentLevel: GameLevelList;
 
     constructor() {
         this.currentLevel = GameLevelList.Level1;
+        this.player = this.initPlayer();
         this.startLevel();
     }
 
-    private static initPlayer = () =>
+    // eslint-disable-next-line
+    private initPlayer = () =>
         new GameShip(
             ShipType.Player,
             new Trajectory([{ x: 0, y: 0 }]), // todo can we remove trajectory for player
@@ -49,18 +53,9 @@ class GameState {
 
     public startLevel = () => {
         console.log('start level');
-        this.ships = []; // reset list on every game start
-        this.ships.push(GameState.initPlayer());
-        this.ships.push(...this.initEnemies());
+        this.player = this.initPlayer();
+        this.enemies = this.initEnemies();
         this.shots = [];
-    };
-
-    public getPlayer = (): GameShip => {
-        const player = this.ships.find(ship => +ship.type === ShipType.Player);
-        if (player) {
-            return player;
-        }
-        throw Error('Player not found in state');
     };
 }
 
