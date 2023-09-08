@@ -1,20 +1,27 @@
 @import '@/styles/variables.scss';
 
 .topic {
-    width: $cardWidth;
+    width: var(--cardWidth);
     max-height: 800px;
     overflow: hidden;
-    background-color: $backgroundColorSecondary;
-    box-shadow: $boxShadow;
+    background-color: var(--backgroundColorSecondary);
+    box-shadow: var(--boxShadow);
     padding: 10px;
     border-radius: 5px;
 
+    color: var(--textColor);
+
     &__header {
         margin-bottom: 10px;
-        font-size: $fontSizeMedium;
+        color: var(--textColor);
+        font-size: var(--fontSizeMedium);
+
+        a {
+            color: var(--textColor);
+        }
     }
 
     &__body {
-        font-size: $fontSizeSmall;
+        font-size: var(--fontSizeSmall);
     }
 }

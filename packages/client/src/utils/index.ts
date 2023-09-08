@@ -14,7 +14,8 @@ export default {
 
         return s[1] ? s[1] : false;
     },
-    safeGetData: (response: someObject | any) => {
+    safeGetData: (response: someObject | any, logged?: boolean) => {
+        if (logged) console.log(response.response);
         try {
             const data = JSON.parse(
                 response && typeof response === 'object'

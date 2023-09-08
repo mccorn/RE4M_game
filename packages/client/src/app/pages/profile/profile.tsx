@@ -124,10 +124,21 @@ const Profile: FC<TProfilePageProps> = ({ data }) => {
 
                 <div className="formWrapper onOneLine">
                     <LazyForm
-                        inputs={[
-                            { name: 'oldPassword', value: oldPassword, handler: setOldPassword },
-                            { name: 'newPassword', value: newPassword, handler: setNewPassword },
-                        ]}>
+                        inputs={useMemo(
+                            () => [
+                                {
+                                    name: 'oldPassword',
+                                    value: oldPassword,
+                                    handler: setOldPassword,
+                                },
+                                {
+                                    name: 'newPassword',
+                                    value: newPassword,
+                                    handler: setNewPassword,
+                                },
+                            ],
+                            [oldPassword, newPassword]
+                        )}>
                         <Button text="Change password" click={handleSubmitPassword} />
                     </LazyForm>
                 </div>
