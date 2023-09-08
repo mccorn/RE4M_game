@@ -120,8 +120,8 @@ const shotParams = {
 };
 
 export const ShotParametersValues: Record<ShotType, ShotParameters> = {
-    [ShotType.Enemy]: { ...shotParams, ...{ image: RocketImage } },
-    [ShotType.Player]: { ...shotParams, ...{ image: PlayerRocketImage } },
+    [ShotType.Enemy]: { ...shotParams, image: RocketImage },
+    [ShotType.Player]: { ...shotParams, image: PlayerRocketImage },
 };
 
 /* Ships parameters */
@@ -193,15 +193,21 @@ const commonEnemyParameters = {
 export const ShipTypesParameterValues: Record<ShipType, ShipTypeParams> = {
     [ShipType.Battlecruiser]: {
         ...commonEnemyParameters,
-        ...{ height: 128, width: 128, image: BattlecruiserImage },
+        height: 128,
+        width: 128,
+        image: BattlecruiserImage,
     },
     [ShipType.Fighter]: {
         ...commonEnemyParameters,
-        ...{ height: 64, width: 64, image: FighterImage },
+        height: 64,
+        width: 64,
+        image: FighterImage,
     },
     [ShipType.Bomber]: {
         ...commonEnemyParameters,
-        ...{ height: 64, width: 64, image: BomberImage },
+        height: 64,
+        width: 64,
+        image: BomberImage,
     },
     [ShipType.Player]: {
         height: 64,
