@@ -27,6 +27,7 @@ export type TCommonGameObjectState = {
     trajectory: Trajectory;
 };
 
+// todo private liveState
 export type TShipState = TCommonGameObjectState & { liveState: LiveState };
 
 export type TShotState = TCommonGameObjectState & { show: boolean };
@@ -119,8 +120,8 @@ const shotParams = {
 };
 
 export const ShotParametersValues: Record<ShotType, ShotParameters> = {
-    [ShotType.Enemy]: { ...shotParams, ...{ image: RocketImage } },
-    [ShotType.Player]: { ...shotParams, ...{ image: PlayerRocketImage } },
+    [ShotType.Enemy]: { ...shotParams, image: RocketImage },
+    [ShotType.Player]: { ...shotParams, image: PlayerRocketImage },
 };
 
 /* Ships parameters */
@@ -192,15 +193,21 @@ const commonEnemyParameters = {
 export const ShipTypesParameterValues: Record<ShipType, ShipTypeParams> = {
     [ShipType.Battlecruiser]: {
         ...commonEnemyParameters,
-        ...{ height: 128, width: 128, image: BattlecruiserImage },
+        height: 128,
+        width: 128,
+        image: BattlecruiserImage,
     },
     [ShipType.Fighter]: {
         ...commonEnemyParameters,
-        ...{ height: 64, width: 64, image: FighterImage },
+        height: 64,
+        width: 64,
+        image: FighterImage,
     },
     [ShipType.Bomber]: {
         ...commonEnemyParameters,
-        ...{ height: 64, width: 64, image: BomberImage },
+        height: 64,
+        width: 64,
+        image: BomberImage,
     },
     [ShipType.Player]: {
         height: 64,
@@ -283,6 +290,8 @@ export class DrawableGameObject {
 
     state: TShipState | TShotState;
 
+    // todo shouldUpdateState: ()=>boolean;
+
     constructor(
         type: ShipType | ShotType,
         trajectory: Trajectory,
@@ -316,6 +325,16 @@ export class DrawableGameObject {
 export class GameShip extends DrawableGameObject {
     updateState: (time: number, shouldChangeFrame: boolean, direction?: TDirection) => void;
 
+    public getState = () => this.state as TShipState;
+
+    // todo common in DrawableGameObject or how?
+    public shouldBeUpdated = () => this.getState().liveState !== LiveState.Dead;
+
+    // todo rename properly, do we need +?
+    public isDead = () => +this.getState().liveState === LiveState.Dead;
+
+    public shouldDetectCollision = () => +this.getState().liveState === LiveState.Flying;
+
     constructor(type: ShipType, trajectory: Trajectory, coordinates?: TPoint) {
         super(type, trajectory, coordinates);
         const parameters = ShipTypesParameterValues[type];
@@ -332,7 +351,11 @@ export class GameShip extends DrawableGameObject {
 }
 
 export class GameShot extends DrawableGameObject {
-    updateState: (time: number, shouldChangeFrame: boolean) => void;
+    public updateState: (time: number, shouldChangeFrame: boolean) => void;
+
+    public isVisible = () => (this.state as TShotState).show;
+
+    public isPlayerShot = () => +this.type === ShotType.Player;
 
     startTime: number;
 

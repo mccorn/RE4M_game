@@ -1,11 +1,11 @@
 import {
     DrawableGameObject,
+    GameShip,
+    GameShot,
     LiveState,
     ShipTypesParameterValues,
     ShotParametersValues,
     ShotType,
-    TShipState,
-    TShotState,
 } from './types/gameTypes';
 import state from './store/mockGameState';
 import CollisionManager from './collisionManager';
@@ -76,6 +76,25 @@ class GameObjectAnimator {
         window.cancelAnimationFrame(this.requestId);
     };
 
+    private updateStateAndDrawShip = (ship: GameShip, shouldChangeFrame: boolean) => {
+        // todo better name ???
+        // common shouldBeUpdated for all updatable and drawable!!!
+        if (ship.shouldBeUpdated()) {
+            ship.updateState(this.mainLoopIndex, shouldChangeFrame);
+            const { liveState } = ship.getState();
+            if (liveState !== LiveState.WaitForStart) {
+                this.drawFrame(ship);
+            }
+        }
+    };
+
+    private updateStateAndDrawShot = (shot: GameShot, shouldChangeFrame: boolean) => {
+        if (shot.isVisible()) {
+            shot.updateState(this.mainLoopIndex, shouldChangeFrame);
+            this.drawFrame(shot);
+        }
+    };
+
     private startMainLoop = () => {
         if (this.isStopped) {
             window.cancelAnimationFrame(this.requestId);
@@ -87,23 +106,16 @@ class GameObjectAnimator {
         this.frameCount++;
 
         const shouldChangeFrame = this.frameCount === this.IMAGE_CHANGE_SPEED;
-        /* draw all ships: enemies and player */
-        state.ships.forEach(ship => {
-            const liveState = +(ship.state as TShipState).liveState;
-            if (liveState !== LiveState.Dead) {
-                ship.updateState(this.mainLoopIndex, shouldChangeFrame);
-                if (liveState !== LiveState.WaitForStart) {
-                    this.drawFrame(ship);
-                }
-            }
-        });
-        /* draw all shots */
-        state.shots.forEach(shot => {
-            if ((shot.state as TShotState).show) {
-                shot.updateState(this.mainLoopIndex, shouldChangeFrame);
-                this.drawFrame(shot);
-            }
-        });
+
+        /* draw player */
+        const { player } = state;
+        this.updateStateAndDrawShip(player, shouldChangeFrame);
+
+        /* draw enemies */
+        state.enemies.forEach(ship => this.updateStateAndDrawShip(ship, shouldChangeFrame));
+
+        /* draw shots */
+        state.shots.forEach(shot => this.updateStateAndDrawShot(shot, shouldChangeFrame));
 
         if (shouldChangeFrame) {
             this.frameCount = 0;
@@ -112,9 +124,9 @@ class GameObjectAnimator {
         /* detect if any ship is hit */
         CollisionManager.collisionDetection();
 
-        /* set end game or end level by player dead or level time end */
-        const playerShip = state.getPlayer();
-        if (+(playerShip?.state as TShipState).liveState === LiveState.Dead) {
+        /* game state logic, how can we move it somewhere to divide from animation logic? */
+
+        if (player.isDead()) {
             console.log('game ends');
             this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);

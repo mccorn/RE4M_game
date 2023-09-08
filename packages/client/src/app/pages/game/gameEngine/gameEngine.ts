@@ -72,8 +72,6 @@ class GameEngine {
 
     public start = () => {
         state.startLevel();
-        console.log('ships');
-        console.log(state.ships);
         this.animator.resetToStart();
         this.animator.start();
     };
@@ -100,19 +98,19 @@ class GameEngine {
 
     // eslint-disable-next-line class-methods-use-this
     public getPlayerCoordinates = () => {
-        const player = state.getPlayer();
+        const { player } = state;
         return { x: player.state.coordinates.x, y: player.state.coordinates.y };
     };
 
     // eslint-disable-next-line class-methods-use-this
     public setDirectionForPlayer = (direction: TDirection) => {
-        const player = state.getPlayer();
+        const { player } = state;
         // todo index not used
         player?.updateState(0, false, direction); // todo shouldChangeFrame can be overwritten
     };
 
     public playerShot = () => {
-        const player = state.getPlayer();
+        const { player } = state;
         if (player) {
             const { coordinates } = player.state;
             state.shots.push(
