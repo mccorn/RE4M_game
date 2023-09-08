@@ -3,21 +3,30 @@
 .normal {
     cursor: pointer;
     border: none;
-    background-color: $buttonBackgroundColor;
+    background-color: var(--backgroundButtonColor);
     border-radius: 5px;
-    color: $textColor;
+    color: var(--textColor);
     @include slowTransition;
 
     &:hover {
-        background-color: lighten($buttonBackgroundColor, 10%);
+        background-color: var(--backgroundButtonColor);
+        filter: brightness(110%);
     }
 
     &:disabled,
     &[disabled] {
         cursor: default;
-        background-color: lighten($buttonBackgroundColor, 10%);
-        color: darken($textColor, 20%);
+        background-color: var(--backgroundButtonColor);
+        color: var(--textColor);
+        filter: brightness(80%);
     }
+}
+
+.withoutBackGround {
+    cursor: pointer;
+    border: none;
+    color: var(--textColor);
+    background-color: rgba(0,0,0,0);
 }
 
 .large {
