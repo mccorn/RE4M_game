@@ -5,7 +5,7 @@ describe('Тесты gameEngine', () => {
     const canvas = new Canvas(200, 200);
     const ctx = canvas.getContext('2d');
 
-    const gameEngine = new GameEngine(ctx as any as CanvasRenderingContext2D);
+    const gameEngine = new GameEngine(ctx as unknown as CanvasRenderingContext2D);
 
     test('GameEngine.start() вызывает методы GameObjectAnimator: start & resetToStart', () => {
         const resultStart = 'start';
