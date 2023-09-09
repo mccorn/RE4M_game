@@ -30,12 +30,7 @@ export class GameShip extends DrawableGameObject {
 
 export class EnemyShip extends GameShip {
     constructor(type: ShipType, trajectory: Trajectory) {
-        const state = new ShipState(
-            trajectory.getStartPoint(),
-            0,
-            trajectory,
-            LiveState.WaitForStart
-        );
+        const state = new ShipState(trajectory.getStartPoint(), trajectory, LiveState.WaitForStart);
         super(state, type);
     }
 
@@ -49,7 +44,7 @@ export class EnemyShip extends GameShip {
 export class PlayerShip extends GameShip {
     constructor(coordinates: TPoint) {
         const trajectory = new Trajectory([coordinates]); // todo can we remove trajectory?
-        const state = new ShipState(coordinates, 0, trajectory, LiveState.Flying);
+        const state = new ShipState(coordinates, trajectory, LiveState.Flying);
         super(state, ShipType.Player);
     }
 
@@ -99,7 +94,7 @@ export class GameShot extends DrawableGameObject {
             { x: startPoint.x, y: startPoint.y },
             { x: startPoint.x, y: -parameters.height },
         ]);
-        const state = new ShotState(startPoint, 0, trajectory, true, startTime);
+        const state = new ShotState(startPoint, trajectory, true, startTime);
         super(state, parameters);
         this.type = type;
     }

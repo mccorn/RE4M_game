@@ -135,7 +135,7 @@ class GameEngine {
         if (event.key === ControlKeys.SHOOT) {
             console.log(event.key);
             console.log('add shot');
-            const coordinates = player.state.getCoordinates();
+            const coordinates = player.getState().getCoordinates();
             mockRedux.shots.push(
                 new GameShot(ShotType.Player, coordinates, this.animator.mainLoopIndex)
             );

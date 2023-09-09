@@ -22,13 +22,8 @@ export enum LiveState {
 export class ShipState extends DrawableObjectState {
     private liveState: LiveState;
 
-    constructor(
-        coordinates: TPoint,
-        frameIndex: number,
-        trajectory: Trajectory,
-        liveState: LiveState
-    ) {
-        super(coordinates, frameIndex, trajectory);
+    constructor(coordinates: TPoint, trajectory: Trajectory, liveState: LiveState) {
+        super(coordinates, trajectory);
         this.liveState = liveState;
     }
 
@@ -76,14 +71,8 @@ export class ShotState extends DrawableObjectState {
 
     private startTime: number;
 
-    constructor(
-        coordinates: TPoint,
-        frameIndex: number,
-        trajectory: Trajectory,
-        show: boolean,
-        startTime: number
-    ) {
-        super(coordinates, frameIndex, trajectory);
+    constructor(coordinates: TPoint, trajectory: Trajectory, show: boolean, startTime: number) {
+        super(coordinates, trajectory);
         this.show = show;
         this.startTime = startTime;
     }
@@ -96,10 +85,9 @@ export class ShotState extends DrawableObjectState {
 
     public changeFrameIndex = (shouldChangeFrame: boolean, frameCount: number) => {
         if (shouldChangeFrame) {
+            this.frameIndex += 1;
             if (this.frameIndex >= frameCount) {
                 this.frameIndex = 0;
-            } else {
-                this.frameIndex += 1;
             }
         }
     };

@@ -25,13 +25,12 @@ export const NEXT_SHIP_DELAY = 1 * 60; // frames per second??? todo to const
 export class DrawableObjectState {
     private coordinates: TPoint;
 
-    protected frameIndex: number;
+    protected frameIndex = 0;
 
     protected trajectory: Trajectory;
 
-    constructor(coordinates: TPoint, frameIndex: number, trajectory: Trajectory) {
+    constructor(coordinates: TPoint, trajectory: Trajectory) {
         this.coordinates = coordinates;
-        this.frameIndex = frameIndex;
         this.trajectory = trajectory;
     }
 
