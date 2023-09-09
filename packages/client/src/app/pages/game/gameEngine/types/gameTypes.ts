@@ -2,7 +2,7 @@
 import { TDirection } from '../gameEngine';
 import { DrawableObjectState, DrawableGameObject, ShipType, ShotType, TPoint } from './commonTypes';
 import Trajectory from './trajectory';
-import { LiveState, ShipState, ShotState } from './gameState';
+import { LiveState, ShipState, ShotState } from './objectState';
 
 import params from '../parameters/gameParameters';
 import {

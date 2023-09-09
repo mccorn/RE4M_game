@@ -1,6 +1,15 @@
 import { DrawableObjectState, TPoint } from './commonTypes';
 import Trajectory from './trajectory';
 
+export enum GlobalGameState {
+    Loaded,
+    LevelStarted,
+    Paused,
+    Resumed,
+    LevelEnded,
+    Ended,
+}
+
 // we draw ship in Flying, Shooting and Exploiding states
 export enum LiveState {
     WaitForStart,

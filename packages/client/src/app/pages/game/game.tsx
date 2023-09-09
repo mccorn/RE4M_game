@@ -3,6 +3,8 @@ import style from './game.module.scss';
 import Button from '@/app/components/common/button/button';
 import params from './gameEngine/parameters/gameParameters';
 import GameEngine from './gameEngine/gameEngine';
+import mockRedux from './gameEngine/store/mockRedux';
+import { GlobalGameState } from './gameEngine/types/objectState';
 
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
@@ -19,16 +21,16 @@ const Game: FC = () => {
             window.removeEventListener('keydown', onKeyDown);
         } */
 
-        GameEngine.getInstance().start();
+        mockRedux.setState(GlobalGameState.LevelStarted);
         window.addEventListener('keydown', onKeyDown);
     };
 
     const pauseGame = () => {
         if (paused) {
-            GameEngine.getInstance().resume();
+            mockRedux.setState(GlobalGameState.LevelStarted);
             setIsPaused(false);
         } else {
-            GameEngine.getInstance().pause();
+            mockRedux.setState(GlobalGameState.Paused);
             setIsPaused(true);
         }
     };
@@ -36,7 +38,8 @@ const Game: FC = () => {
     useEffect(() => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
-            GameEngine.getInstance(context).load();
+            GameEngine.getInstance(context);
+            mockRedux.setState(GlobalGameState.Loaded);
         } else {
             console.log('no context found');
         }

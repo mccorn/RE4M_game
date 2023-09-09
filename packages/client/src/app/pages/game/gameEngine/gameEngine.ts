@@ -1,8 +1,9 @@
-import GameStateManager from './gameStateManager';
+import GameAnimator from './gameAnimator';
 import params from './parameters/gameParameters';
-import state from './store/mockGameState';
+import mockRedux from './store/mockRedux';
 import { GameShot } from './types/gameTypes';
 import { ShotType } from './types/commonTypes';
+import { GlobalGameState } from './types/objectState';
 
 // todo move it in some control module ?
 const ControlKeys = {
@@ -20,23 +21,18 @@ class GameEngine {
     // eslint-disable-next-line no-use-before-define
     private static instance?: GameEngine;
 
-    context: CanvasRenderingContext2D;
+    private context: CanvasRenderingContext2D;
 
-    bgImage = new Image();
+    private bgImage = new Image();
 
-    requestId: number | null = null;
+    private requestId: number | null = null;
 
-    manager: GameStateManager;
+    private animator: GameAnimator;
 
     private constructor(ctx: CanvasRenderingContext2D) {
         this.context = ctx;
         this.bgImage.src = params.BACKGROUND_IMAGE;
-        this.manager = new GameStateManager(
-            this.context,
-            this.renderGameField,
-            this.finish,
-            this.levelEnd
-        );
+        this.animator = new GameAnimator(this.context, this.renderGameField);
     }
 
     public static getInstance = (ctx?: CanvasRenderingContext2D) => {
@@ -56,7 +52,7 @@ class GameEngine {
         this.context.drawImage(this.bgImage, 0, 0, params.WIDTH, params.HEIGHT);
     };
 
-    public load = () => {
+    private load = () => {
         this.bgImage.onload = () => {
             this.renderGameField();
             this.context.font = 'bold 48px serif';
@@ -65,37 +61,62 @@ class GameEngine {
         };
     };
 
-    public levelEnd = () => {
+    private levelEnd = () => {
         this.renderGameField();
         this.context.font = 'bold 48px serif';
         this.context.fillStyle = '#fff';
         this.context.fillText('LEVEL FINISHED', 100, 200);
     };
 
-    public start = () => {
-        state.startLevel();
-        this.manager.resetToStart();
-        this.manager.start();
+    private start = () => {
+        mockRedux.startLevel();
+        this.animator.reset();
+        this.animator.start();
     };
 
     private cancelAnimation = () => {
-        this.manager.stop();
+        this.animator.stop();
     };
 
-    public pause = () => {
+    private pause = () => {
         this.cancelAnimation();
     };
 
-    public resume = () => {
-        this.manager.start();
+    private resume = () => {
+        this.animator.start();
     };
 
-    public finish = () => {
+    private finish = () => {
         this.cancelAnimation();
         this.renderGameField();
         this.context.font = 'bold 48px serif';
         this.context.fillStyle = '#fff';
         this.context.fillText('GAME FINISHED', 150, 200);
+    };
+
+    // todo remove trigger from mockRedux
+    public processNewGameState = () => {
+        const gameState = mockRedux.getState();
+        switch (gameState) {
+            case GlobalGameState.Loaded:
+                this.load();
+                break;
+            case GlobalGameState.LevelStarted:
+                this.start();
+                break;
+            case GlobalGameState.Paused:
+                this.pause();
+                break;
+            case GlobalGameState.Resumed:
+                this.resume();
+                break;
+            case GlobalGameState.LevelEnded:
+                this.levelEnd();
+                break;
+            case GlobalGameState.Ended:
+                this.finish();
+                break;
+        }
     };
 
     public gameControlPressed = (event: KeyboardEvent) => {
@@ -109,7 +130,7 @@ class GameEngine {
         } else if (event.key === ControlKeys.RIGHT) {
             direction = 'Right';
         }
-        const { player } = state;
+        const { player } = mockRedux;
         if (direction) {
             player.updateState(false, direction);
         }
@@ -118,8 +139,8 @@ class GameEngine {
             console.log(event.key);
             console.log('add shot');
             const coordinates = player.state.getCoordinates();
-            state.shots.push(
-                new GameShot(ShotType.Player, coordinates, this.manager.mainLoopIndex)
+            mockRedux.shots.push(
+                new GameShot(ShotType.Player, coordinates, this.animator.mainLoopIndex)
             );
         }
     };

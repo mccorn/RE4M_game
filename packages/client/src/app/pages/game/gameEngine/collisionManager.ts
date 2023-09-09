@@ -1,6 +1,6 @@
 import { DrawableGameObject } from './types/commonTypes';
-import state from './store/mockGameState';
-import { LiveState } from './types/gameState';
+import state from './store/mockRedux';
+import { LiveState } from './types/objectState';
 
 class CollisionManager {
     private static detectCollision(object1: DrawableGameObject, object2: DrawableGameObject) {

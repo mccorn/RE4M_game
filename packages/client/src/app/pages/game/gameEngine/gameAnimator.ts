@@ -1,9 +1,10 @@
 import { DrawableGameObject } from './types/commonTypes';
 import { EnemyShip, PlayerShip, GameShot } from './types/gameTypes';
 import CollisionManager from './collisionManager';
-import state from './store/mockGameState';
+import state from './store/mockRedux';
+import { GlobalGameState } from './types/objectState';
 
-class GameStateManager {
+class GameAnimator {
     private context: CanvasRenderingContext2D;
 
     private frameCount = 0;
@@ -18,20 +19,9 @@ class GameStateManager {
 
     private drawBackground: () => void;
 
-    private drawGameEnd: () => void;
-
-    private drawLevelEnd: () => void;
-
-    constructor(
-        ctx: CanvasRenderingContext2D,
-        drawBackground: () => void,
-        drawGameEnd: () => void,
-        drawLevelEnd: () => void
-    ) {
+    constructor(ctx: CanvasRenderingContext2D, drawBackground: () => void) {
         this.context = ctx;
         this.drawBackground = drawBackground;
-        this.drawGameEnd = drawGameEnd;
-        this.drawLevelEnd = drawLevelEnd;
     }
 
     private drawFrame = (object: DrawableGameObject) => {
@@ -109,14 +99,14 @@ class GameStateManager {
             console.log('game ends');
             this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);
-            this.drawGameEnd();
+            state.setState(GlobalGameState.Ended);
         }
 
         if (this.mainLoopIndex === state.getLevelTime()) {
             console.log('level ends');
             this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);
-            this.drawLevelEnd();
+            state.setState(GlobalGameState.LevelEnded);
         }
 
         this.mainLoopIndex++; // do we need to replace this with time?
@@ -124,7 +114,7 @@ class GameStateManager {
         this.requestId = window.requestAnimationFrame(this.startMainLoop);
     };
 
-    public resetToStart = () => {
+    public reset = () => {
         window.cancelAnimationFrame(this.requestId);
         this.frameCount = 0;
         this.mainLoopIndex = 0;
@@ -142,4 +132,4 @@ class GameStateManager {
     };
 }
 
-export default GameStateManager;
+export default GameAnimator;

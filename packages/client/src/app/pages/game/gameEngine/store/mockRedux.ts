@@ -3,8 +3,10 @@ import params from '../parameters/gameParameters';
 import { NEXT_SHIP_DELAY, TEnemyType } from '../types/commonTypes';
 import GameLevels, { GameLevelList } from '../parameters/gameLevels';
 import Trajectory from '../types/trajectory';
+import { GlobalGameState } from '../types/objectState';
+import GameEngine from '../gameEngine';
 
-class GameState {
+class MockRedux {
     public player: PlayerShip;
 
     public enemies: EnemyShip[] = [];
@@ -13,10 +15,13 @@ class GameState {
 
     private currentLevel: GameLevelList;
 
+    private state: GlobalGameState;
+
     constructor() {
         this.currentLevel = GameLevelList.Level1;
         this.player = this.initPlayer();
-        this.startLevel();
+        this.state = GlobalGameState.Loaded;
+        // this.startLevel();
     }
 
     // eslint-disable-next-line
@@ -51,7 +56,16 @@ class GameState {
         this.player = this.initPlayer();
         this.enemies = this.initEnemies();
         this.shots = [];
+        this.setState(GlobalGameState.LevelStarted);
     };
+
+    public setState = (state: GlobalGameState) => {
+        this.state = state;
+        GameEngine.getInstance().processNewGameState();
+    };
+
+    // todo do we need this?
+    public getState = () => this.state;
 }
 
-export default new GameState();
+export default new MockRedux();
