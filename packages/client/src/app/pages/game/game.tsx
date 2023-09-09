@@ -3,7 +3,7 @@ import style from './game.module.scss';
 import Button from '@/app/components/common/button/button';
 import params from './gameEngine/parameters/gameParameters';
 import GameEngine from './gameEngine/gameEngine';
-import mockRedux from './gameEngine/store/mockRedux';
+import gameState from './gameEngine/store/gameState';
 import { GlobalGameState } from './gameEngine/types/objectState';
 
 const Game: FC = () => {
@@ -16,21 +16,15 @@ const Game: FC = () => {
     };
 
     const startGame = () => {
-        /* todo remove evetything on game end
-        if (gameEnded) {
-            window.removeEventListener('keydown', onKeyDown);
-        } */
-
-        mockRedux.setState(GlobalGameState.LevelStarted);
-        window.addEventListener('keydown', onKeyDown);
+        gameState.setState(GlobalGameState.LevelStarted);
     };
 
     const pauseGame = () => {
         if (paused) {
-            mockRedux.setState(GlobalGameState.Resumed);
+            gameState.setState(GlobalGameState.Resumed);
             setIsPaused(false);
         } else {
-            mockRedux.setState(GlobalGameState.Paused);
+            gameState.setState(GlobalGameState.Paused);
             setIsPaused(true);
         }
     };
@@ -39,11 +33,21 @@ const Game: FC = () => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
             GameEngine.getInstance(context);
-            mockRedux.setState(GlobalGameState.Loaded);
+            gameState.setState(GlobalGameState.Loaded);
         } else {
             console.log('no context found');
         }
-    }, []);
+
+        if (gameState.isGameRunning) {
+            window.addEventListener('keydown', onKeyDown);
+        } else {
+            window.removeEventListener('keydown', onKeyDown);
+        }
+
+        return function cleanup() {
+            window.removeEventListener('keydown', onKeyDown);
+        };
+    }, [gameState.isGameRunning]);
 
     return (
         <div className={style.game}>

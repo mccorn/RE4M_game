@@ -1,6 +1,6 @@
 import GameAnimator from './gameAnimator';
 import params from './parameters/gameParameters';
-import mockRedux from './store/mockRedux';
+import gameState from './store/gameState';
 import { GameShot } from './types/gameTypes';
 import { ShotType } from './types/commonTypes';
 import { GlobalGameState } from './types/objectState';
@@ -67,7 +67,7 @@ class GameEngine {
     };
 
     private start = () => {
-        mockRedux.startLevel();
+        gameState.startLevel();
         this.animator.reset();
         this.animator.start();
     };
@@ -93,8 +93,8 @@ class GameEngine {
     };
 
     public processNewGameState = () => {
-        const gameState = mockRedux.getState();
-        switch (gameState) {
+        const state = gameState.getState();
+        switch (state) {
             case GlobalGameState.Loaded:
                 this.load();
                 break;
@@ -127,7 +127,7 @@ class GameEngine {
         } else if (event.key === ControlKeys.RIGHT) {
             direction = 'Right';
         }
-        const { player } = mockRedux;
+        const { player } = gameState;
         if (direction) {
             player.updateState(false, direction);
         }
@@ -136,7 +136,7 @@ class GameEngine {
             console.log(event.key);
             console.log('add shot');
             const coordinates = player.getState().getCoordinates();
-            mockRedux.shots.push(
+            gameState.shots.push(
                 new GameShot(ShotType.Player, coordinates, this.animator.mainLoopIndex)
             );
         }

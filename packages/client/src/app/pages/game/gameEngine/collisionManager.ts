@@ -1,5 +1,5 @@
 import { DrawableGameObject } from './types/commonTypes';
-import state from './store/mockRedux';
+import state from './store/gameState';
 import { LiveState } from './types/objectState';
 
 class CollisionManager {

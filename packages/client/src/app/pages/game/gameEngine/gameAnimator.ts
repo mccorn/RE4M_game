@@ -1,7 +1,7 @@
 import { DrawableGameObject } from './types/commonTypes';
 import { EnemyShip, PlayerShip, GameShot } from './types/gameTypes';
 import CollisionManager from './collisionManager';
-import mockRedux from './store/mockRedux';
+import gameState from './store/gameState';
 import { GlobalGameState } from './types/objectState';
 
 class GameAnimator {
@@ -79,12 +79,12 @@ class GameAnimator {
 
         /* update objects state and draw them */
 
-        const { player } = mockRedux;
+        const { player } = gameState;
         this.updateAndDrawPlayer(player, shouldChangeFrame);
 
-        mockRedux.enemies.forEach(enemy => this.updateAndDrawEnemy(enemy, shouldChangeFrame));
+        gameState.enemies.forEach(enemy => this.updateAndDrawEnemy(enemy, shouldChangeFrame));
 
-        mockRedux.shots.forEach(shot => this.updateAndDrawShot(shot, shouldChangeFrame));
+        gameState.shots.forEach(shot => this.updateAndDrawShot(shot, shouldChangeFrame));
 
         if (shouldChangeFrame) {
             this.frameCount = 0;
@@ -100,14 +100,14 @@ class GameAnimator {
             console.log('game ends');
             this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);
-            mockRedux.setState(GlobalGameState.Ended);
+            gameState.setState(GlobalGameState.Ended);
         }
 
-        if (this.mainLoopIndex === mockRedux.getLevelTime()) {
+        if (this.mainLoopIndex === gameState.getLevelTime()) {
             console.log('level ends');
             this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);
-            mockRedux.setState(GlobalGameState.LevelEnded);
+            gameState.setState(GlobalGameState.LevelEnded);
         }
 
         this.mainLoopIndex++; // do we need to replace this with time?

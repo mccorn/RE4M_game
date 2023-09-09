@@ -6,7 +6,7 @@ import Trajectory from '../types/trajectory';
 import { GlobalGameState } from '../types/objectState';
 import GameEngine from '../gameEngine';
 
-class MockRedux {
+class GameState {
     public player: PlayerShip;
 
     public enemies: EnemyShip[] = [];
@@ -17,14 +17,15 @@ class MockRedux {
 
     private state: GlobalGameState;
 
+    public isGameRunning = false;
+
     constructor() {
         this.currentLevel = GameLevelList.Level1;
         this.player = this.initPlayer();
         this.state = GlobalGameState.Loaded;
-        // this.startLevel();
     }
 
-    // eslint-disable-next-line
+    // eslint-disable-next-line class-methods-use-this
     private initPlayer = () => new PlayerShip(params.PLAYER_COORDINATES);
 
     private initEnemies = () => {
@@ -60,11 +61,13 @@ class MockRedux {
 
     public setState = (state: GlobalGameState) => {
         this.state = state;
-        // todo remove trigger from mockRedux
+        this.isGameRunning =
+            this.state === GlobalGameState.LevelStarted || this.state === GlobalGameState.Resumed;
+        // todo remove trigger
         GameEngine.getInstance().processNewGameState();
     };
 
     public getState = () => this.state;
 }
 
-export default new MockRedux();
+export default new GameState();

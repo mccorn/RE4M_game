@@ -19,13 +19,13 @@ export class GameShip extends DrawableGameObject {
         this.type = type;
     }
 
-    public getState = () => this.state as ShipState;
+    protected getShipState = () => this.getState() as ShipState;
 
-    public setLiveState = (state: LiveState) => this.getState().setLiveState(state);
+    public setLiveState = (state: LiveState) => this.getShipState().setLiveState(state);
 
-    public isDead = () => this.getState().isDead();
+    public isDead = () => this.getShipState().isDead();
 
-    public shouldDetectCollision = () => this.getState().isFlying();
+    public shouldDetectCollision = () => this.getShipState().isFlying();
 }
 
 export class EnemyShip extends GameShip {
@@ -35,10 +35,10 @@ export class EnemyShip extends GameShip {
     }
 
     public updateState = (time: number, shouldChangeFrame: boolean) => {
-        this.getState().updateEnemyState(time, this.parameters.frameCount, shouldChangeFrame);
+        this.getShipState().updateEnemyState(time, this.parameters.frameCount, shouldChangeFrame);
     };
 
-    public isWaiting = () => this.getState().isWaiting();
+    public isWaiting = () => this.getShipState().isWaiting();
 }
 
 export class PlayerShip extends GameShip {
@@ -50,7 +50,7 @@ export class PlayerShip extends GameShip {
 
     public updateState = (shouldChangeFrame: boolean, direction?: TDirection) => {
         const step = 7;
-        const state = this.getState();
+        const state = this.getShipState();
         const coordinates = state.getCoordinates();
         if (direction) {
             switch (direction) {
@@ -99,13 +99,11 @@ export class GameShot extends DrawableGameObject {
         this.type = type;
     }
 
-    public getState = () => this.state as ShotState;
-
-    public isVisible = () => this.getState().isVisible();
+    public isVisible = () => (this.getState() as ShotState).isVisible();
 
     public isPlayerShot = () => +this.type === ShotType.Player;
 
     public updateState = (time: number, shouldChangeFrame: boolean) => {
-        this.getState().update(time, shouldChangeFrame, this.parameters.frameCount);
+        (this.getState() as ShotState).update(time, shouldChangeFrame, this.parameters.frameCount);
     };
 }
