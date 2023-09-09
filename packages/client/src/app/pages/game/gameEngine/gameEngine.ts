@@ -25,8 +25,6 @@ class GameEngine {
 
     private bgImage = new Image();
 
-    private requestId: number | null = null;
-
     private animator: GameAnimator;
 
     private constructor(ctx: CanvasRenderingContext2D) {
@@ -94,7 +92,6 @@ class GameEngine {
         this.context.fillText('GAME FINISHED', 150, 200);
     };
 
-    // todo remove trigger from mockRedux
     public processNewGameState = () => {
         const gameState = mockRedux.getState();
         switch (gameState) {

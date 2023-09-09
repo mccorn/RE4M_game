@@ -56,15 +56,14 @@ class MockRedux {
         this.player = this.initPlayer();
         this.enemies = this.initEnemies();
         this.shots = [];
-        this.setState(GlobalGameState.LevelStarted);
     };
 
     public setState = (state: GlobalGameState) => {
         this.state = state;
+        // todo remove trigger from mockRedux
         GameEngine.getInstance().processNewGameState();
     };
 
-    // todo do we need this?
     public getState = () => this.state;
 }
 
