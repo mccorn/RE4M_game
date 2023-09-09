@@ -27,7 +27,7 @@ const Game: FC = () => {
 
     const pauseGame = () => {
         if (paused) {
-            mockRedux.setState(GlobalGameState.LevelStarted);
+            mockRedux.setState(GlobalGameState.Resumed);
             setIsPaused(false);
         } else {
             mockRedux.setState(GlobalGameState.Paused);
