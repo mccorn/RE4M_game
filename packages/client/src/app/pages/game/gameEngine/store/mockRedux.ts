@@ -1,34 +1,34 @@
-import { GameShip, GameShot } from '../types/gameTypes';
+import { EnemyShip, GameShot, PlayerShip } from '../types/gameTypes';
 import params from '../parameters/gameParameters';
-import { NEXT_SHIP_DELAY, ShipType, TEnemyType } from '../types/commonTypes';
+import { NEXT_SHIP_DELAY, TEnemyType } from '../types/commonTypes';
 import GameLevels, { GameLevelList } from '../parameters/gameLevels';
 import Trajectory from '../types/trajectory';
+import { GlobalGameState } from '../types/objectState';
+import GameEngine from '../gameEngine';
 
-class GameState {
-    public player: GameShip;
+class MockRedux {
+    public player: PlayerShip;
 
-    public enemies: GameShip[] = [];
+    public enemies: EnemyShip[] = [];
 
     public shots: GameShot[] = [];
 
     private currentLevel: GameLevelList;
 
+    private state: GlobalGameState;
+
     constructor() {
         this.currentLevel = GameLevelList.Level1;
         this.player = this.initPlayer();
-        this.startLevel();
+        this.state = GlobalGameState.Loaded;
+        // this.startLevel();
     }
 
     // eslint-disable-next-line
-    private initPlayer = () =>
-        new GameShip(
-            ShipType.Player,
-            new Trajectory([{ x: 0, y: 0 }]), // todo can we remove trajectory for player
-            params.PLAYER_COORDINATES
-        );
+    private initPlayer = () => new PlayerShip(params.PLAYER_COORDINATES);
 
     private initEnemies = () => {
-        const ships: GameShip[] = [];
+        const ships: EnemyShip[] = [];
         const levelParams = GameLevels[this.currentLevel];
         Object.keys(levelParams.enemies).forEach(key => {
             const type = key as unknown as TEnemyType;
@@ -39,7 +39,7 @@ class GameState {
                         enemyLevelParams.trajectoryPoints,
                         i * NEXT_SHIP_DELAY
                     );
-                    ships.push(new GameShip(type, trajectory));
+                    ships.push(new EnemyShip(type, trajectory));
                 }
             }
         });
@@ -57,6 +57,14 @@ class GameState {
         this.enemies = this.initEnemies();
         this.shots = [];
     };
+
+    public setState = (state: GlobalGameState) => {
+        this.state = state;
+        // todo remove trigger from mockRedux
+        GameEngine.getInstance().processNewGameState();
+    };
+
+    public getState = () => this.state;
 }
 
-export default new GameState();
+export default new MockRedux();

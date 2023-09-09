@@ -1,8 +1,9 @@
-import GameObjectAnimator from './objectAnimator';
+import GameAnimator from './gameAnimator';
 import params from './parameters/gameParameters';
-import state from './store/mockGameState';
-import { GameShot, ShotType } from './types/gameTypes';
-import Trajectory from './types/trajectory';
+import mockRedux from './store/mockRedux';
+import { GameShot } from './types/gameTypes';
+import { ShotType } from './types/commonTypes';
+import { GlobalGameState } from './types/objectState';
 
 export type TDirection =
     | 'Up'
@@ -18,23 +19,16 @@ class GameEngine {
     // eslint-disable-next-line no-use-before-define
     private static instance?: GameEngine;
 
-    context: CanvasRenderingContext2D;
+    private context: CanvasRenderingContext2D;
 
-    bgImage = new Image();
+    private bgImage = new Image();
 
-    requestId: number | null = null;
-
-    animator: GameObjectAnimator;
+    private animator: GameAnimator;
 
     private constructor(ctx: CanvasRenderingContext2D) {
         this.context = ctx;
         this.bgImage.src = params.BACKGROUND_IMAGE;
-        this.animator = new GameObjectAnimator(
-            this.context,
-            this.renderGameField,
-            this.finish,
-            this.levelEnd
-        );
+        this.animator = new GameAnimator(this.context, this.renderGameField);
     }
 
     public static getInstance = (ctx?: CanvasRenderingContext2D) => {
@@ -54,7 +48,7 @@ class GameEngine {
         this.context.drawImage(this.bgImage, 0, 0, params.WIDTH, params.HEIGHT);
     };
 
-    public load = () => {
+    private load = () => {
         this.bgImage.onload = () => {
             this.renderGameField();
             this.context.font = 'bold 48px serif';
@@ -63,16 +57,16 @@ class GameEngine {
         };
     };
 
-    public levelEnd = () => {
+    private levelEnd = () => {
         this.renderGameField();
         this.context.font = 'bold 48px serif';
         this.context.fillStyle = '#fff';
         this.context.fillText('LEVEL FINISHED', 100, 200);
     };
 
-    public start = () => {
-        state.startLevel();
-        this.animator.resetToStart();
+    private start = () => {
+        mockRedux.startLevel();
+        this.animator.reset();
         this.animator.start();
     };
 
@@ -80,15 +74,15 @@ class GameEngine {
         this.animator.stop();
     };
 
-    public pause = () => {
+    private pause = () => {
         this.cancelAnimation();
     };
 
-    public resume = () => {
+    private resume = () => {
         this.animator.start();
     };
 
-    public finish = () => {
+    private finish = () => {
         this.cancelAnimation();
         this.renderGameField();
         this.context.font = 'bold 48px serif';
@@ -98,32 +92,47 @@ class GameEngine {
 
     // eslint-disable-next-line class-methods-use-this
     public getPlayerCoordinates = () => {
-        const { player } = state;
-        return { x: player.state.coordinates.x, y: player.state.coordinates.y };
+        const { player } = mockRedux;
+        return { x: player.getState().getCoordinates().x, y: player.getState().getCoordinates().y };
     };
 
     // eslint-disable-next-line class-methods-use-this
     public setDirectionForPlayer = (direction: TDirection) => {
-        const { player } = state;
+        const { player } = mockRedux;
         // todo index not used
-        player?.updateState(0, false, direction); // todo shouldChangeFrame can be overwritten
+        player?.updateState(false, direction); // todo shouldChangeFrame can be overwritten
+    };
+
+    public processNewGameState = () => {
+        const gameState = mockRedux.getState();
+        switch (gameState) {
+            case GlobalGameState.Loaded:
+                this.load();
+                break;
+            case GlobalGameState.LevelStarted:
+                this.start();
+                break;
+            case GlobalGameState.Paused:
+                this.pause();
+                break;
+            case GlobalGameState.Resumed:
+                this.resume();
+                break;
+            case GlobalGameState.LevelEnded:
+                this.levelEnd();
+                break;
+            case GlobalGameState.Ended:
+                this.finish();
+                break;
+        }
     };
 
     public playerShot = () => {
-        const { player } = state;
-        if (player) {
-            const { coordinates } = player.state;
-            state.shots.push(
-                new GameShot(
-                    ShotType.Player,
-                    new Trajectory([
-                        { x: coordinates.x, y: coordinates.y },
-                        { x: coordinates.x, y: -20 }, // todo set show false in the end
-                    ]),
-                    this.animator.mainLoopIndex // todo do we need to move this ??
-                )
-            );
-        }
+        const { player } = mockRedux;
+        const coordinates = player.getState().getCoordinates();
+        mockRedux.shots.push(
+            new GameShot(ShotType.Player, coordinates, this.animator.mainLoopIndex)
+        );
     };
 }
 
