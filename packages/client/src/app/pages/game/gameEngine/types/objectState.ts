@@ -62,7 +62,7 @@ export class ShipState extends DrawableObjectState {
         if (this.isWaiting() && this.trajectory.shouldStartMoving(time)) {
             // if ship should starts moving set state to Flying
             this.setLiveState(LiveState.Flying);
-        } else if (this.isFlying() && this.trajectory.movedOutOfGameField(time)) {
+        } else if (!this.isDead() && this.trajectory.movedOutOfGameField(time)) {
             // if ship flied out of canvas set state to Dead
             this.setLiveState(LiveState.Dead);
         }
@@ -74,14 +74,46 @@ export class ShipState extends DrawableObjectState {
 export class ShotState extends DrawableObjectState {
     private show: boolean;
 
-    constructor(coordinates: TPoint, frameIndex: number, trajectory: Trajectory, show: boolean) {
+    private startTime: number;
+
+    constructor(
+        coordinates: TPoint,
+        frameIndex: number,
+        trajectory: Trajectory,
+        show: boolean,
+        startTime: number
+    ) {
         super(coordinates, frameIndex, trajectory);
         this.show = show;
+        this.startTime = startTime;
     }
 
-    public hide = () => {
+    private hide = () => {
         this.show = false;
     };
 
     public isVisible = () => this.show;
+
+    public changeFrameIndex = (shouldChangeFrame: boolean, frameCount: number) => {
+        if (shouldChangeFrame) {
+            if (this.frameIndex >= frameCount) {
+                this.frameIndex = 0;
+            } else {
+                this.frameIndex += 1;
+            }
+        }
+    };
+
+    public update = (time: number, shouldChangeFrame: boolean, frameCount: number) => {
+        const { trajectory } = this;
+        const deltaTime = time - this.startTime;
+        if (trajectory && trajectory.shouldMove(deltaTime)) {
+            this.setCoordinates(trajectory.getCoordinates(deltaTime));
+        }
+        this.changeFrameIndex(shouldChangeFrame, frameCount);
+
+        if (trajectory.movedOutOfGameField(time)) {
+            this.hide();
+        }
+    };
 }

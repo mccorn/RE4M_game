@@ -25,10 +25,9 @@ export const NEXT_SHIP_DELAY = 1 * 60; // frames per second??? todo to const
 export class DrawableObjectState {
     private coordinates: TPoint;
 
-    // todo private?
-    frameIndex: number;
+    protected frameIndex: number;
 
-    trajectory: Trajectory;
+    protected trajectory: Trajectory;
 
     constructor(coordinates: TPoint, frameIndex: number, trajectory: Trajectory) {
         this.coordinates = coordinates;
@@ -42,6 +41,8 @@ export class DrawableObjectState {
 
     public getCoordinates = () => this.coordinates;
 
+    public getFrameIndex = () => this.frameIndex;
+
     public followTrajectory = (time: number) => {
         const { trajectory } = this;
         if (trajectory.shouldMove(time)) {
@@ -52,43 +53,42 @@ export class DrawableObjectState {
 
 /* Common parameters type for ships and shots */
 export class DrawableObjectParams {
-    width: number;
+    public width: number;
 
-    height: number;
+    public height: number;
 
-    image: string;
+    public image: string;
 
-    imageSpriteWidth: number;
+    public frameCount: number;
 
-    frameCount: number;
-
-    constructor(
-        width: number,
-        height: number,
-        image: string,
-        imageSpriteWidth: number,
-        frameCount: number
-    ) {
+    constructor(width: number, height: number, image: string, imageSpriteWidth: number) {
         this.width = width;
         this.height = height;
         this.image = image;
-        this.imageSpriteWidth = imageSpriteWidth;
-        this.frameCount = frameCount;
+        this.frameCount = imageSpriteWidth / width;
     }
 }
 
 /* Common object that can be drawn */
 
 export class DrawableGameObject {
-    image = new Image();
+    public image = new Image();
 
-    state: DrawableObjectState;
+    protected state: DrawableObjectState;
 
-    parameters: DrawableObjectParams;
+    protected parameters: DrawableObjectParams;
 
     constructor(state: DrawableObjectState, parameters: DrawableObjectParams) {
         this.state = state;
         this.parameters = parameters;
         this.image.src = parameters.image;
+    }
+
+    public getState(): DrawableObjectState {
+        return this.state;
+    }
+
+    public getParameters(): DrawableObjectParams {
+        return this.parameters;
     }
 }

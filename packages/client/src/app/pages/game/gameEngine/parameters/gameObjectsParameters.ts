@@ -12,7 +12,6 @@ const shotParams = {
     width: 9,
     height: 16,
     imageSpriteWidth: 36,
-    frameCount: 4,
 };
 
 export const ShotParametersValues: Record<ShotType, DrawableObjectParams> = {
@@ -20,46 +19,28 @@ export const ShotParametersValues: Record<ShotType, DrawableObjectParams> = {
         shotParams.width,
         shotParams.height,
         RocketImage,
-        shotParams.imageSpriteWidth,
-        shotParams.frameCount
+        shotParams.imageSpriteWidth
     ),
     [ShotType.Player]: new DrawableObjectParams(
         shotParams.width,
         shotParams.height,
         PlayerRocketImage,
-        shotParams.imageSpriteWidth,
-        shotParams.frameCount
+        shotParams.imageSpriteWidth
     ),
 } as const;
 
 /* Ships parameters */
 
-const commonEnemyParameters = {
-    imageSpriteWidth: 959,
-    frameCount: 18,
-};
+const imageSpriteWidth = 959;
 
 export const ShipTypesParameterValues: Record<ShipType, DrawableObjectParams> = {
     [ShipType.Battlecruiser]: new DrawableObjectParams(
         128,
         128,
         BattlecruiserImage,
-        commonEnemyParameters.imageSpriteWidth,
-        commonEnemyParameters.frameCount
+        imageSpriteWidth
     ),
-    [ShipType.Fighter]: new DrawableObjectParams(
-        64,
-        64,
-        FighterImage,
-        commonEnemyParameters.imageSpriteWidth,
-        commonEnemyParameters.frameCount
-    ),
-    [ShipType.Bomber]: new DrawableObjectParams(
-        64,
-        64,
-        BomberImage,
-        commonEnemyParameters.imageSpriteWidth,
-        commonEnemyParameters.frameCount
-    ),
-    [ShipType.Player]: new DrawableObjectParams(64, 64, FrigateImage, 1024, 16),
+    [ShipType.Fighter]: new DrawableObjectParams(64, 64, FighterImage, imageSpriteWidth),
+    [ShipType.Bomber]: new DrawableObjectParams(64, 64, BomberImage, imageSpriteWidth),
+    [ShipType.Player]: new DrawableObjectParams(64, 64, FrigateImage, 1024),
 } as const;

@@ -1,7 +1,7 @@
 import { DrawableGameObject } from './types/commonTypes';
 import { EnemyShip, PlayerShip, GameShot } from './types/gameTypes';
 import CollisionManager from './collisionManager';
-import state from './store/mockRedux';
+import mockRedux from './store/mockRedux';
 import { GlobalGameState } from './types/objectState';
 
 class GameAnimator {
@@ -25,9 +25,10 @@ class GameAnimator {
     }
 
     private drawFrame = (object: DrawableGameObject) => {
-        const { parameters } = object;
-        const spriteX = parameters.width * object.state.frameIndex;
-        const coordinates = object.state.getCoordinates();
+        const parameters = object.getParameters();
+        const state = object.getState();
+        const spriteX = parameters.width * state.getFrameIndex();
+        const coordinates = state.getCoordinates();
         this.context.drawImage(
             object.image,
             spriteX,
@@ -78,12 +79,12 @@ class GameAnimator {
 
         /* update objects state and draw them */
 
-        const { player } = state;
+        const { player } = mockRedux;
         this.updateAndDrawPlayer(player, shouldChangeFrame);
 
-        state.enemies.forEach(enemy => this.updateAndDrawEnemy(enemy, shouldChangeFrame));
+        mockRedux.enemies.forEach(enemy => this.updateAndDrawEnemy(enemy, shouldChangeFrame));
 
-        state.shots.forEach(shot => this.updateAndDrawShot(shot, shouldChangeFrame));
+        mockRedux.shots.forEach(shot => this.updateAndDrawShot(shot, shouldChangeFrame));
 
         if (shouldChangeFrame) {
             this.frameCount = 0;
@@ -99,14 +100,14 @@ class GameAnimator {
             console.log('game ends');
             this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);
-            state.setState(GlobalGameState.Ended);
+            mockRedux.setState(GlobalGameState.Ended);
         }
 
-        if (this.mainLoopIndex === state.getLevelTime()) {
+        if (this.mainLoopIndex === mockRedux.getLevelTime()) {
             console.log('level ends');
             this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);
-            state.setState(GlobalGameState.LevelEnded);
+            mockRedux.setState(GlobalGameState.LevelEnded);
         }
 
         this.mainLoopIndex++; // do we need to replace this with time?

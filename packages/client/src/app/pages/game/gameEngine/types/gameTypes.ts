@@ -19,7 +19,7 @@ export class GameShip extends DrawableGameObject {
         this.type = type;
     }
 
-    protected getState = () => this.state as ShipState;
+    public getState = () => this.state as ShipState;
 
     public setLiveState = (state: LiveState) => this.getState().setLiveState(state);
 
@@ -91,41 +91,26 @@ export class PlayerShip extends GameShip {
 }
 
 export class GameShot extends DrawableGameObject {
-    private startTime: number;
-
     private type: ShotType;
 
     constructor(type: ShotType, startPoint: TPoint, startTime: number) {
+        const parameters = ShotParametersValues[type];
         const trajectory = new Trajectory([
             { x: startPoint.x, y: startPoint.y },
-            { x: startPoint.x, y: -20 }, // todo set show false in the end
+            { x: startPoint.x, y: -parameters.height },
         ]);
-        const state = new ShotState(startPoint, 0, trajectory, true);
-        super(state, ShotParametersValues[type]);
-        this.startTime = startTime;
+        const state = new ShotState(startPoint, 0, trajectory, true, startTime);
+        super(state, parameters);
         this.type = type;
     }
 
-    private getState = () => this.state as ShotState;
+    public getState = () => this.state as ShotState;
 
     public isVisible = () => this.getState().isVisible();
 
     public isPlayerShot = () => +this.type === ShotType.Player;
 
     public updateState = (time: number, shouldChangeFrame: boolean) => {
-        const { trajectory } = this.state;
-        const deltaTime = time - this.startTime;
-        if (trajectory && trajectory.shouldMove(deltaTime)) {
-            this.state.setCoordinates(trajectory.getCoordinates(deltaTime));
-        }
-        if (shouldChangeFrame) {
-            if (this.state.frameIndex >= this.parameters.frameCount) {
-                this.state.frameIndex = 0;
-            } else {
-                this.state.frameIndex += 1;
-            }
-        }
-        // todo hide when out of canvas
-        // this.getState().hide();
+        this.getState().update(time, shouldChangeFrame, this.parameters.frameCount);
     };
 }
