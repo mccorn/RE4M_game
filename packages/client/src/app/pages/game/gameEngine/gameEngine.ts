@@ -1,8 +1,8 @@
-import GameObjectAnimator from './objectAnimator';
+import GameStateManager from './gameStateManager';
 import params from './parameters/gameParameters';
 import state from './store/mockGameState';
-import { GameShot, ShotType } from './types/gameTypes';
-import Trajectory from './types/trajectory';
+import { GameShot } from './types/gameTypes';
+import { ShotType } from './types/commonTypes';
 
 // todo move it in some control module ?
 const ControlKeys = {
@@ -26,12 +26,12 @@ class GameEngine {
 
     requestId: number | null = null;
 
-    animator: GameObjectAnimator;
+    manager: GameStateManager;
 
     private constructor(ctx: CanvasRenderingContext2D) {
         this.context = ctx;
         this.bgImage.src = params.BACKGROUND_IMAGE;
-        this.animator = new GameObjectAnimator(
+        this.manager = new GameStateManager(
             this.context,
             this.renderGameField,
             this.finish,
@@ -74,12 +74,12 @@ class GameEngine {
 
     public start = () => {
         state.startLevel();
-        this.animator.resetToStart();
-        this.animator.start();
+        this.manager.resetToStart();
+        this.manager.start();
     };
 
     private cancelAnimation = () => {
-        this.animator.stop();
+        this.manager.stop();
     };
 
     public pause = () => {
@@ -87,7 +87,7 @@ class GameEngine {
     };
 
     public resume = () => {
-        this.animator.start();
+        this.manager.start();
     };
 
     public finish = () => {
@@ -111,23 +111,15 @@ class GameEngine {
         }
         const { player } = state;
         if (direction) {
-            // todo index not used
-            player.updateState(0, false, direction); // todo shouldChangeFrame can be overwritten
+            player.updateState(false, direction);
         }
 
         if (event.key === ControlKeys.SHOOT) {
             console.log(event.key);
             console.log('add shot');
-            const { coordinates } = player.state;
+            const coordinates = player.state.getCoordinates();
             state.shots.push(
-                new GameShot(
-                    ShotType.Player,
-                    new Trajectory([
-                        { x: coordinates.x, y: coordinates.y },
-                        { x: coordinates.x, y: -20 }, // todo set show false in the end
-                    ]),
-                    this.animator.mainLoopIndex // todo do we need to move this ??
-                )
+                new GameShot(ShotType.Player, coordinates, this.manager.mainLoopIndex)
             );
         }
     };

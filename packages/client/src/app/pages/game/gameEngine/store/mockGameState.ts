@@ -1,13 +1,13 @@
-import { GameShip, GameShot } from '../types/gameTypes';
+import { EnemyShip, GameShot, PlayerShip } from '../types/gameTypes';
 import params from '../parameters/gameParameters';
-import { NEXT_SHIP_DELAY, ShipType, TEnemyType } from '../types/commonTypes';
+import { NEXT_SHIP_DELAY, TEnemyType } from '../types/commonTypes';
 import GameLevels, { GameLevelList } from '../parameters/gameLevels';
 import Trajectory from '../types/trajectory';
 
 class GameState {
-    public player: GameShip;
+    public player: PlayerShip;
 
-    public enemies: GameShip[] = [];
+    public enemies: EnemyShip[] = [];
 
     public shots: GameShot[] = [];
 
@@ -20,15 +20,10 @@ class GameState {
     }
 
     // eslint-disable-next-line
-    private initPlayer = () =>
-        new GameShip(
-            ShipType.Player,
-            new Trajectory([{ x: 0, y: 0 }]), // todo can we remove trajectory for player
-            params.PLAYER_COORDINATES
-        );
+    private initPlayer = () => new PlayerShip(params.PLAYER_COORDINATES);
 
     private initEnemies = () => {
-        const ships: GameShip[] = [];
+        const ships: EnemyShip[] = [];
         const levelParams = GameLevels[this.currentLevel];
         Object.keys(levelParams.enemies).forEach(key => {
             const type = key as unknown as TEnemyType;
@@ -39,7 +34,7 @@ class GameState {
                         enemyLevelParams.trajectoryPoints,
                         i * NEXT_SHIP_DELAY
                     );
-                    ships.push(new GameShip(type, trajectory));
+                    ships.push(new EnemyShip(type, trajectory));
                 }
             }
         });

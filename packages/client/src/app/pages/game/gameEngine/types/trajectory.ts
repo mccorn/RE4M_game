@@ -27,6 +27,8 @@ class Trajectory {
         length: number
     ): number => start + ((end - start) * time) / length; // todo speed coefficient
 
+    public getStartPoint = () => this.points[0];
+
     public getCoordinates = (time: number): TPoint => {
         const startPoint = this.points[this.segmentIndex];
         const endPoint = this.points[this.segmentIndex + 1];
@@ -161,7 +163,7 @@ class Trajectory {
 
     public getSegmentsNumber = (): number => this.points.length - 1;
 
-    public static shouldSwitchSegment = (time: number, length: number): boolean => time >= length;
+    private static shouldSwitchSegment = (time: number, length: number): boolean => time >= length;
 
     public shouldMove = (time: number) =>
         this.segmentIndex < this.getSegmentsNumber() && this.shouldStartMoving(time);
