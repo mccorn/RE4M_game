@@ -4,10 +4,10 @@ import { LiveState } from './types/objectState';
 
 class CollisionManager {
     private static detectCollision(object1: DrawableGameObject, object2: DrawableGameObject) {
-        const point1 = object1.state.getCoordinates();
-        const params1 = object1.parameters;
-        const point2 = object2.state.getCoordinates();
-        const params2 = object2.parameters;
+        const point1 = object1.getState().getCoordinates();
+        const params1 = object1.getParameters();
+        const point2 = object2.getState().getCoordinates();
+        const params2 = object2.getParameters();
         return (
             point1.x < point2.x + params2.width &&
             point1.x + params1.width > point2.x &&
