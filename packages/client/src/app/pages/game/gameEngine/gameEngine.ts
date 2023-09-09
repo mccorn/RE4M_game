@@ -2,8 +2,9 @@ import GameAnimator from './gameAnimator';
 import params from './parameters/gameParameters';
 import mockRedux from './store/mockRedux';
 import { GameShot } from './types/gameTypes';
-import { ShotType } from './types/commonTypes';
+import { ShotType, TPoint } from './types/commonTypes';
 import { GlobalGameState } from './types/objectState';
+import { approximatelyEqual } from '@/utils';
 
 export type TDirection =
     | 'Up'
@@ -97,10 +98,46 @@ class GameEngine {
     };
 
     // eslint-disable-next-line class-methods-use-this
-    public setDirectionForPlayer = (direction: TDirection) => {
+    private setDirectionForPlayer = (direction: TDirection) => {
         const { player } = mockRedux;
         // todo index not used
         player?.updateState(false, direction); // todo shouldChangeFrame can be overwritten
+    };
+
+    private interval: ReturnType<typeof setInterval> | null = null;
+
+    public setTargetedCoordinatesForPlayer = ({ x: mouseX, y: mouseY }: TPoint) => {
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
+
+        this.interval = setInterval(() => {
+            const { x: playerX, y: playerY } = this.getPlayerCoordinates();
+            if (
+                approximatelyEqual(playerX, mouseX, 2) &&
+                approximatelyEqual(playerY, mouseY, 2) &&
+                this.interval
+            ) {
+                clearInterval(this.interval);
+                return;
+            }
+
+            let direction = '';
+            if (mouseY < playerY) {
+                direction += 'Up';
+            }
+            if (mouseY > playerY) {
+                direction += 'Down';
+            }
+            if (mouseX > playerX) {
+                direction += 'Right';
+            }
+            if (mouseX < playerX) {
+                direction += 'Left';
+            }
+
+            this.setDirectionForPlayer(direction as TDirection);
+        }, 0);
     };
 
     public processNewGameState = () => {

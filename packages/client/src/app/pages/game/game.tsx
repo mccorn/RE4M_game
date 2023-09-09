@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef, useState, SyntheticEvent } from 'react';
 import style from './game.module.scss';
 import Button from '@/app/components/common/button/button';
 import params from './gameEngine/parameters/gameParameters';
-import GameEngine, { TDirection } from './gameEngine/gameEngine';
+import GameEngine from './gameEngine/gameEngine';
 import mockRedux from './gameEngine/store/mockRedux';
 import { GlobalGameState } from './gameEngine/types/objectState';
 
@@ -10,13 +10,16 @@ const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
 
     const [paused, setIsPaused] = useState(false);
+    let shootInterval: ReturnType<typeof setInterval> | null = null;
 
     const startGame = () => {
         /* todo remove evetything on game end
         if (gameEnded) {
             window.removeEventListener('keydown', onKeyDown);
         } */
-
+        shootInterval = setInterval(() => {
+            GameEngine.getInstance().playerShot();
+        }, 500);
         mockRedux.setState(GlobalGameState.LevelStarted);
     };
 
@@ -31,7 +34,6 @@ const Game: FC = () => {
     };
 
     useEffect(() => {
-        console.log('ddd');
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
             GameEngine.getInstance(context);
@@ -39,42 +41,29 @@ const Game: FC = () => {
         } else {
             console.log('no context found');
         }
+
+        return () => {
+            if (shootInterval) {
+                clearInterval(shootInterval);
+            }
+        };
     }, []);
 
-    const getDirection = (mouseX: number, mouseY: number, playerX: number, playerY: number) => {
-        let direction = '';
-        const shipSize = 10;
-        if (mouseY - playerY < -shipSize) {
-            direction += 'Up';
-        }
-        if (mouseY - playerY > shipSize) {
-            direction += 'Down';
-        }
-        if (mouseX - playerX > shipSize) {
-            direction += 'Right';
-        }
-        if (mouseX - playerX < -shipSize) {
-            direction += 'Left';
-        }
-
-        return direction as TDirection;
-    };
-
     const handleMouseMove = (ev: SyntheticEvent) => {
+        if (
+            mockRedux.getState() !== GlobalGameState.LevelStarted &&
+            mockRedux.getState() !== GlobalGameState.Resumed
+        ) {
+            return;
+        }
         const mouseX =
             (ev.nativeEvent as MouseEvent).clientX - (ev.target as HTMLElement).offsetLeft - 35;
         const mouseY =
             (ev.nativeEvent as MouseEvent).clientY - (ev.target as HTMLElement).offsetTop - 30;
         const gameEngine = GameEngine.getInstance();
-        const { x: playerX, y: playerY } = gameEngine.getPlayerCoordinates();
 
-        const direction = getDirection(mouseX, mouseY, playerX, playerY);
-        gameEngine.setDirectionForPlayer(direction as TDirection);
+        gameEngine.setTargetedCoordinatesForPlayer({ x: mouseX, y: mouseY });
     };
-
-    setInterval(() => {
-        GameEngine.getInstance().playerShot();
-    }, 500);
 
     return (
         <div className={style.game}>

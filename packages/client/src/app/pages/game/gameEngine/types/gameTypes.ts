@@ -49,7 +49,7 @@ export class PlayerShip extends GameShip {
     }
 
     public updateState = (shouldChangeFrame: boolean, direction?: TDirection) => {
-        const step = 7;
+        const step = 2;
         const state = this.getState();
         const coordinates = state.getCoordinates();
         if (direction) {
@@ -76,6 +76,30 @@ export class PlayerShip extends GameShip {
                     state.setCoordinates({
                         x: Math.min(coordinates.x + step, params.WIDTH - 64),
                         y: coordinates.y,
+                    });
+                    break;
+                case 'UpLeft':
+                    state.setCoordinates({
+                        x: Math.max(coordinates.x - step, 0),
+                        y: Math.max(coordinates.y - step, 0),
+                    });
+                    break;
+                case 'DownLeft':
+                    state.setCoordinates({
+                        x: Math.max(coordinates.x - step, 0),
+                        y: Math.min(coordinates.y + step, params.WIDTH - 64),
+                    });
+                    break;
+                case 'UpRight':
+                    state.setCoordinates({
+                        x: Math.min(coordinates.x + step, params.WIDTH - 64),
+                        y: Math.max(coordinates.y - step, 0),
+                    });
+                    break;
+                case 'DownRight':
+                    state.setCoordinates({
+                        x: Math.min(coordinates.x + step, params.WIDTH - 64),
+                        y: Math.min(coordinates.y + step, params.WIDTH - 64),
                     });
                     break;
             }
