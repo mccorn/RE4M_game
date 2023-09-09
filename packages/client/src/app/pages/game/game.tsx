@@ -40,7 +40,7 @@ const Game: FC = () => {
 
     const getDirection = (mouseX: number, mouseY: number, playerX: number, playerY: number) => {
         let direction = '';
-        const shipSize = 25;
+        const shipSize = 10;
         if (mouseY - playerY < -shipSize) {
             direction += 'Up';
         }
@@ -59,9 +59,9 @@ const Game: FC = () => {
 
     const handleMouseMove = (ev: SyntheticEvent) => {
         const mouseX =
-            (ev.nativeEvent as MouseEvent).clientX - (ev.target as HTMLElement).offsetLeft - 25;
+            (ev.nativeEvent as MouseEvent).clientX - (ev.target as HTMLElement).offsetLeft - 35;
         const mouseY =
-            (ev.nativeEvent as MouseEvent).clientY - (ev.target as HTMLElement).offsetTop - 25;
+            (ev.nativeEvent as MouseEvent).clientY - (ev.target as HTMLElement).offsetTop - 30;
         const gameEngine = GameEngine.getInstance();
         const { x: playerX, y: playerY } = gameEngine.getPlayerCoordinates();
 
