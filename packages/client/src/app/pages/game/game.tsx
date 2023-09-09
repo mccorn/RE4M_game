@@ -56,10 +56,16 @@ const Game: FC = () => {
         ) {
             return;
         }
+        const halfShipHeight = 35;
+        const halfShipWidth = 30;
         const mouseX =
-            (ev.nativeEvent as MouseEvent).clientX - (ev.target as HTMLElement).offsetLeft - 35;
+            (ev.nativeEvent as MouseEvent).clientX -
+            (ev.target as HTMLElement).offsetLeft -
+            halfShipHeight;
         const mouseY =
-            (ev.nativeEvent as MouseEvent).clientY - (ev.target as HTMLElement).offsetTop - 30;
+            (ev.nativeEvent as MouseEvent).clientY -
+            (ev.target as HTMLElement).offsetTop -
+            halfShipWidth;
         const gameEngine = GameEngine.getInstance();
 
         gameEngine.setTargetedCoordinatesForPlayer({ x: mouseX, y: mouseY });

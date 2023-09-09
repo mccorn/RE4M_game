@@ -52,6 +52,7 @@ export class PlayerShip extends GameShip {
         const step = 2;
         const state = this.getState();
         const coordinates = state.getCoordinates();
+        const shipSize = 64;
         if (direction) {
             switch (direction) {
                 case 'Up':
@@ -63,7 +64,7 @@ export class PlayerShip extends GameShip {
                 case 'Down':
                     state.setCoordinates({
                         x: coordinates.x,
-                        y: Math.min(coordinates.y + step, params.WIDTH - 64),
+                        y: Math.min(coordinates.y + step, params.WIDTH - shipSize),
                     });
                     break;
                 case 'Left':
@@ -74,7 +75,7 @@ export class PlayerShip extends GameShip {
                     break;
                 case 'Right':
                     state.setCoordinates({
-                        x: Math.min(coordinates.x + step, params.WIDTH - 64),
+                        x: Math.min(coordinates.x + step, params.WIDTH - shipSize),
                         y: coordinates.y,
                     });
                     break;
@@ -87,19 +88,19 @@ export class PlayerShip extends GameShip {
                 case 'DownLeft':
                     state.setCoordinates({
                         x: Math.max(coordinates.x - step, 0),
-                        y: Math.min(coordinates.y + step, params.WIDTH - 64),
+                        y: Math.min(coordinates.y + step, params.WIDTH - shipSize),
                     });
                     break;
                 case 'UpRight':
                     state.setCoordinates({
-                        x: Math.min(coordinates.x + step, params.WIDTH - 64),
+                        x: Math.min(coordinates.x + step, params.WIDTH - shipSize),
                         y: Math.max(coordinates.y - step, 0),
                     });
                     break;
                 case 'DownRight':
                     state.setCoordinates({
-                        x: Math.min(coordinates.x + step, params.WIDTH - 64),
-                        y: Math.min(coordinates.y + step, params.WIDTH - 64),
+                        x: Math.min(coordinates.x + step, params.WIDTH - shipSize),
+                        y: Math.min(coordinates.y + step, params.WIDTH - shipSize),
                     });
                     break;
             }
