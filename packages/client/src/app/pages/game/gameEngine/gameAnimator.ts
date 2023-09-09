@@ -3,6 +3,7 @@ import { EnemyShip, PlayerShip, GameShot } from './types/gameTypes';
 import CollisionManager from './collisionManager';
 import gameState from './store/gameState';
 import { GlobalGameState } from './types/objectState';
+import GameEngine from './gameEngine';
 
 class GameAnimator {
     private context: CanvasRenderingContext2D;
@@ -100,14 +101,14 @@ class GameAnimator {
             console.log('game ends');
             this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);
-            gameState.setState(GlobalGameState.Ended);
+            GameEngine.getInstance().setGameState(GlobalGameState.Ended);
         }
 
         if (this.mainLoopIndex === gameState.getLevelTime()) {
             console.log('level ends');
             this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);
-            gameState.setState(GlobalGameState.LevelEnded);
+            GameEngine.getInstance().setGameState(GlobalGameState.LevelEnded);
         }
 
         this.mainLoopIndex++; // do we need to replace this with time?

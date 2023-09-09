@@ -4,7 +4,6 @@ import { NEXT_SHIP_DELAY, TEnemyType } from '../types/commonTypes';
 import GameLevels, { GameLevelList } from '../parameters/gameLevels';
 import Trajectory from '../types/trajectory';
 import { GlobalGameState } from '../types/objectState';
-import GameEngine from '../gameEngine';
 
 class GameState {
     public player: PlayerShip;
@@ -63,8 +62,6 @@ class GameState {
         this.state = state;
         this.isGameRunning =
             this.state === GlobalGameState.LevelStarted || this.state === GlobalGameState.Resumed;
-        // todo remove trigger
-        GameEngine.getInstance().processNewGameState();
     };
 
     public getState = () => this.state;

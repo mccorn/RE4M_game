@@ -3,7 +3,6 @@ import style from './game.module.scss';
 import Button from '@/app/components/common/button/button';
 import params from './gameEngine/parameters/gameParameters';
 import GameEngine from './gameEngine/gameEngine';
-import gameState from './gameEngine/store/gameState';
 import { GlobalGameState } from './gameEngine/types/objectState';
 
 const Game: FC = () => {
@@ -16,15 +15,17 @@ const Game: FC = () => {
     };
 
     const startGame = () => {
-        gameState.setState(GlobalGameState.LevelStarted);
+        GameEngine.getInstance().setGameState(GlobalGameState.LevelStarted);
+        // todo move to useEffect
+        window.addEventListener('keydown', onKeyDown);
     };
 
     const pauseGame = () => {
         if (paused) {
-            gameState.setState(GlobalGameState.Resumed);
+            GameEngine.getInstance().setGameState(GlobalGameState.Resumed);
             setIsPaused(false);
         } else {
-            gameState.setState(GlobalGameState.Paused);
+            GameEngine.getInstance().setGameState(GlobalGameState.Paused);
             setIsPaused(true);
         }
     };
@@ -32,22 +33,12 @@ const Game: FC = () => {
     useEffect(() => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
-            GameEngine.getInstance(context);
-            gameState.setState(GlobalGameState.Loaded);
+            const gameEngine = GameEngine.getInstance(context);
+            gameEngine.setGameState(GlobalGameState.Loaded);
         } else {
             console.log('no context found');
         }
-
-        if (gameState.isGameRunning) {
-            window.addEventListener('keydown', onKeyDown);
-        } else {
-            window.removeEventListener('keydown', onKeyDown);
-        }
-
-        return function cleanup() {
-            window.removeEventListener('keydown', onKeyDown);
-        };
-    }, [gameState.isGameRunning]);
+    }, []);
 
     return (
         <div className={style.game}>

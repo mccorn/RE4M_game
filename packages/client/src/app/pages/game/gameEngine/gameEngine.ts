@@ -92,7 +92,7 @@ class GameEngine {
         this.context.fillText('GAME FINISHED', 150, 200);
     };
 
-    public processNewGameState = () => {
+    private processNewGameState = () => {
         const state = gameState.getState();
         switch (state) {
             case GlobalGameState.Loaded:
@@ -114,6 +114,11 @@ class GameEngine {
                 this.finish();
                 break;
         }
+    };
+
+    public setGameState = (state: GlobalGameState) => {
+        gameState.setState(state);
+        this.processNewGameState();
     };
 
     public gameControlPressed = (event: KeyboardEvent) => {
