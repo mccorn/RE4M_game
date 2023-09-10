@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import style from './game.module.scss';
 import Button from '@/app/components/common/button/button';
 import params from './gameEngine/parameters/gameParameters';
@@ -72,6 +72,6 @@ const Game: FC = () => {
                 <Button text="Pause game" size="medium" click={pauseGame} />
             </div>
         </div>
-    </>
-);
+    );
+};
 export default Game;
