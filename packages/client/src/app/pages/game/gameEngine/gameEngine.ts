@@ -115,21 +115,21 @@ class GameEngine {
         player?.updateState(false, direction); // todo shouldChangeFrame can be overwritten
     };
 
-    private interval: ReturnType<typeof setInterval> | null = null;
+    private changePlayerCoordinatesInterval: ReturnType<typeof setInterval> | null = null;
 
     public setTargetedCoordinatesForPlayer = ({ x: mouseX, y: mouseY }: TPoint) => {
-        if (this.interval) {
-            clearInterval(this.interval);
+        if (this.changePlayerCoordinatesInterval) {
+            clearInterval(this.changePlayerCoordinatesInterval);
         }
 
-        this.interval = setInterval(() => {
+        this.changePlayerCoordinatesInterval = setInterval(() => {
             const { x: playerX, y: playerY } = this.getPlayerCoordinates();
             if (
                 approximatelyEqual(playerX, mouseX, 2) &&
                 approximatelyEqual(playerY, mouseY, 2) &&
-                this.interval
+                this.changePlayerCoordinatesInterval
             ) {
-                clearInterval(this.interval);
+                clearInterval(this.changePlayerCoordinatesInterval);
                 return;
             }
 
