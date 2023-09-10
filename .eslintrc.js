@@ -15,7 +15,7 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 1,
         '@typescript-eslint/no-unused-vars': 2,
         '@typescript-eslint/no-shadow': ['error'],
-        indent: ['error', 4],
+        indent: ['error', 4, { SwitchCase: 1 }],
         'comma-dangle': [
             'error',
             {
@@ -31,6 +31,12 @@ module.exports = {
         'object-curly-newline': 'off',
         'no-shadow': 'off',
         'no-unused-vars': 'off',
+        'no-plusplus': 'warn',
+        'no-param-reassign': 'warn',
+        'default-case': 'off',
+        'operator-linebreak': ['warn', 'after'],
+        'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
+        'max-classes-per-file': ['error', 4],
         'react/jsx-indent': ['error', 4],
         'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
         'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],
@@ -41,12 +47,15 @@ module.exports = {
         'import/no-unresolved': 'off',
         'import/extensions': 'off',
         'import/no-extraneous-dependencies': 'off',
-        'jsx-a11y/label-has-associated-control': [2, {
-            labelComponents: ['CustomInputLabel'],
-            labelAttributes: ['label'],
-            controlComponents: ['CustomInput'],
-            depth: 3,
-        }],
+        'jsx-a11y/label-has-associated-control': [
+            2,
+            {
+                labelComponents: ['CustomInputLabel'],
+                labelAttributes: ['label'],
+                controlComponents: ['CustomInput'],
+                depth: 3,
+            },
+        ],
         'linebreak-style': ['error', 'unix'],
     },
 };
