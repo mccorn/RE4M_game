@@ -10,6 +10,7 @@ const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
 
     const [paused, setIsPaused] = useState(false);
+    const [game, setGame] = useState<GameEngine | null>(null);
 
     const onKeyDown = (event: KeyboardEvent) => {
         GameEngine.getInstance().gameControlPressed(event);
@@ -32,7 +33,7 @@ const Game: FC = () => {
     };
 
     useEffect(() => {
-        console.log('in useEffect');
+        /* console.log('in useEffect'); */
         console.log('game isRunning is now');
         console.log(gameState.isGameRunning);
 
@@ -40,16 +41,29 @@ const Game: FC = () => {
         if (context) {
             const gameEngine = GameEngine.getInstance(context);
             gameEngine.setGameState(GlobalGameState.Loaded);
+            console.log(game);
+            setGame(gameEngine);
         } else {
             console.log('no context found');
         }
 
-        setInterval(() => {
+        /* setInterval(() => {
             console.log('in set interval');
             console.log('game isRunning is now');
             console.log(gameState.isGameRunning);
-        }, 1000);
-    }, [gameState.isGameRunning]);
+        }, 1000); */
+    }, []);
+
+    /* useEffect(() => {
+        if (gameEngine) {
+            window.addEventListener('keydown', onKeyDown);
+        }
+        return () => {
+            if (gameEngine) {
+                window.removeEventListener('keydown', onKeyDown);
+            }
+        };
+    }, [gameEngine]); */
 
     return (
         <div className={style.game}>
