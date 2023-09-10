@@ -1,17 +1,18 @@
-const getcookie = (a: string) => {
-    const b = new RegExp(`${a}=([^;]){1,}`);
-    const c = b.exec(document.cookie);
-    let s;
+const getCookie = (key: string) => {
+    const regExp = new RegExp(`${key}=([^;]){1,}`);
+    const foundCookie = regExp.exec(document.cookie);
+    let result;
 
-    if (c) {
-        s = c[0].split('=');
+    if (foundCookie) {
+        result = foundCookie[0].split('=');
     } else {
         return false;
     }
 
-    return s[1] ? s[1] : false;
+    return result[1] ? result[1] : false;
 };
 
-const approximatelyEqual = (a: number, b: number, epsilon: number) => Math.abs(a - b) < epsilon;
+const approximatelyEqual = (firstNumber: number, secondNumber: number, epsilon: number) =>
+    Math.abs(firstNumber - secondNumber) < epsilon;
 
-export { getcookie, approximatelyEqual };
+export { getCookie, approximatelyEqual };
