@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import { TDirection } from '../gameEngine';
+import { Direction, TDirection } from '../gameEngine';
 import { DrawableObjectState, DrawableGameObject, ShipType, ShotType, TPoint } from './commonTypes';
 import Trajectory from './trajectory';
 import { LiveState, ShipState, ShotState } from './objectState';
@@ -55,49 +55,49 @@ export class PlayerShip extends GameShip {
         const shipSize = 64;
         if (direction) {
             switch (direction) {
-                case 'Up':
+                case Direction.Up:
                     state.setCoordinates({
                         x: coordinates.x,
                         y: Math.max(coordinates.y - step, 0),
                     });
                     break;
-                case 'Down':
+                case Direction.Down:
                     state.setCoordinates({
                         x: coordinates.x,
                         y: Math.min(coordinates.y + step, params.WIDTH - shipSize),
                     });
                     break;
-                case 'Left':
+                case Direction.Left:
                     state.setCoordinates({
                         x: Math.max(coordinates.x - step, 0),
                         y: coordinates.y,
                     });
                     break;
-                case 'Right':
+                case Direction.Right:
                     state.setCoordinates({
                         x: Math.min(coordinates.x + step, params.WIDTH - shipSize),
                         y: coordinates.y,
                     });
                     break;
-                case 'UpLeft':
+                case Direction.UpLeft:
                     state.setCoordinates({
                         x: Math.max(coordinates.x - step, 0),
                         y: Math.max(coordinates.y - step, 0),
                     });
                     break;
-                case 'DownLeft':
+                case Direction.DownLeft:
                     state.setCoordinates({
                         x: Math.max(coordinates.x - step, 0),
                         y: Math.min(coordinates.y + step, params.WIDTH - shipSize),
                     });
                     break;
-                case 'UpRight':
+                case Direction.UpRight:
                     state.setCoordinates({
                         x: Math.min(coordinates.x + step, params.WIDTH - shipSize),
                         y: Math.max(coordinates.y - step, 0),
                     });
                     break;
-                case 'DownRight':
+                case Direction.DownRight:
                     state.setCoordinates({
                         x: Math.min(coordinates.x + step, params.WIDTH - shipSize),
                         y: Math.min(coordinates.y + step, params.WIDTH - shipSize),

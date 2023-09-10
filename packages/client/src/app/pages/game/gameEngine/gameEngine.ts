@@ -16,6 +16,17 @@ export type TDirection =
     | 'DownLeft'
     | 'DownRight';
 
+export enum Direction {
+    'Up' = 'Up',
+    'Down' = 'Down',
+    'Left' = 'Left',
+    'Right' = 'Right',
+    'UpLeft' = 'UpLeft',
+    'UpRight' = 'UpRight',
+    'DownLeft' = 'DownLeft',
+    'DownRight' = 'DownRight',
+}
+
 class GameEngine {
     // eslint-disable-next-line no-use-before-define
     private static instance?: GameEngine;
@@ -124,16 +135,16 @@ class GameEngine {
 
             let direction = '';
             if (mouseY < playerY) {
-                direction += 'Up';
+                direction += Direction.Up;
             }
             if (mouseY > playerY) {
-                direction += 'Down';
+                direction += Direction.Down;
             }
             if (mouseX > playerX) {
-                direction += 'Right';
+                direction += Direction.Right;
             }
             if (mouseX < playerX) {
-                direction += 'Left';
+                direction += Direction.Left;
             }
 
             this.setDirectionForPlayer(direction as TDirection);
