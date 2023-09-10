@@ -4,6 +4,7 @@ import Button from '@/app/components/common/button/button';
 import params from './gameEngine/parameters/gameParameters';
 import GameEngine from './gameEngine/gameEngine';
 import { GlobalGameState } from './gameEngine/types/objectState';
+import gameState from './gameEngine/store/gameState';
 
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
@@ -31,6 +32,10 @@ const Game: FC = () => {
     };
 
     useEffect(() => {
+        console.log('in useEffect');
+        console.log('game isRunning is now');
+        console.log(gameState.isGameRunning);
+
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
             const gameEngine = GameEngine.getInstance(context);
@@ -38,7 +43,13 @@ const Game: FC = () => {
         } else {
             console.log('no context found');
         }
-    }, []);
+
+        setInterval(() => {
+            console.log('in set interval');
+            console.log('game isRunning is now');
+            console.log(gameState.isGameRunning);
+        }, 1000);
+    }, [gameState.isGameRunning]);
 
     return (
         <div className={style.game}>
