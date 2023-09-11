@@ -19,7 +19,9 @@ const Game: FC = () => {
     };
 
     const startGame = () => {
-        GameEngine.getInstance().setGameState(GlobalGameState.LevelLoading);
+        // GameEngine.getInstance().setGameState(GlobalGameState.LevelLoading);
+        // Временно включаю сразу состояние начало игры из-за бага, к зачету починим
+        GameEngine.getInstance().setGameState(GlobalGameState.LevelStarted);
     };
 
     const pauseGame = () => {
