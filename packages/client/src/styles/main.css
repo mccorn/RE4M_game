@@ -1,24 +1,42 @@
 :root {
     --boxShadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 
-    --textColor: #f0efea;
-    --textColorSecondary: #80472d;
+    --textColorLightMode: #000218;
+    --textColorDarkMode: #fed800;
+    --textColorOldMode: #f0efea;
+
+    --textColorSecondaryLightMode: #ff7300;
+    --textColorSecondaryDarkMode: #80472d;
     --alertColor: #ff8749;
 
-    --backgroundColorDarkMode: #000218;
-    --backgroundColorSecondaryDarkMode: #344756;
+    --backgroundColorDarkMode: #344756;
+    --backgroundColorSecondaryDarkMode: #000218;
     --backgroundInputDarkMode: #d2d2d2;
     --backgroundButtonColorDarkMode: #595b82;
 
-    --backgroundColorLightMode: #009797;
-    --backgroundColorSecondaryLightMode: #95b1b0;
-    --backgroundInputLightMode: #fff;
+    --backgroundColorNormalMode: #009797;
+    --backgroundColorSecondaryNormalMode: #95b1b0;
+    --backgroundInputNormalMode: #fff;
+    --backgroundButtonColorNormalMode: #324b4b;
+
+    --backgroundColorLightMode: #eee08f;
+    --backgroundColorSecondaryLightMode: #fed800;
+    --backgroundInputLightMode: #000218;
     --backgroundButtonColorLightMode: #324b4b;
+
+    --textColor: var(--textColorLightMode);
+    --textColorSecondary: var(--textColorSecondaryLightMode);
 
     --backgroundColor: var(--backgroundColorLightMode);
     --backgroundColorSecondary: var(--backgroundColorSecondaryLightMode);
     --backgroundInput: var(--backgroundInputLightMode);
     --backgroundButtonColor: var(--backgroundButtonColorLightMode);
+
+    --textColorReverse: var(--textColorDarkMode);
+    --backgroundColorReverse: var(--backgroundColorDarkMode);
+    --backgroundColorSecondaryReverse: var(--backgroundColorSecondaryDarkMode);
+    --backgroundInputReverse: var(--backgroundInputDarkMode);
+    --backgroundButtonColorReverse: var(--backgroundButtonColorDarkMode);
 
     --fontSizeLarge: 30px;
     --fontSizeMedium: 20px;
