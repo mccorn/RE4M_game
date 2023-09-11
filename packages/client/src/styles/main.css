@@ -2,11 +2,15 @@
     --boxShadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 
     --textColorLightMode: #000218;
-    --textColorDarkMode: #fed800;
+    --textColorDarkMode: #fbd809;
     --textColorOldMode: #f0efea;
 
-    --textColorSecondaryLightMode: #ff7300;
-    --textColorSecondaryDarkMode: #80472d;
+    --textColorSecondaryLightMode: #ffffff;
+    --textColorSecondaryDarkMode: #ffffff;
+
+    --textColorAddLightMode: #ffb300;
+    --textColorAddDarkMode: #ffb300;
+
     --alertColor: #ff8749;
 
     --backgroundColorDarkMode: #344756;
@@ -19,13 +23,14 @@
     --backgroundInputNormalMode: #fff;
     --backgroundButtonColorNormalMode: #324b4b;
 
-    --backgroundColorLightMode: #eee08f;
-    --backgroundColorSecondaryLightMode: #fed800;
+    --backgroundColorLightMode: #fffaeb;
+    --backgroundColorSecondaryLightMode: #fbd809;
     --backgroundInputLightMode: #000218;
     --backgroundButtonColorLightMode: #324b4b;
 
     --textColor: var(--textColorLightMode);
     --textColorSecondary: var(--textColorSecondaryLightMode);
+    --textColorAdd: var(--textColorAddLightMode);
 
     --backgroundColor: var(--backgroundColorLightMode);
     --backgroundColorSecondary: var(--backgroundColorSecondaryLightMode);
@@ -65,4 +70,8 @@
     --margin_default: 16px;
     --margin_small: 12px;
     --margin_x_small: 8px;
+}
+
+body {
+    color: var(--textColor);
 }

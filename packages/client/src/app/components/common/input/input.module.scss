@@ -4,4 +4,11 @@
 
 label {
     cursor: pointer;
+
+    color: var(--textColor)
+}
+
+input {
+    height: 30px;
+    padding-left: 8px;
 }

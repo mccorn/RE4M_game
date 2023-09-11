@@ -98,7 +98,12 @@ const Header: FC<THeaderProps> = () => {
                 {user && (
                     <>
                         <UserInfo user={user} />
-                        <Button size="medium" text="Logout" click={logout} />
+                        <Button
+                            size="medium"
+                            text="Logout"
+                            click={logout}
+                            buttonStyle="withoutBackGround"
+                        />
                     </>
                 )}
             </div>
