@@ -12,14 +12,14 @@ describe('Тесты gameEngine', () => {
         const resultResetToStart = 'resetToStart';
 
         gameEngine.animator.start = jest.fn(() => resultStart);
-        gameEngine.animator.resetToStart = jest.fn(() => resultResetToStart);
+        gameEngine.animator.reset = jest.fn(() => resultResetToStart);
         gameEngine.start();
 
         expect(gameEngine.animator.start).toHaveBeenCalled();
         expect(gameEngine.animator.start()).toBe(resultStart);
 
-        expect(gameEngine.animator.resetToStart).toHaveBeenCalled();
-        expect(gameEngine.animator.resetToStart()).toBe(resultResetToStart);
+        expect(gameEngine.animator.reset).toHaveBeenCalled();
+        expect(gameEngine.animator.reset()).toBe(resultResetToStart);
     });
 
     test('GameEngine.pause() вызывает методы GameObjectAnimator: stop', () => {

@@ -22,6 +22,6 @@
             "@common/*": ["./src/components/common/*"]
         }
     },
-    "include": ["src"],
+    "include": ["src", "fileMock.js"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }
