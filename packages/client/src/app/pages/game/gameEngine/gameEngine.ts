@@ -4,6 +4,8 @@ import gameState from './store/gameState';
 import { GameShot } from './types/gameTypes';
 import { ShotType } from './types/commonTypes';
 import { GlobalGameState } from './types/objectState';
+import { store } from '@/app/store/store';
+import { setGameState } from '@/app/store/slices/gameSlice';
 
 // todo move it in some control module ?
 const ControlKeys = {
@@ -121,6 +123,7 @@ class GameEngine {
         console.log(gameState.getState());
         gameState.setState(state);
         console.log(gameState.getState());
+        store.dispatch(setGameState(state));
         this.processNewGameState();
     };
 

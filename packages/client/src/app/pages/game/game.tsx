@@ -1,25 +1,25 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import style from './game.module.scss';
 import Button from '@/app/components/common/button/button';
 import params from './gameEngine/parameters/gameParameters';
 import GameEngine from './gameEngine/gameEngine';
 import { GlobalGameState } from './gameEngine/types/objectState';
-import gameState from './gameEngine/store/gameState';
+import { RootState } from '@/app/store/store';
+import GameOver from '@/app/components/gameOver/gameOver';
+import StartGame from '../startGame/startGame';
 
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
-
     const [paused, setIsPaused] = useState(false);
-    const [game, setGame] = useState<GameEngine | null>(null);
+    const { gameState: state, score } = useSelector((rootState: RootState) => rootState.game);
 
     const onKeyDown = (event: KeyboardEvent) => {
         GameEngine.getInstance().gameControlPressed(event);
     };
 
     const startGame = () => {
-        GameEngine.getInstance().setGameState(GlobalGameState.LevelStarted);
-        // todo move to useEffect
-        window.addEventListener('keydown', onKeyDown);
+        GameEngine.getInstance().setGameState(GlobalGameState.LevelLoading);
     };
 
     const pauseGame = () => {
@@ -33,37 +33,31 @@ const Game: FC = () => {
     };
 
     useEffect(() => {
-        /* console.log('in useEffect'); */
-        console.log('game isRunning is now');
-        console.log(gameState.isGameRunning);
+        if (state === GlobalGameState.LevelStarted || state === GlobalGameState.Resumed) {
+            window.addEventListener('keydown', onKeyDown);
+        }
+        return () => {
+            window.removeEventListener('keydown', onKeyDown);
+        };
+    }, [state]);
 
+    useEffect(() => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
             const gameEngine = GameEngine.getInstance(context);
             gameEngine.setGameState(GlobalGameState.Loaded);
-            console.log(game);
-            setGame(gameEngine);
         } else {
             console.log('no context found');
         }
-
-        /* setInterval(() => {
-            console.log('in set interval');
-            console.log('game isRunning is now');
-            console.log(gameState.isGameRunning);
-        }, 1000); */
     }, []);
 
-    /* useEffect(() => {
-        if (gameEngine) {
-            window.addEventListener('keydown', onKeyDown);
-        }
-        return () => {
-            if (gameEngine) {
-                window.removeEventListener('keydown', onKeyDown);
-            }
-        };
-    }, [gameEngine]); */
+    if (state === GlobalGameState.Ended) {
+        return <GameOver score={score} />;
+    }
+
+    if (state === GlobalGameState.LevelLoading) {
+        return <StartGame />;
+    }
 
     return (
         <div className={style.game}>

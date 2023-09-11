@@ -3,6 +3,7 @@ import Trajectory from './trajectory';
 
 export enum GlobalGameState {
     Loaded,
+    LevelLoading,
     LevelStarted,
     Paused,
     Resumed,
