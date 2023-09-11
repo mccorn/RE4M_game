@@ -36,13 +36,139 @@ $defaultColor: var(--textColorDarkMode);
   }
 }
 
+@keyframes moveDownLoop {
+
+  0% {
+    top: 0%;
+  }
+
+  100% {
+    top: 100%;
+  }
+}
+
+@keyframes moveDownLoop2 {
+
+  0% {
+    top: -100%;
+  }
+
+  100% {
+    top: 0%;
+  }
+}
+
+@keyframes moveDownLoop3 {
+
+  0% {
+    top: 0%;
+  }
+
+  100% {
+    top: 100%;
+  }
+}
+
+@keyframes moveDownLoop4 {
+
+  0% {
+    top: -100%;
+  }
+
+  100% {
+    top: 0%;
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.stars {
+  filter: blur(3px);
+
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+
+  background-color: none;
+
+  background: rgba(0, 0, 0, 0) url('/src/assets/images/backgrounds/stars1.png');
+  opacity: 0.5;
+
+  animation: moveDownLoop 17s linear infinite reverse, pulse 2s ease-in-out infinite;
+}
+
+.stars:nth-child(2) {
+  animation: moveDownLoop2 17s linear infinite reverse, pulse 2s ease-in-out infinite 0.5s;
+}
+
+.stars:nth-child(3) {
+  filter: blur(6px);
+  scale: -1 1;
+  animation: moveDownLoop3 25s linear infinite reverse, pulse 4s ease-in-out infinite 1s;
+}
+
+.stars:nth-child(4) {
+  filter: blur(6px);
+
+  scale: -1 1;
+  animation: moveDownLoop4 25s linear infinite reverse, pulse 4s ease-in-out infinite 0s;
+}
+
+
 .landingBackground {
   user-select: none;
-  
+
   position: absolute;
   width: 100%;
   height: 100vh;
-  background: url('/src/assets/images/landing-backgound.jpg');
+  overflow: hidden;
+
+  main {
+    width: 100%;
+    height: 100vh;
+
+    position: absolute;
+    z-index: 2;
+  }
+
+  .bgAfter {
+    filter: blur(10px);
+    position: absolute;
+    content: "";
+
+    left: -2%;
+
+    width: 105%;
+    height: 200vh;
+
+    background: url('/src/assets/images/backgrounds/spacebox.png') no-repeat;
+  }
+
+
+  .bgBefore {
+    filter: blur(10px);
+    position: absolute;
+
+    top: 0%;
+    left: -2%;
+
+    width: 105%;
+    height: 200vh;
+
+    background: url('/src/assets/images/backgrounds/spacebox.png') no-repeat;
+    scale: 1 -1;
+  }
 
   &_title {
     color: $defaultColor;
@@ -70,8 +196,8 @@ $defaultColor: var(--textColorDarkMode);
     top: 250px;
     right: 20%;
   }
-  
-  &_console{
+
+  &_console {
     max-width: 350px;
     position: absolute;
     bottom: 23%;
@@ -80,7 +206,7 @@ $defaultColor: var(--textColorDarkMode);
     border: 1px solid $defaultColor;
     --n: 150;
   }
-  
+
   &_typeConsole {
     color: #0000;
     background:
@@ -95,7 +221,7 @@ $defaultColor: var(--textColorDarkMode);
       t calc(var(--n)*.1s) steps(var(--n)) infinite;
   }
 
-  &_playBtn{
+  &_playBtn {
     font-size: 50px;
     width: 450px;
     text-align: center;
