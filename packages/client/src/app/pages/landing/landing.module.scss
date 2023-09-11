@@ -1,5 +1,6 @@
 @import '@/styles/variables.scss';
 
+$defaultColor: var(--textColorDarkMode);
 
 @keyframes play {
   0% {
@@ -36,12 +37,14 @@
 }
 
 .landingBackground {
+  position: absolute;
   width: 100%;
-  height: 1080px;
+  height: 100vh;
   background: url('/src/assets/images/landing-backgound.jpg');
 
   &_title {
-    color: #f5f536b3;
+    color: $defaultColor;
+    opacity: 0.7;
     font-size: 115px;
     position: absolute;
     top: 25%;
@@ -72,15 +75,15 @@
     bottom: 23%;
     right: 15%;
     padding: 15px;
-    border: 1px solid #00DFFC;
+    border: 1px solid $defaultColor;
     --n: 150;
   }
   
   &_typeConsole {
     color: #0000;
     background:
-      linear-gradient(-90deg, #00DFFC 5px, #0000 0) 10px 0,
-      linear-gradient(#00DFFC 0 0) 0 0;
+      linear-gradient(-90deg, $defaultColor 5px, #0000 0) 10px 0,
+      linear-gradient($defaultColor 0 0) 0 0;
     background-size: calc(var(--n)*1ch) 200%;
     -webkit-background-clip: padding-box, text;
     background-clip: padding-box, text;
@@ -100,14 +103,14 @@
     padding: 15px;
     padding-left: 50px;
     padding-right: 50px;
-    border: 1px solid #00DFFC;
-    color: #00DFFC;
+    border: 1px solid $defaultColor;
+    color: $defaultColor;
     border-radius: 50px;
   }
 
   &_playBtn:hover {
-    border: 1px solid #89f1ff;
-    color: #89f1ff;
+    border: 1px solid $defaultColor;
+    color: $defaultColor;
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
   }
 }
