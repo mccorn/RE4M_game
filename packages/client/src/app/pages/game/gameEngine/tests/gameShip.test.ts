@@ -6,7 +6,7 @@ import {
 } from '@/app/pages/game/gameEngine/types/commonTypes';
 import Trajectory from '@/app/pages/game/gameEngine/types/trajectory';
 
-describe('Тесты gameEngine', () => {
+describe('Тесты GameShip', () => {
     const trajectory = new Trajectory([{ x: 0, y: 0 }]);
     const ship = new GameShip(new DrawableObjectState({ x: 0, y: 0 }, trajectory), ShipType.Bomber);
 
