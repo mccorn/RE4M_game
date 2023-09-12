@@ -23,7 +23,7 @@ export enum RoutePaths {
     SIGNIN = '/signin',
     SIGNUP = '/signup',
     NOT_FOUND = '/*',
-    SERVER_ERROR = '/error',
+    SERVER_ERROR = '/500',
     CREATE_TOPIC = '/forum/topic/create',
     TOPIC = '/forum/topic/:id',
 }
