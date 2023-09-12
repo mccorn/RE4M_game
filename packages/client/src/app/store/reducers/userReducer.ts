@@ -21,6 +21,7 @@ const userSlice = createSlice({
         signIn: (state, { payload }: { payload: UserState }) => payload,
         signOut: () => null,
         setUser: (state, action) => {
+            console.log('in set user');
             state = action.payload;
         },
     },

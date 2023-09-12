@@ -56,6 +56,7 @@ class AuthAPI extends BaseAPI {
     public getUser = () => {
         this.getAuthUser()
             .then(response => {
+                console.log('in get user');
                 const data = response as XMLHttpRequest;
                 const user = JSON.parse(data.response) as TUserModel;
                 store.dispatch(setUser(DataMapper.mapServerUserData(user)));

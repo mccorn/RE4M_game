@@ -3,14 +3,9 @@ import { Outlet } from 'react-router-dom';
 import style from './layout.module.scss';
 import Header from '@/app/components/header/header';
 
-// todo move this to redux later
-type TLayoutProps = {
-    isAuthorized?: boolean;
-};
-
-const Layout: FC<TLayoutProps> = ({ isAuthorized = true }) => (
+const Layout: FC = () => (
     <div className={style.wrapper}>
-        <Header isAuthorized={isAuthorized} />
+        <Header />
         <Outlet />
     </div>
 );

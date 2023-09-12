@@ -14,14 +14,13 @@ import { signOut } from '@/app/store/reducers/userReducer';
 import TUser from '@/const/dataTypes/dataTypes';
 import changeColorMode from '@/app/helpers/changeColorMode';
 
-// todo move this to redux later
-type THeaderProps = {
-    isAuthorized?: boolean;
-};
-
-const Header: FC<THeaderProps> = () => {
+const Header: FC = () => {
     const [imageForChangeColorMode, setimageForChangeColorMode] = useState(Moon);
     const user = useSelector(state => (state as { user: unknown }).user) as TUser;
+
+    console.log('in header');
+    console.log(user);
+
     const dispatch = useDispatch();
 
     const logout: MouseEventHandler = () => {
