@@ -16,6 +16,7 @@ export default defineConfig({
             '@components': path.resolve(__dirname, './src/components'),
             '@pages': path.resolve(__dirname, './src/pages'),
             '@common': path.resolve(__dirname, './src/components/common'),
+            '@store': path.resolve(__dirname, './src/app/store'),
         },
     },
     define: {

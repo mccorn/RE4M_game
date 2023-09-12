@@ -1,6 +1,10 @@
+import { store } from '@store/store';
+import { setUser } from '@store/reducers/userReducer';
 import HTTPTransport from '@/utils/HTTPTransport/HTTPTransport';
 import BaseAPI, { API_URL } from '../api';
 import { AuthUserData } from '@/const/dataTypes/dataTypes';
+import { TUserModel } from '@/const/dataTypes/serverModels';
+import DataMapper from '@/utils/dataMapper';
 
 const http = HTTPTransport;
 const options = {};
@@ -48,6 +52,18 @@ class AuthAPI extends BaseAPI {
     logout() {
         return http.post(`${this.url}/logout`);
     }
+
+    public getUser = () => {
+        this.getAuthUser()
+            .then(response => {
+                const data = response as XMLHttpRequest;
+                const user = JSON.parse(data.response) as TUserModel;
+                store.dispatch(setUser(DataMapper.mapServerUserData(user)));
+            })
+            .catch(error => {
+                console.log('Get user error', error);
+            });
+    };
 }
 
 export default new AuthAPI();
