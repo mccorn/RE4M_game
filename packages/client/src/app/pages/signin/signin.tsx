@@ -5,7 +5,7 @@ import Form from '@/app/components/common/form/form';
 import Button from '@/app/components/common/button/button';
 import Input from '@/app/components/common/input/input';
 
-import { signIn } from '@/app/store/reducers/userReducer';
+import { signIn } from '@/app/store/slices/userSlice';
 import AuthAPI from '@/app/api/AuthAPI';
 import { TResponse } from '@/const/types';
 import utils from '@/utils';

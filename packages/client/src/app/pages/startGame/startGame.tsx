@@ -1,15 +1,19 @@
 /* eslint-disable no-plusplus */
 import React, { FC, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Progressbar from '@/app/components/common/progressbar/progressbar';
 import style from './startgame.module.scss';
+import { setGameState } from '@/app/store/slices/gameSlice';
+import { GlobalGameState } from '../game/gameEngine/types/objectState';
 
 const StartGame: FC = () => {
     const [value, setValue] = useState(0);
-
+    const dispatch = useDispatch();
     useEffect(() => {
         const interval = window.setInterval(() => {
             if (value >= 100) {
                 clearInterval(interval);
+                dispatch(setGameState(GlobalGameState.LevelStarted));
                 return;
             }
             setValue(value + 1);
