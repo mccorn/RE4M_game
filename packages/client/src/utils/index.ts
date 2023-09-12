@@ -1,3 +1,5 @@
+import { ERRORS_TYPES, TResponse, someObject } from '@/const/types';
+
 export default {
     getcookie: (a: string) => {
         const b = new RegExp(`${a}=([^;]){1,}`);
@@ -11,5 +13,19 @@ export default {
         }
 
         return s[1] ? s[1] : false;
+    },
+    safeGetData: (response: someObject | any, logged?: boolean) => {
+        if (logged) console.log(response.response);
+        try {
+            const data = JSON.parse(
+                response && typeof response === 'object'
+                    ? (response as TResponse).response
+                    : response.toString()
+            );
+
+            return data;
+        } catch {
+            throw new Error(ERRORS_TYPES.JSON_parse);
+        }
     },
 };

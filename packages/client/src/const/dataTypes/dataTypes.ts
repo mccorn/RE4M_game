@@ -7,12 +7,18 @@ type TUser = {
     secondName: string;
     displayName: string;
     phone: string;
-    avatar: string | null;
+    avatar?: string | null;
 };
 
 export type AuthUserData = {
     login: string;
     password: string;
+};
+
+export type TGameScore = {
+    score: number;
+    kills?: number;
+    timeInSeconds?: number;
 };
 
 export default TUser;
