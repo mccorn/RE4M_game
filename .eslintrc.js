@@ -37,6 +37,7 @@ module.exports = {
         'operator-linebreak': ['warn', 'after'],
         'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
         'max-classes-per-file': ['error', 4],
+        'no-restricted-globals': 'off',
         'react/jsx-indent': ['error', 4],
         'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
         'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],
