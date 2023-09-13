@@ -3,6 +3,7 @@ module.exports = {
         browser: true,
         es2020: true,
         node: true,
+        jest: true,
     },
     extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier', 'airbnb'],
     parser: '@typescript-eslint/parser',
@@ -15,7 +16,7 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 1,
         '@typescript-eslint/no-unused-vars': 2,
         '@typescript-eslint/no-shadow': ['error'],
-        indent: ['error', 4],
+        indent: ['error', 4, { SwitchCase: 1 }],
         'comma-dangle': [
             'error',
             {
