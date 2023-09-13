@@ -9,6 +9,7 @@ import { RootState } from '@/app/store/store';
 import GameOver from '@/app/components/gameOver/gameOver';
 import StartGame from '../startGame/startGame';
 import mockRedux from './gameEngine/store/gameState';
+import AnimatedBackground from '@/app/components/animatedBackground/animatedBackground';
 
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
@@ -98,25 +99,25 @@ const Game: FC = () => {
 
     return (
         <div className={style.game}>
-            <div className={style.game__header}>Play game online</div>
-            <div className={style.game__controls}>
-                Game controls: Arrow buttons to move. A button to fire
-            </div>
-            <div>
-                <canvas
-                    ref={ref}
-                    width={params.WIDTH}
-                    height={params.HEIGHT}
-                    onMouseMove={handleMouseMove}
-                    className={style.game__canvas}>
-                    the game should be here
-                </canvas>
-            </div>
-            <div className={style.game__buttons}>
-                <Button text="Start game" size="medium" click={startGame} />
+            <AnimatedBackground noInvert />
+            {/* <div className={style.game__header}>Play game online</div> */}
+            <main>
+                <div>
+                    <canvas
+                        ref={ref}
+                        width={params.WIDTH}
+                        height={params.HEIGHT}
+                        onMouseMove={handleMouseMove}
+                        className={style.game__canvas}>
+                        the game should be here
+                    </canvas>
+                </div>
+                <div className={style.game__buttons}>
+                    <Button text="Start game" size="medium" click={startGame} />
 
-                <Button text="Pause game" size="medium" click={pauseGame} />
-            </div>
+                    <Button text="Pause game" size="medium" click={pauseGame} />
+                </div>
+            </main>
         </div>
     );
 };
