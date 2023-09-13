@@ -51,11 +51,15 @@ const Header: FC<THeaderProps> = () => {
 
     return (
         <div className={style.header}>
-            <div>
-                <Link to={Paths.LANDING}>
+            <Link to={Paths.LANDING}>
+                <div className={classNames(style.header__logoWrapper)}>
                     <img className={style.header__logo} src={Logo} alt="Home" />
-                </Link>
-            </div>
+
+                    <div className={style.header__title}>
+                        <b>Black Star</b>
+                    </div>
+                </div>
+            </Link>
 
             <div className={style.header__navigation}>
                 <Button buttonStyle="icon" size="small" click={onClickColorModeButton}>

@@ -2,17 +2,11 @@
 /* eslint-disable object-curly-spacing */
 import React, { FC } from 'react';
 import style from './landing.module.scss';
+import AnimatedBackground from '@/app/components/animatedBackground/animatedBackground';
 
 const Landing: FC = () => (
     <div className={style.landingBackground}>
-        <div className={style.stars} />
-        <div className={style.stars} />
-
-        <div className={style.stars} />
-        <div className={style.stars} />
-
-        <div className={style.bgBefore} />
-        <div className={style.bgAfter} />
+        <AnimatedBackground noInvert />
 
         <main>
             <h1 className={style.landingBackground_title}>Black Star</h1>
@@ -21,7 +15,7 @@ const Landing: FC = () => (
                 src="/src/assets/images/battle-cruiser.png"
                 alt="battle cruiser"
             />
-            <div className={style.landingBackground_planet}>_</div>
+            <div className={style.landingBackground_planet} />
             <div className={style.landingBackground_console}>
                 <span className={style.landingBackground_typeConsole}>
                     Black star it`s arcade shooting space game from RE4M team by Yandex.Practicum.

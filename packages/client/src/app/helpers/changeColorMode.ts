@@ -1,4 +1,6 @@
 const stylesArray = [
+    'themeFlag',
+
     'textColor',
     'textColorSecondary',
 
