@@ -100,9 +100,9 @@ const Game: FC = () => {
     return (
         <div className={style.game}>
             <AnimatedBackground noInvert />
-            {/* <div className={style.game__header}>Play game online</div> */}
+
             <main>
-                <div>
+                <div className={style.game__canvasWrapper}>
                     <canvas
                         ref={ref}
                         width={params.WIDTH}
