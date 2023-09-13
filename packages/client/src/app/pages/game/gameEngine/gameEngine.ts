@@ -2,10 +2,12 @@ import GameAnimator from './gameAnimator';
 import params from './parameters/gameParameters';
 import gameState from './store/gameState';
 import { GameShot } from './types/gameTypes';
-import { ShotType } from './types/commonTypes';
+import { ShotType, TPoint } from './types/commonTypes';
 import { GlobalGameState } from './types/objectState';
 import { store } from '@/app/store/store';
 import { setGameState } from '@/app/store/slices/gameSlice';
+import mockRedux from '../gameEngine/store/gameState';
+import utils from '@/utils';
 
 // todo move it in some control module ?
 const ControlKeys = {
@@ -17,7 +19,26 @@ const ControlKeys = {
     SHOOT: 'a',
 };
 
-export type TDirection = 'Up' | 'Down' | 'Left' | 'Right';
+export type TDirection =
+    | 'Up'
+    | 'Down'
+    | 'Left'
+    | 'Right'
+    | 'UpLeft'
+    | 'UpRight'
+    | 'DownLeft'
+    | 'DownRight';
+
+export enum Direction {
+    'Up' = 'Up',
+    'Down' = 'Down',
+    'Left' = 'Left',
+    'Right' = 'Right',
+    'UpLeft' = 'UpLeft',
+    'UpRight' = 'UpRight',
+    'DownLeft' = 'DownLeft',
+    'DownRight' = 'DownRight',
+}
 
 class GameEngine {
     // eslint-disable-next-line no-use-before-define
@@ -127,6 +148,15 @@ class GameEngine {
         this.processNewGameState();
     };
 
+    public playerShot = () => {
+        const { player } = mockRedux;
+        const coordinates = player.getState().getCoordinates();
+        console.log(coordinates);
+        gameState.shots.push(
+            new GameShot(ShotType.Player, coordinates, this.animator.mainLoopIndex)
+        );
+    };
+
     public gameControlPressed = (event: KeyboardEvent) => {
         let direction: TDirection | undefined;
         if (event.key === ControlKeys.UP) {
@@ -151,6 +181,56 @@ class GameEngine {
                 new GameShot(ShotType.Player, coordinates, this.animator.mainLoopIndex)
             );
         }
+    };
+
+    // eslint-disable-next-line class-methods-use-this
+    public getPlayerCoordinates = () => {
+        const { player } = mockRedux;
+        return { x: player.getState().getCoordinates().x, y: player.getState().getCoordinates().y };
+    };
+
+    // eslint-disable-next-line class-methods-use-this
+    private setDirectionForPlayer = (direction: TDirection) => {
+        const { player } = mockRedux;
+        // todo index not used
+        player?.updateState(false, direction); // todo shouldChangeFrame can be overwritten
+    };
+
+    private changePlayerCoordinatesInterval: ReturnType<typeof setInterval> | null = null;
+
+    public setTargetedCoordinatesForPlayer = ({ x: mouseX, y: mouseY }: TPoint) => {
+        if (this.changePlayerCoordinatesInterval) {
+            clearInterval(this.changePlayerCoordinatesInterval);
+        }
+
+        this.changePlayerCoordinatesInterval = setInterval(() => {
+            const { x: playerX, y: playerY } = this.getPlayerCoordinates();
+
+            if (
+                utils.approximatelyEqual(playerX, mouseX, 2) &&
+                utils.approximatelyEqual(playerY, mouseY, 2) &&
+                this.changePlayerCoordinatesInterval
+            ) {
+                clearInterval(this.changePlayerCoordinatesInterval);
+                return;
+            }
+
+            let direction = '';
+            if (mouseY < playerY) {
+                direction += Direction.Up;
+            }
+            if (mouseY > playerY) {
+                direction += Direction.Down;
+            }
+            if (mouseX > playerX) {
+                direction += Direction.Right;
+            }
+            if (mouseX < playerX) {
+                direction += Direction.Left;
+            }
+
+            this.setDirectionForPlayer(direction as TDirection);
+        }, 0);
     };
 }
 
