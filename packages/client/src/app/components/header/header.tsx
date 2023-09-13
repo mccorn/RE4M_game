@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import Button from '@/app/components/common/button/button';
 import UserInfo from '@/app/components/userInfo/userInfo';
-import Logo from '@/assets/images/logo.svg';
+import Logo from '@/assets/images/trace.svg';
 import Moon from '@/assets/images/moon.svg';
 import Sun from '@/assets/images/sun.svg';
 import { RoutePaths as Paths } from '@/app/router/router';
@@ -51,14 +51,18 @@ const Header: FC<THeaderProps> = () => {
 
     return (
         <div className={style.header}>
-            <div>
-                <Link to={Paths.LANDING}>
+            <Link to={Paths.LANDING}>
+                <div className={classNames(style.header__logoWrapper)}>
                     <img className={style.header__logo} src={Logo} alt="Home" />
-                </Link>
-            </div>
+
+                    <div className={style.header__title}>
+                        <b>Black Star</b>
+                    </div>
+                </div>
+            </Link>
 
             <div className={style.header__navigation}>
-                <Button buttonStyle="withoutBackGround" size="small" click={onClickColorModeButton}>
+                <Button buttonStyle="icon" size="small" click={onClickColorModeButton}>
                     <img
                         className={style.header__changeColorMode}
                         src={imageForChangeColorMode}
@@ -98,7 +102,12 @@ const Header: FC<THeaderProps> = () => {
                 {user && (
                     <>
                         <UserInfo user={user} />
-                        <Button size="medium" text="Logout" click={logout} />
+                        <Button
+                            size="medium"
+                            text="Logout"
+                            click={logout}
+                            buttonStyle="withoutBackGround"
+                        />
                     </>
                 )}
             </div>

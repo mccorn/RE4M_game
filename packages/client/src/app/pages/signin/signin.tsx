@@ -66,7 +66,7 @@ const Signin: FC = () => {
                     className="column"
                 />
 
-                <Button text="Signin" click={handleSubmitForm} />
+                <Button text="Signin" click={handleSubmitForm} buttonStyle="withoutBackGround" />
             </Form>
         </div>
     );
