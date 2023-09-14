@@ -96,6 +96,10 @@ a {
     color: inherit;
 }
 
+h3 {
+    font-size: 3em;
+}
+
 input {
     cursor: inherit;
 }
