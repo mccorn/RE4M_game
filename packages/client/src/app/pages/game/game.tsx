@@ -16,6 +16,7 @@ const Game: FC = () => {
     const [paused, setIsPaused] = useState(false);
     const { gameState: state, score } = useSelector((rootState: RootState) => rootState.game);
     let shootInterval: ReturnType<typeof setInterval> | null = null;
+    let component;
 
     const onKeyDown = (event: KeyboardEvent) => {
         GameEngine.getInstance().gameControlPressed(event);
@@ -90,17 +91,11 @@ const Game: FC = () => {
     }, []);
 
     if (state === GlobalGameState.Ended) {
-        return <GameOver score={score} />;
-    }
-
-    if (state === GlobalGameState.LevelLoading) {
-        return <StartGame />;
-    }
-
-    return (
-        <div className={style.game}>
-            <AnimatedBackground noInvert />
-
+        component = <GameOver score={score} />;
+    } else if (state === GlobalGameState.LevelLoading) {
+        component = <StartGame />;
+    } else {
+        component = (
             <main>
                 <div className={style.game__canvasWrapper}>
                     <canvas
@@ -112,12 +107,26 @@ const Game: FC = () => {
                         the game should be here
                     </canvas>
                 </div>
+
                 <div className={style.game__buttons}>
                     <Button text="Start game" size="medium" click={startGame} />
 
                     <Button text="Pause game" size="medium" click={pauseGame} />
                 </div>
             </main>
+        );
+    }
+
+    return (
+        <div className={style.game}>
+            <AnimatedBackground noInvert />
+            {component}
+
+            {/* <div className={style.game__buttons}>
+                <Button text="Start game" size="medium" click={startGame} />
+
+                <Button text="Pause game" size="medium" click={pauseGame} />
+            </div> */}
         </div>
     );
 };
