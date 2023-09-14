@@ -20,6 +20,14 @@ export enum LiveState {
     Dead,
 }
 
+export const GAME_EVENTS = {
+    objectIsDead: 'objectIsDead',
+};
+
+export const EVENTS = {
+    [GAME_EVENTS.objectIsDead]: new Event(GAME_EVENTS.objectIsDead),
+};
+
 export class ShipState extends DrawableObjectState {
     private liveState: LiveState;
 
@@ -38,6 +46,10 @@ export class ShipState extends DrawableObjectState {
     public isDead = () => this.liveState === LiveState.Dead;
 
     public setLiveState = (liveState: LiveState) => {
+        if (liveState === LiveState.Dead && this.liveState !== LiveState.Dead) {
+            window.dispatchEvent(EVENTS.objectIsDead);
+        }
+
         this.liveState = liveState;
     };
 

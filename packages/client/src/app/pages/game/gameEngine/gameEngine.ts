@@ -52,7 +52,7 @@ class GameEngine {
 
     private constructor(ctx: CanvasRenderingContext2D) {
         this.context = ctx;
-        this.bgImage.src = params.BACKGROUND_IMAGE;
+        this.bgImage.src = ''; // params.BACKGROUND_IMAGE
         this.animator = new GameAnimator(this.context, this.renderGameField);
     }
 
@@ -144,6 +144,7 @@ class GameEngine {
         console.log(gameState.getState());
         gameState.setState(state);
         console.log(gameState.getState());
+
         store.dispatch(setGameState(state));
         this.processNewGameState();
     };
