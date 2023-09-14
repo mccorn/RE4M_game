@@ -1,7 +1,7 @@
-import Trajectory from '../objects/trajectory';
+import Trajectory from './trajectory';
 import { ShotParametersValues } from '../parameters/gameObjectsParameters';
 import { ShotState } from '../store/objectState';
-import { DrawableGameObject, ShotType, TPoint } from './commonTypes';
+import { DrawableGameObject, ShotType, TPoint } from '../types/commonTypes';
 
 export default class GameShot extends DrawableGameObject {
     private type: ShotType;

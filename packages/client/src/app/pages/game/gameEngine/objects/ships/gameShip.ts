@@ -1,6 +1,6 @@
-import { ShipTypesParameterValues } from '../parameters/gameObjectsParameters';
-import { LiveState, ShipState } from '../store/objectState';
-import { DrawableGameObject, DrawableObjectState, ShipType } from './commonTypes';
+import { ShipTypesParameterValues } from '../../parameters/gameObjectsParameters';
+import { LiveState, ShipState } from '../../store/objectState';
+import { DrawableGameObject, DrawableObjectState, ShipType } from '../../types/commonTypes';
 
 export default class GameShip extends DrawableGameObject {
     // todo do we need this?

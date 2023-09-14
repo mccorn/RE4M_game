@@ -4,8 +4,8 @@ import CollisionManager from './collisionManager';
 import gameState from '../store/gameState';
 import { GlobalGameState } from '../store/objectState';
 import GameEngine from './gameEngine';
-import EnemyShip from '../types/EnemyShip';
-import GameShot from '../types/gameShot';
+import EnemyShip from '../objects/ships/enemyShip';
+import GameShot from '../objects/gameShot';
 
 class GameAnimator {
     private context: CanvasRenderingContext2D;

@@ -1,6 +1,6 @@
-import Trajectory from '../objects/trajectory';
-import { LiveState, ShipState } from '../store/objectState';
-import { ShipType } from './commonTypes';
+import Trajectory from '../trajectory';
+import { LiveState, ShipState } from '../../store/objectState';
+import { ShipType } from '../../types/commonTypes';
 import GameShip from './gameShip';
 
 export default class EnemyShip extends GameShip {
