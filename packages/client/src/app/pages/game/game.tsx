@@ -133,12 +133,6 @@ const Game: FC = () => {
         <div className={style.game}>
             <AnimatedBackground noInvert />
             {component}
-
-            {/* <div className={style.game__buttons}>
-                <Button text="Start game" size="medium" click={startGame} />
-
-                <Button text="Pause game" size="medium" click={pauseGame} />
-            </div> */}
         </div>
     );
 };
