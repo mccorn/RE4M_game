@@ -43,6 +43,11 @@ const Game: FC = () => {
         }
     };
 
+    const resumeGame = () => {
+        GameEngine.getInstance().setGameState(GlobalGameState.Resumed);
+        setIsPaused(false);
+    };
+
     const handleMouseMove = (ev: SyntheticEvent) => {
         if (
             mockRedux.getState() !== GlobalGameState.LevelStarted &&
@@ -109,9 +114,16 @@ const Game: FC = () => {
                 </div>
 
                 <div className={style.game__buttons}>
-                    <Button text="Start game" size="medium" click={startGame} />
-
-                    <Button text="Pause game" size="medium" click={pauseGame} />
+                    {state === GlobalGameState.Loaded && (
+                        <Button text="Start game" size="medium" click={startGame} />
+                    )}
+                    {state === GlobalGameState.Paused && (
+                        <Button text="Resume game" size="medium" click={resumeGame} />
+                    )}
+                    {(state === GlobalGameState.LevelStarted ||
+                        state === GlobalGameState.Resumed) && (
+                        <Button text="Pause game" size="medium" click={pauseGame} />
+                    )}
                 </div>
             </main>
         );
