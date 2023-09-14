@@ -1,9 +1,10 @@
-import { EnemyShip, GameShot, PlayerShip } from '../types/gameTypes';
+import { GameShot, PlayerShip } from '../types/gameTypes';
 import params from '../parameters/gameParameters';
 import { NEXT_SHIP_DELAY, TEnemyType } from '../types/commonTypes';
 import GameLevels, { GameLevelList } from '../parameters/gameLevels';
 import Trajectory from '../objects/trajectory';
 import { GlobalGameState } from './objectState';
+import EnemyShip from '../types/EnemyShip';
 
 class GameState {
     public player: PlayerShip;

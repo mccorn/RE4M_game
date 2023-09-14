@@ -1,9 +1,10 @@
 import { DrawableGameObject } from '../types/commonTypes';
-import { EnemyShip, PlayerShip, GameShot } from '../types/gameTypes';
+import { PlayerShip, GameShot } from '../types/gameTypes';
 import CollisionManager from './collisionManager';
 import gameState from '../store/gameState';
 import { GlobalGameState } from '../store/objectState';
 import GameEngine from './gameEngine';
+import EnemyShip from '../types/EnemyShip';
 
 class GameAnimator {
     private context: CanvasRenderingContext2D;
