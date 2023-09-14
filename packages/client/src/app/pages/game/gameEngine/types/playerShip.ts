@@ -1,14 +1,13 @@
 // eslint-disable-next-line
 import { Direction, TDirection } from '../core/gameEngine';
-import { DrawableGameObject, ShipType, ShotType, TPoint } from './commonTypes';
+import { ShipType, TPoint } from './commonTypes';
 import Trajectory from '../objects/trajectory';
-import { LiveState, ShipState, ShotState } from '../store/objectState';
+import { LiveState, ShipState } from '../store/objectState';
 
 import params from '../parameters/gameParameters';
-import { ShotParametersValues } from '../parameters/gameObjectsParameters';
 import GameShip from './gameShip';
 
-export class PlayerShip extends GameShip {
+export default class PlayerShip extends GameShip {
     constructor(coordinates: TPoint) {
         const trajectory = new Trajectory([coordinates]); // todo can we remove trajectory?
         const state = new ShipState(coordinates, trajectory, LiveState.Flying);
@@ -74,28 +73,5 @@ export class PlayerShip extends GameShip {
         }
 
         state.changeFrameIndex(this.parameters.frameCount, shouldChangeFrame);
-    };
-}
-
-export class GameShot extends DrawableGameObject {
-    private type: ShotType;
-
-    constructor(type: ShotType, startPoint: TPoint, startTime: number) {
-        const parameters = ShotParametersValues[type];
-        const trajectory = new Trajectory([
-            { x: startPoint.x, y: startPoint.y },
-            { x: startPoint.x, y: -parameters.height },
-        ]);
-        const state = new ShotState(startPoint, trajectory, true, startTime);
-        super(state, parameters);
-        this.type = type;
-    }
-
-    public isVisible = () => (this.getState() as ShotState).isVisible();
-
-    public isPlayerShot = () => +this.type === ShotType.Player;
-
-    public updateState = (time: number, shouldChangeFrame: boolean) => {
-        (this.getState() as ShotState).update(time, shouldChangeFrame, this.parameters.frameCount);
     };
 }

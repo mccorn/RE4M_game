@@ -1,7 +1,7 @@
 import GameAnimator from './gameAnimator';
 import params from '../parameters/gameParameters';
 import gameState from '../store/gameState';
-import { GameShot } from '../types/gameTypes';
+import GameShot from '../types/gameShot';
 import { ShotType, TPoint } from '../types/commonTypes';
 import { GlobalGameState } from '../store/objectState';
 import { store } from '@/app/store/store';
