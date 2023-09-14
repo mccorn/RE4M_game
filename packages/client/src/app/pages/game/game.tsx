@@ -113,7 +113,7 @@ const Game: FC = () => {
             console.log('no context found');
         }
 
-        return () => window.removeEventListener(GAME_EVENTS.objectIsDead, () => increment());
+        return () => window.removeEventListener(GAME_EVENTS.objectIsDead, increment);
     }, []);
 
     if (state === GlobalGameState.Ended) {
