@@ -1,8 +1,8 @@
 // eslint-disable-next-line
-import { Direction, TDirection } from '../gameEngine';
+import { Direction, TDirection } from '../core/gameEngine';
 import { DrawableObjectState, DrawableGameObject, ShipType, ShotType, TPoint } from './commonTypes';
-import Trajectory from './trajectory';
-import { LiveState, ShipState, ShotState } from './objectState';
+import Trajectory from '../objects/trajectory';
+import { LiveState, ShipState, ShotState } from '../store/objectState';
 
 import params from '../parameters/gameParameters';
 import {

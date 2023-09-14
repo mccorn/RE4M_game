@@ -1,6 +1,6 @@
-import { DrawableGameObject } from './types/commonTypes';
-import state from './store/gameState';
-import { LiveState } from './types/objectState';
+import { DrawableGameObject } from '../types/commonTypes';
+import state from '../store/gameState';
+import { LiveState } from '../store/objectState';
 
 class CollisionManager {
     private static detectCollision(object1: DrawableGameObject, object2: DrawableGameObject) {

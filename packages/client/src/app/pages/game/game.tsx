@@ -5,12 +5,12 @@ import classNames from 'classnames';
 import style from './game.module.scss';
 import Button from '@/app/components/common/button/button';
 import params from './gameEngine/parameters/gameParameters';
-import GameEngine from './gameEngine/gameEngine';
-import { GAME_EVENTS, GlobalGameState } from './gameEngine/types/objectState';
+import GameEngine from './gameEngine/core/gameEngine';
+import { GAME_EVENTS, GlobalGameState } from './gameEngine/store/objectState';
 import { RootState } from '@/app/store/store';
 import GameOver from '@/app/components/gameOver/gameOver';
 import StartGame from '../startGame/startGame';
-import mockRedux from './gameEngine/store/gameState';
+import gameState from './gameEngine/store/gameState';
 import AnimatedBackground from '@/app/components/animatedBackground/animatedBackground';
 
 const DEMO_ENEMIES_COUNT = 11; // TODO: автоматизировать процессы игры
@@ -55,8 +55,8 @@ const Game: FC = () => {
 
     const handleMouseMove = (ev: SyntheticEvent) => {
         if (
-            mockRedux.getState() !== GlobalGameState.LevelStarted &&
-            mockRedux.getState() !== GlobalGameState.Resumed
+            gameState.getState() !== GlobalGameState.LevelStarted &&
+            gameState.getState() !== GlobalGameState.Resumed
         ) {
             return;
         }

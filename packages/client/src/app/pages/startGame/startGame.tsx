@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import Progressbar from '@/app/components/common/progressbar/progressbar';
 import style from './startgame.module.scss';
 import { setGameState } from '@/app/store/slices/gameSlice';
-import { GlobalGameState } from '../game/gameEngine/types/objectState';
+import { GlobalGameState } from '../game/gameEngine/store/objectState';
 
 const StartGame: FC = () => {
     const [value, setValue] = useState(0);

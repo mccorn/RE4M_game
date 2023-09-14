@@ -1,4 +1,4 @@
-import Trajectory from './trajectory';
+import Trajectory from '../objects/trajectory';
 
 export type TPoint = {
     x: number;

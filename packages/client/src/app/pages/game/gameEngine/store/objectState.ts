@@ -1,5 +1,5 @@
-import { DrawableObjectState, TPoint } from './commonTypes';
-import Trajectory from './trajectory';
+import { DrawableObjectState, TPoint } from '../types/commonTypes';
+import Trajectory from '../objects/trajectory';
 
 export enum GlobalGameState {
     Loaded,
