@@ -1,19 +1,24 @@
 import React, { FC, useEffect, useRef, useState, SyntheticEvent } from 'react';
 import { useSelector } from 'react-redux';
+import classNames from 'classnames';
+
 import style from './game.module.scss';
 import Button from '@/app/components/common/button/button';
 import params from './gameEngine/parameters/gameParameters';
 import GameEngine from './gameEngine/gameEngine';
-import { GlobalGameState } from './gameEngine/types/objectState';
+import { GAME_EVENTS, GlobalGameState } from './gameEngine/types/objectState';
 import { RootState } from '@/app/store/store';
 import GameOver from '@/app/components/gameOver/gameOver';
 import StartGame from '../startGame/startGame';
 import mockRedux from './gameEngine/store/gameState';
 import AnimatedBackground from '@/app/components/animatedBackground/animatedBackground';
 
+const DEMO_ENEMIES_COUNT = 11; // TODO: автоматизировать процессы игры
+
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
     const [paused, setIsPaused] = useState(false);
+    const [counter, setCounter] = useState(0);
     const { gameState: state, score } = useSelector((rootState: RootState) => rootState.game);
     let shootInterval: ReturnType<typeof setInterval> | null = null;
     let component;
@@ -85,6 +90,20 @@ const Game: FC = () => {
         };
     }, [state]);
 
+    const increment = () => {
+        setCounter(counter + 1);
+    };
+
+    window.addEventListener(GAME_EVENTS.objectIsDead, increment);
+
+    useEffect(() => {
+        if (counter === DEMO_ENEMIES_COUNT) {
+            const gameEngine = GameEngine.getInstance();
+            gameEngine.setGameState(GlobalGameState.Ended);
+            setIsPaused(true);
+        }
+    }, [counter]);
+
     useEffect(() => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
@@ -93,15 +112,19 @@ const Game: FC = () => {
         } else {
             console.log('no context found');
         }
+
+        return () => window.removeEventListener(GAME_EVENTS.objectIsDead, () => increment());
     }, []);
 
     if (state === GlobalGameState.Ended) {
-        component = <GameOver score={score} />;
+        component = (
+            <GameOver score={score} isWin={counter === DEMO_ENEMIES_COUNT} kills={counter} />
+        );
     } else if (state === GlobalGameState.LevelLoading) {
         component = <StartGame />;
     } else {
         component = (
-            <main>
+            <main className={classNames({ [style.default]: state === GlobalGameState.Loaded })}>
                 <div className={style.game__canvasWrapper}>
                     <canvas
                         ref={ref}
