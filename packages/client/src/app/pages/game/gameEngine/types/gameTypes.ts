@@ -1,32 +1,12 @@
 // eslint-disable-next-line
 import { Direction, TDirection } from '../core/gameEngine';
-import { DrawableObjectState, DrawableGameObject, ShipType, ShotType, TPoint } from './commonTypes';
+import { DrawableGameObject, ShipType, ShotType, TPoint } from './commonTypes';
 import Trajectory from '../objects/trajectory';
 import { LiveState, ShipState, ShotState } from '../store/objectState';
 
 import params from '../parameters/gameParameters';
-import {
-    ShipTypesParameterValues,
-    ShotParametersValues,
-} from '../parameters/gameObjectsParameters';
-
-export class GameShip extends DrawableGameObject {
-    // todo do we need this?
-    public type: ShipType;
-
-    constructor(state: DrawableObjectState, type: ShipType) {
-        super(state, ShipTypesParameterValues[type]);
-        this.type = type;
-    }
-
-    protected getShipState = () => this.getState() as ShipState;
-
-    public setLiveState = (state: LiveState) => this.getShipState().setLiveState(state);
-
-    public isDead = () => this.getShipState().isDead();
-
-    public shouldDetectCollision = () => this.getShipState().isFlying();
-}
+import { ShotParametersValues } from '../parameters/gameObjectsParameters';
+import GameShip from './gameShip';
 
 export class EnemyShip extends GameShip {
     constructor(type: ShipType, trajectory: Trajectory) {
