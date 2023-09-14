@@ -1,9 +1,11 @@
-import { EnemyShip, GameShot, PlayerShip } from '../types/gameTypes';
-import params from '../parameters/gameParameters';
-import { NEXT_SHIP_DELAY, TEnemyType } from '../types/commonTypes';
+import PlayerShip from '../objects/ships/playerShip';
+import params, { NEXT_SHIP_DELAY } from '../parameters/gameParameters';
+import { TEnemyType } from '../types/commonTypes';
 import GameLevels, { GameLevelList } from '../parameters/gameLevels';
-import Trajectory from '../types/trajectory';
-import { GlobalGameState } from '../types/objectState';
+import Trajectory from '../objects/trajectory';
+import { GlobalGameState } from './objectState';
+import EnemyShip from '../objects/ships/enemyShip';
+import GameShot from '../objects/gameShot';
 
 class GameState {
     public player: PlayerShip;

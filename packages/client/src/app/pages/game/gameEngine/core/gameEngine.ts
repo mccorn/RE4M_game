@@ -1,12 +1,11 @@
 import GameAnimator from './gameAnimator';
-import params from './parameters/gameParameters';
-import gameState from './store/gameState';
-import { GameShot } from './types/gameTypes';
-import { ShotType, TPoint } from './types/commonTypes';
-import { GlobalGameState } from './types/objectState';
+import params from '../parameters/gameParameters';
+import gameState from '../store/gameState';
+import GameShot from '../objects/gameShot';
+import { ShotType, TPoint } from '../types/commonTypes';
+import { GlobalGameState } from '../store/objectState';
 import { store } from '@/app/store/store';
 import { setGameState } from '@/app/store/slices/gameSlice';
-import mockRedux from '../gameEngine/store/gameState';
 import utils from '@/utils';
 
 // todo move it in some control module ?
@@ -150,7 +149,7 @@ class GameEngine {
     };
 
     public playerShot = () => {
-        const { player } = mockRedux;
+        const { player } = gameState;
         const coordinates = player.getState().getCoordinates();
         console.log(coordinates);
         gameState.shots.push(
@@ -186,13 +185,13 @@ class GameEngine {
 
     // eslint-disable-next-line class-methods-use-this
     public getPlayerCoordinates = () => {
-        const { player } = mockRedux;
+        const { player } = gameState;
         return { x: player.getState().getCoordinates().x, y: player.getState().getCoordinates().y };
     };
 
     // eslint-disable-next-line class-methods-use-this
     private setDirectionForPlayer = (direction: TDirection) => {
-        const { player } = mockRedux;
+        const { player } = gameState;
         // todo index not used
         player?.updateState(false, direction); // todo shouldChangeFrame can be overwritten
     };
