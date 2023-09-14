@@ -51,6 +51,7 @@ const Header: FC<THeaderProps> = () => {
                     <img className={style.header__logo} src={Logo} alt="Home" />
 
                     <h3 className={style.header__title}>Black Star</h3>
+                </div>
             </Link>
 
             <div className={style.header__navigation}>
