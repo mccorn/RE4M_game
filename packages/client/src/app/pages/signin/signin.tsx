@@ -1,21 +1,15 @@
 import React, { FC, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Form from '@/app/components/common/form/form';
 import Button from '@/app/components/common/button/button';
 import Input from '@/app/components/common/input/input';
-import { signIn } from '@/app/store/slices/userSlice';
 import AuthAPI from '@/app/api/AuthAPI';
-import { TResponse } from '@/const/types';
-import utils from '@/utils';
 import { RoutePaths } from '@/app/router/router';
-import style from './signin.module.scss';
 
 const Signin: FC = () => {
-    const dispatch = useDispatch();
-
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleChangeLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLogin(event.target.value);
@@ -26,24 +20,16 @@ const Signin: FC = () => {
     };
 
     const handleSubmitForm = () => {
-        AuthAPI.login({
-            login,
-            password,
-        })
-            .then(response => {
-                const status = (response as TResponse)?.status;
-                // eslint-disable-next-line no-alert
-                if (status === 200) {
-                    // alert((response as TResponse)?.status);
-                    return AuthAPI.getAuthUser();
-                }
-
-                return null;
-            })
-            .then(response => {
-                const responseData = utils.safeGetData(response, true);
-                dispatch(signIn(responseData));
-            });
+        AuthAPI.login(
+            {
+                login,
+                password,
+            },
+            () => {
+                console.log('in callback');
+                navigate(RoutePaths.GAME);
+            }
+        );
     };
 
     return (
@@ -67,11 +53,9 @@ const Signin: FC = () => {
                     className="column"
                 />
 
-                <Button text="Signin" click={handleSubmitForm} />
+                <Button text="Signin" click={handleSubmitForm} buttonStyle="withoutBackGround" />
 
-                <NavLink to={RoutePaths.SIGNUP} className={style.link}>
-                    Signup
-                </NavLink>
+                <Button text="Signup" click={() => navigate(RoutePaths.SIGNUP)} />
             </Form>
         </div>
     );

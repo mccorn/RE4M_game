@@ -1,16 +1,15 @@
 import React, { FC, MouseEventHandler, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import Button from '@/app/components/common/button/button';
 import UserInfo from '@/app/components/userInfo/userInfo';
-import Logo from '@/assets/images/logo.svg';
+import Logo from '@/assets/images/trace.svg';
 import Moon from '@/assets/images/moon.svg';
 import Sun from '@/assets/images/sun.svg';
-import { RoutePaths as Paths } from '@/app/router/router';
+import { RoutePaths as Paths, RoutePaths } from '@/app/router/router';
 import style from './header.module.scss';
 import AuthAPI from '@/app/api/AuthAPI';
-import { signOut } from '@/app/store/slices/userSlice';
 import TUser from '@/const/dataTypes/dataTypes';
 import changeColorMode from '@/app/helpers/changeColorMode';
 
@@ -22,14 +21,10 @@ type THeaderProps = {
 const Header: FC<THeaderProps> = () => {
     const [imageForChangeColorMode, setimageForChangeColorMode] = useState(Moon);
     const user = useSelector(state => (state as { user: unknown }).user) as TUser;
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const logout: MouseEventHandler = () => {
-        AuthAPI.logout().then(() => dispatch(signOut()));
-
-        // AuthAPI.logout()
-        //  .then(() => alert('success logout'))
-        // .catch((err) => console.log(err));
+        AuthAPI.logout(() => navigate(RoutePaths.LANDING));
     };
 
     const calculateLinkClass = (isActive: boolean) => {
@@ -51,14 +46,18 @@ const Header: FC<THeaderProps> = () => {
 
     return (
         <div className={style.header}>
-            <div>
-                <Link to={Paths.LANDING}>
+            <Link to={Paths.LANDING}>
+                <div className={classNames(style.header__logoWrapper)}>
                     <img className={style.header__logo} src={Logo} alt="Home" />
-                </Link>
-            </div>
+
+                    <div className={style.header__title}>
+                        <b>Black Star</b>
+                    </div>
+                </div>
+            </Link>
 
             <div className={style.header__navigation}>
-                <Button buttonStyle="withoutBackGround" size="small" click={onClickColorModeButton}>
+                <Button buttonStyle="icon" size="small" click={onClickColorModeButton}>
                     <img
                         className={style.header__changeColorMode}
                         src={imageForChangeColorMode}
@@ -98,7 +97,12 @@ const Header: FC<THeaderProps> = () => {
                 {user && (
                     <>
                         <UserInfo user={user} />
-                        <Button size="medium" text="Logout" click={logout} />
+                        <Button
+                            size="medium"
+                            text="Logout"
+                            click={logout}
+                            buttonStyle="withoutBackGround"
+                        />
                     </>
                 )}
             </div>
