@@ -13,4 +13,6 @@ const GameParameters = {
     PLAYER_COORDINATES: { x: width / 2 - playerSize / 2, y: height - playerSize },
 } as const;
 
+export const NEXT_SHIP_DELAY = 1 * 60; // frames per second??? todo to const
+
 export default GameParameters;
