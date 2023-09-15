@@ -18,10 +18,10 @@
         opacity: 0.5;
     }
 
-    &_input[type="file"] {
+    & input[type="file"] {
         position: absolute;
         // opacity: 0;
-        width: 2000%;
-        height: 2000%;
+        width: 0%;
+        height: 0%;
     }
 }
