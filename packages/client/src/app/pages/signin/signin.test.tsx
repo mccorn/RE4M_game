@@ -19,7 +19,7 @@ describe('signIn page tests', () => {
             <Provider store={store}>
                 <BrowserRouter>
                     <Routes>
-                        <Route element={<Signin />} />
+                        <Route path="/" element={<Signin />} />
                     </Routes>
                 </BrowserRouter>
             </Provider>
