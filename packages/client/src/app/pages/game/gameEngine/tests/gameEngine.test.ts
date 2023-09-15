@@ -7,10 +7,6 @@ describe('Тесты gameEngine', () => {
 
     const gameEngine = new GameEngine(ctx as unknown as CanvasRenderingContext2D);
 
-    test('Тесты GameEngine.constructor not throw error', () => {
-        expect(new GameEngine(ctx as unknown as CanvasRenderingContext2D)).not.toThrow();
-    });
-
     test('Тесты GameEngine.constructor result', () => {
         expect(gameEngine instanceof GameEngine).toEqual(true);
     });
@@ -19,7 +15,6 @@ describe('Тесты gameEngine', () => {
         const result = gameEngine.getPlayerCoordinates();
 
         expect(result).toEqual({ x: 268, y: 536 });
-        expect(gameEngine.getPlayerCoordinates).not.toThrow();
     });
 });
 
