@@ -7,29 +7,19 @@ describe('Тесты gameEngine', () => {
 
     const gameEngine = new GameEngine(ctx as unknown as CanvasRenderingContext2D);
 
-    test('GameEngine.start() вызывает методы GameObjectAnimator: start & resetToStart', () => {
-        const resultStart = 'start';
-        const resultResetToStart = 'resetToStart';
-
-        gameEngine.animator.start = jest.fn(() => resultStart);
-        gameEngine.animator.reset = jest.fn(() => resultResetToStart);
-        gameEngine.start();
-
-        expect(gameEngine.animator.start).toHaveBeenCalled();
-        expect(gameEngine.animator.start()).toBe(resultStart);
-
-        expect(gameEngine.animator.reset).toHaveBeenCalled();
-        expect(gameEngine.animator.reset()).toBe(resultResetToStart);
+    test('Тесты GameEngine.constructor not throw error', () => {
+        expect(new GameEngine(ctx as unknown as CanvasRenderingContext2D)).not.toThrow();
     });
 
-    test('GameEngine.pause() вызывает методы GameObjectAnimator: stop', () => {
-        const resultMockMethod = 'start';
+    test('Тесты GameEngine.constructor result', () => {
+        expect(gameEngine instanceof GameEngine).toEqual(true);
+    });
 
-        gameEngine.animator.stop = jest.fn(() => resultMockMethod);
-        gameEngine.pause();
+    test('Тесты GameEngine.getPlayerCoordinates', () => {
+        const result = gameEngine.getPlayerCoordinates();
 
-        expect(gameEngine.animator.stop).toHaveBeenCalled();
-        expect(gameEngine.animator.stop()).toBe(resultMockMethod);
+        expect(result).toEqual({ x: 268, y: 536 });
+        expect(gameEngine.getPlayerCoordinates).not.toThrow();
     });
 });
 

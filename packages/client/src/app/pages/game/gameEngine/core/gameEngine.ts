@@ -88,7 +88,7 @@ class GameEngine {
         this.context.fillText('LEVEL FINISHED', 100, 200);
     };
 
-    public start = () => {
+    private start = () => {
         gameState.startLevel();
         this.animator.reset();
         this.animator.start();
@@ -98,7 +98,7 @@ class GameEngine {
         this.animator.stop();
     };
 
-    public pause = () => {
+    private pause = () => {
         this.cancelAnimation();
     };
 
