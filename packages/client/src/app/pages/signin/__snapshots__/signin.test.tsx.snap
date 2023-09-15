@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`signIn page tests Button snapshot test 1`] = `
+<button
+  className=""
+  disabled={false}
+  onClick={[Function]}
+  type="button"
+>
+  Hello, Jest!
+</button>
+`;
+
+exports[`signIn page tests Signin page snapshot test 1`] = `null`;

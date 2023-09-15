@@ -47,9 +47,9 @@ class GameEngine {
 
     private bgImage = new Image();
 
-    private animator: GameAnimator;
+    public animator: GameAnimator;
 
-    private constructor(ctx: CanvasRenderingContext2D) {
+    public constructor(ctx: CanvasRenderingContext2D) {
         this.context = ctx;
         this.bgImage.src = ''; // params.BACKGROUND_IMAGE
         this.animator = new GameAnimator(this.context, this.renderGameField);
@@ -88,7 +88,7 @@ class GameEngine {
         this.context.fillText('LEVEL FINISHED', 100, 200);
     };
 
-    private start = () => {
+    public start = () => {
         gameState.startLevel();
         this.animator.reset();
         this.animator.start();
@@ -98,7 +98,7 @@ class GameEngine {
         this.animator.stop();
     };
 
-    private pause = () => {
+    public pause = () => {
         this.cancelAnimation();
     };
 
