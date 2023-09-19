@@ -17,6 +17,6 @@ const mainComponent = (
     </React.StrictMode>
 );
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(mainComponent);
+ReactDOM.hydrateRoot(document.getElementById('root') as HTMLElement, mainComponent);
 
 export default { mainComponent };
