@@ -7,7 +7,7 @@ import './styles/main.css';
 import './styles/grid.scss';
 import { store } from './app/store/store';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+const mainComponent = (
     <React.StrictMode>
         <ErrorBoundary fallback={<>Something went wrong</>}>
             <Provider store={store}>
@@ -16,3 +16,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         </ErrorBoundary>
     </React.StrictMode>
 );
+
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(mainComponent);
+
+export default { mainComponent };
