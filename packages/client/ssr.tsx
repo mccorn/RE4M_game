@@ -6,7 +6,8 @@ import { store } from './src/app/store/store';
 
 import App from './src/app/components/app/App';
 
-function render() {
+// eslint-disable-next-line import/prefer-default-export
+export function render() {
     return renderToString(
         <React.StrictMode>
             <ErrorBoundary fallback={<>Something went wrong</>}>
@@ -17,5 +18,3 @@ function render() {
         </React.StrictMode>
     );
 }
-
-export default { render };
