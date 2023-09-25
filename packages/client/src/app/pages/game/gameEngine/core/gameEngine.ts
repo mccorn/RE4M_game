@@ -47,9 +47,9 @@ class GameEngine {
 
     private bgImage = new Image();
 
-    public animator: GameAnimator;
+    private animator: GameAnimator;
 
-    public constructor(ctx: CanvasRenderingContext2D) {
+    private constructor(ctx: CanvasRenderingContext2D) {
         this.context = ctx;
         this.bgImage.src = ''; // params.BACKGROUND_IMAGE
         this.animator = new GameAnimator(this.context, this.renderGameField);
