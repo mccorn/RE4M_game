@@ -1,11 +1,12 @@
 /* eslint-disable consistent-return */
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Form from '@/app/components/common/form/form';
 import Button from '@/app/components/common/button/button';
 import Input from '@/app/components/common/input/input';
 import AuthAPI from '@/app/api/AuthAPI';
+import OAuthAPI from '@/app/api/OAuthAPI';
 import { RoutePaths } from '@/app/router/router';
 import { TResponse } from '@/const/types';
 import utils from '@/utils';
@@ -24,6 +25,15 @@ const Signin: FC = () => {
     const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
     };
+
+    const handleOAuth = useCallback(() => {
+        OAuthAPI.getServiceId().then(response => {
+            const responseData = utils.safeGetData(response);
+            window.location.replace(
+                `https://oauth.yandex.ru/authorize?response_type=code&client_id=${responseData.service_id}&redirect_uri=http://localhost:3000`
+            );
+        });
+    }, []);
 
     const handleSubmitForm = () => {
         AuthAPI.login({
@@ -64,6 +74,12 @@ const Signin: FC = () => {
                     label="password"
                     placeholder="password"
                     className="column"
+                />
+
+                <Button
+                    text="Signin with Yandex"
+                    click={handleOAuth}
+                    buttonStyle="withoutBackGround"
                 />
 
                 <Button text="Signin" click={handleSubmitForm} buttonStyle="withoutBackGround" />
