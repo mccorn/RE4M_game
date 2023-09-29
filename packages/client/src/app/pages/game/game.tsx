@@ -10,84 +10,43 @@ import { GAME_EVENTS, GlobalGameState } from './gameEngine/store/objectState';
 import { RootState } from '@/app/store/store';
 import GameOver from '@/app/components/gameOver/gameOver';
 import StartGame from '../startGame/startGame';
-import gameState from './gameEngine/store/gameState';
 import AnimatedBackground from '@/app/components/animatedBackground/animatedBackground';
+import Controller from './controller';
 
 const DEMO_ENEMIES_COUNT = 11; // TODO: автоматизировать процессы игры
 
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
-    const [paused, setIsPaused] = useState(false);
+    const [gameController, setGameController] = useState(new Controller());
     const [counter, setCounter] = useState(0);
     const { gameState: state, score } = useSelector((rootState: RootState) => rootState.game);
-    let shootInterval: ReturnType<typeof setInterval> | null = null;
+
     let component;
 
-    const onKeyDown = (event: KeyboardEvent) => {
-        GameEngine.getInstance().gameControlPressed(event);
-    };
-
     const startGame = () => {
-        // GameEngine.getInstance().setGameState(GlobalGameState.LevelLoading);
-        // Временно включаю сразу состояние начало игры из-за бага, к зачету починим
-        GameEngine.getInstance().setGameState(GlobalGameState.LevelStarted);
-
-        shootInterval = setInterval(() => {
-            console.log('ddd');
-            GameEngine.getInstance().playerShot();
-        }, 500);
+        gameController.startGame();
     };
 
     const pauseGame = () => {
-        if (paused) {
-            GameEngine.getInstance().setGameState(GlobalGameState.Resumed);
-            setIsPaused(false);
-        } else {
-            GameEngine.getInstance().setGameState(GlobalGameState.Paused);
-            setIsPaused(true);
-        }
+        gameController.setPause(true);
     };
 
     const resumeGame = () => {
-        GameEngine.getInstance().setGameState(GlobalGameState.Resumed);
-        setIsPaused(false);
+        gameController.setPause(false);
     };
 
     const handleMouseMove = (ev: SyntheticEvent) => {
-        if (
-            gameState.getState() !== GlobalGameState.LevelStarted &&
-            gameState.getState() !== GlobalGameState.Resumed
-        ) {
-            return;
-        }
-        const halfShipHeight = 35;
-        const halfShipWidth = 30;
-        const mouseX =
-            (ev.nativeEvent as MouseEvent).clientX -
-            (ev.target as HTMLElement).offsetLeft -
-            halfShipHeight;
-        const mouseY =
-            (ev.nativeEvent as MouseEvent).clientY -
-            (ev.target as HTMLElement).offsetTop -
-            halfShipWidth;
-        const gameEngine = GameEngine.getInstance();
-
-        gameEngine.setTargetedCoordinatesForPlayer({ x: mouseX, y: mouseY });
+        if (gameController.isEnable()) gameController.handleMouseMove(ev);
     };
 
     useEffect(() => {
         if (state === GlobalGameState.LevelStarted || state === GlobalGameState.Resumed) {
-            window.addEventListener('keydown', onKeyDown);
-            shootInterval = setInterval(() => {
-                GameEngine.getInstance().playerShot();
-            }, 500);
+            gameController.resumeGame();
         }
-        return () => {
-            window.removeEventListener('keydown', onKeyDown);
-            if (shootInterval) {
-                clearInterval(shootInterval);
-            }
-        };
+
+        if (state === GlobalGameState.Ended) {
+            gameController.stopGame();
+        }
     }, [state]);
 
     const increment = () => {
@@ -98,9 +57,7 @@ const Game: FC = () => {
 
     useEffect(() => {
         if (counter === DEMO_ENEMIES_COUNT) {
-            const gameEngine = GameEngine.getInstance();
-            gameEngine.setGameState(GlobalGameState.Ended);
-            setIsPaused(true);
+            gameController.stopGame();
         }
     }, [counter]);
 
@@ -108,12 +65,18 @@ const Game: FC = () => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
             const gameEngine = GameEngine.getInstance(context);
-            gameEngine.setGameState(GlobalGameState.Loaded);
+            const newController = new Controller(gameEngine);
+
+            newController.setGameState(GlobalGameState.Loaded);
+            setGameController(newController);
         } else {
-            console.log('no context found');
+            throw new Error('no context found');
         }
 
-        return () => window.removeEventListener(GAME_EVENTS.objectIsDead, increment);
+        return () => {
+            window.removeEventListener(GAME_EVENTS.objectIsDead, increment);
+            gameController.stopGame();
+        };
     }, []);
 
     if (state === GlobalGameState.Ended) {
