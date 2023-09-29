@@ -143,7 +143,7 @@ class GameEngine {
     };
 
     public setGameState = (state: GlobalGameState) => {
-        console.log('in set state', state);
+        console.log('setGameState', state);
         gameState.setState(state);
 
         store.dispatch(setGameState(state));
@@ -153,9 +153,16 @@ class GameEngine {
     public playerShot = () => {
         const { player } = gameState;
         const coordinates = player.getState().getCoordinates();
-        console.log(coordinates);
+
+        console.log('playerShot', coordinates);
+
+        const newCoordinates = {
+            x: coordinates.x + 28,
+            y: coordinates.y,
+        };
+
         gameState.shots.push(
-            new GameShot(ShotType.Player, coordinates, this.animator.mainLoopIndex)
+            new GameShot(ShotType.Player, newCoordinates, this.animator.mainLoopIndex)
         );
     };
 
@@ -209,6 +216,7 @@ class GameEngine {
     public stopShot = () => {
         if (this.shootInterval) {
             clearInterval(this.shootInterval);
+            this.shootInterval = null;
         }
     };
 

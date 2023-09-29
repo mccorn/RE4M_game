@@ -20,8 +20,6 @@ const Game: FC = () => {
     const [statusWin, setStatusWin] = useState(false);
     const { gameState: state, score } = useSelector((rootState: RootState) => rootState.game);
 
-    let component;
-
     const handleLoadEnd = () => {
         gameController.setGameState(GlobalGameState.Loaded);
     };
@@ -43,10 +41,6 @@ const Game: FC = () => {
     };
 
     useEffect(() => {
-        if (state === GlobalGameState.LevelStarted || state === GlobalGameState.Resumed) {
-            gameController.resumeGame();
-        }
-
         if (state === GlobalGameState.Ended) {
             gameController.stopGame();
 
@@ -71,11 +65,14 @@ const Game: FC = () => {
         };
     }, []);
 
-    if (state === GlobalGameState.Ended) {
-        component = <GameOver score={score} isWin={statusWin} kills={counter} />;
-    } else {
-        component = (
-            <main className={classNames({ [style.default]: state <= 1 })}>
+    return (
+        <div className={style.game}>
+            <AnimatedBackground noInvert />
+            <main
+                className={classNames(
+                    { [style.default]: state <= 1 || state === 6 },
+                    { [style.ended]: state === 6 }
+                )}>
                 <div className={style.game__canvasWrapper}>
                     <canvas
                         ref={ref}
@@ -86,6 +83,10 @@ const Game: FC = () => {
                         the game should be here
                     </canvas>
                 </div>
+
+                {state === GlobalGameState.Ended && (
+                    <GameOver score={score} isWin={statusWin} kills={counter} />
+                )}
 
                 {state <= 1 && <StartGame onLoad={handleLoadEnd} />}
 
@@ -99,15 +100,11 @@ const Game: FC = () => {
                     {gameController.isEnable() && (
                         <Button text="Pause game" size="medium" click={pauseGame} />
                     )}
+                    {state === GlobalGameState.Ended && (
+                        <Button text="Restart" click={() => location.reload()} />
+                    )}
                 </div>
             </main>
-        );
-    }
-
-    return (
-        <div className={style.game}>
-            <AnimatedBackground noInvert />
-            {component}
         </div>
     );
 };

@@ -2,7 +2,6 @@ import React, { FC, useState } from 'react';
 import style from './gameOver.module.scss';
 import styleLanding from '../../pages/landing/landing.module.scss';
 import { TGameScore } from '@/const/dataTypes/dataTypes';
-import Button from '../common/button/button';
 
 const SCORE_COEFFICIENT = 10; // TODO: переделать на внешний подсчет
 
@@ -27,8 +26,6 @@ const GameOver: FC<TGameScore> = ({ score, isWin, kills }) => {
                 Total score:
                 {(kills || 0) * SCORE_COEFFICIENT}
             </div>
-
-            <Button text="Restart" click={() => location.reload()} />
         </div>
     );
 };

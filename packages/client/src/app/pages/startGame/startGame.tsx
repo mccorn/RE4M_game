@@ -17,7 +17,7 @@ const StartGame: FC<StartGameProps> = ({ onLoad }) => {
                 clearInterval(interval);
                 return;
             }
-            setValue(value + 1);
+            setValue(Math.min(value + 3, 100));
         }, 30);
         return () => {
             clearInterval(interval);

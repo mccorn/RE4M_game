@@ -13,6 +13,8 @@ class Controller {
 
     paused: boolean;
 
+    handlersMounted: boolean;
+
     counter: number;
 
     constructor(engine?: GameEngine, view?: FC) {
@@ -20,6 +22,7 @@ class Controller {
         this.view = view;
         this.paused = true;
         this.counter = 0;
+        this.handlersMounted = false;
     }
 
     setView(view: FC) {
@@ -52,29 +55,44 @@ class Controller {
     setPause(value: boolean) {
         if (!this.engine) return;
 
+        console.log('setPause', value);
+
         if (value) {
+            this.disableProcess();
             this.engine.setGameState(GlobalGameState.Paused);
         } else {
+            this.enableProcess();
             this.engine.setGameState(GlobalGameState.Resumed);
         }
+    }
+
+    pauseGame() {
+        this.setPause(true);
+    }
+
+    resumeGame() {
+        this.setPause(false);
     }
 
     togglePause() {
         this.setPause(!this.paused);
     }
 
+    disableProcess() {
+        if (this.engine) this.engine.stopShot();
+        this.unmountHandlers();
+    }
+
+    enableProcess() {
+        if (this.engine) this.engine.playerShotLoop();
+        this.registerHandlers();
+    }
+
     startGame() {
         if (!this.engine) return;
 
+        this.enableProcess();
         this.engine.setGameState(GlobalGameState.LevelStarted);
-        this.engine.playerShotLoop();
-    }
-
-    resumeGame() {
-        if (!this.engine) return;
-
-        this.registerHandlers();
-        this.engine.playerShotLoop();
     }
 
     stopGame() {
@@ -126,13 +144,21 @@ class Controller {
     }
 
     registerHandlers() {
+        if (this.handlersMounted) return;
+
         window.addEventListener(GAME_EVENTS.objectIsDead, this.increment);
         window.addEventListener('keydown', this.onKeyDown);
+
+        this.handlersMounted = true;
     }
 
     unmountHandlers() {
+        if (!this.handlersMounted) return;
+
         window.removeEventListener(GAME_EVENTS.objectIsDead, this.increment);
         window.removeEventListener('keydown', this.onKeyDown);
+
+        this.handlersMounted = false;
     }
 
     onKeyDown(event: KeyboardEvent) {

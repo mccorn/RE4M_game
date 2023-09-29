@@ -57,7 +57,7 @@ export class ShipState extends DrawableObjectState {
     // 2 action change index and set dead
     public changeFrameIndex = (frameCount: number, shouldChangeFrame: boolean) => {
         if (this.isExploiding() && shouldChangeFrame) {
-            this.frameIndex++;
+            this.frameIndex += 1;
 
             if (this.frameIndex >= frameCount) {
                 this.setLiveState(LiveState.Dead);
