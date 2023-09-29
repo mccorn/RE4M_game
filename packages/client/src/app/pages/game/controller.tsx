@@ -1,8 +1,10 @@
 import { FC, SyntheticEvent } from 'react';
 import GameEngine from './gameEngine/core/gameEngine';
-import { GlobalGameState } from './gameEngine/store/objectState';
+import { GAME_EVENTS, GlobalGameState } from './gameEngine/store/objectState';
 import { TPoint } from './gameEngine/types/commonTypes';
 import gameState from './gameEngine/store/gameState';
+
+const DEMO_ENEMIES_COUNT = 11; // TODO: автоматизировать процессы игры
 
 class Controller {
     engine: undefined | null | GameEngine;
@@ -11,10 +13,13 @@ class Controller {
 
     paused: boolean;
 
+    counter: number;
+
     constructor(engine?: GameEngine, view?: FC) {
         this.engine = engine;
         this.view = view;
         this.paused = true;
+        this.counter = 0;
     }
 
     setView(view: FC) {
@@ -104,11 +109,29 @@ class Controller {
         this.engine.setTargetedCoordinatesForPlayer(position);
     }
 
+    increment = () => {
+        this.counter += 1;
+
+        if (this.getStatusWin()) {
+            this.stopGame();
+        }
+    };
+
+    getCounter() {
+        return this.counter;
+    }
+
+    getStatusWin() {
+        return this.counter === DEMO_ENEMIES_COUNT;
+    }
+
     registerHandlers() {
+        window.addEventListener(GAME_EVENTS.objectIsDead, this.increment);
         window.addEventListener('keydown', this.onKeyDown);
     }
 
     unmountHandlers() {
+        window.removeEventListener(GAME_EVENTS.objectIsDead, this.increment);
         window.removeEventListener('keydown', this.onKeyDown);
     }
 

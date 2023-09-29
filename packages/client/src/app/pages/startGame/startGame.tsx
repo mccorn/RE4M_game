@@ -1,19 +1,20 @@
-/* eslint-disable no-plusplus */
 import React, { FC, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import Progressbar from '@/app/components/common/progressbar/progressbar';
 import style from './startgame.module.scss';
-import { setGameState } from '@/app/store/slices/gameSlice';
-import { GlobalGameState } from '../game/gameEngine/store/objectState';
+import { someFunction } from '@/const/types';
 
-const StartGame: FC = () => {
+type StartGameProps = {
+    onLoad?: someFunction;
+};
+
+const StartGame: FC<StartGameProps> = ({ onLoad }) => {
     const [value, setValue] = useState(0);
-    const dispatch = useDispatch();
+
     useEffect(() => {
         const interval = window.setInterval(() => {
             if (value >= 100) {
+                if (onLoad) onLoad();
                 clearInterval(interval);
-                dispatch(setGameState(GlobalGameState.LevelStarted));
                 return;
             }
             setValue(value + 1);
@@ -29,13 +30,6 @@ const StartGame: FC = () => {
                 <h1 className={style.startGameBackground_title}>Get Ready</h1>
                 <div className={style.startGameBackground_footer}>
                     <Progressbar value={value} text="Loading" />
-                    {value >= 100 ? (
-                        <a className={style.startGameBackground_footer_playBtn} href="/game">
-                            START
-                        </a>
-                    ) : (
-                        ''
-                    )}
                 </div>
                 <img
                     className={style.startGameBackground_battleCruiser}

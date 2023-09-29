@@ -6,22 +6,25 @@ import style from './game.module.scss';
 import Button from '@/app/components/common/button/button';
 import params from './gameEngine/parameters/gameParameters';
 import GameEngine from './gameEngine/core/gameEngine';
-import { GAME_EVENTS, GlobalGameState } from './gameEngine/store/objectState';
+import { GlobalGameState } from './gameEngine/store/objectState';
 import { RootState } from '@/app/store/store';
 import GameOver from '@/app/components/gameOver/gameOver';
 import StartGame from '../startGame/startGame';
 import AnimatedBackground from '@/app/components/animatedBackground/animatedBackground';
 import Controller from './controller';
 
-const DEMO_ENEMIES_COUNT = 11; // TODO: автоматизировать процессы игры
-
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
-    const [gameController, setGameController] = useState(new Controller());
+    const [gameController] = useState(new Controller());
     const [counter, setCounter] = useState(0);
+    const [statusWin, setStatusWin] = useState(false);
     const { gameState: state, score } = useSelector((rootState: RootState) => rootState.game);
 
     let component;
+
+    const handleLoadEnd = () => {
+        gameController.setGameState(GlobalGameState.Loaded);
+    };
 
     const startGame = () => {
         gameController.startGame();
@@ -46,48 +49,33 @@ const Game: FC = () => {
 
         if (state === GlobalGameState.Ended) {
             gameController.stopGame();
+
+            setCounter(gameController.getCounter());
+            setStatusWin(gameController.getStatusWin());
         }
     }, [state]);
 
-    const increment = () => {
-        setCounter(counter + 1);
-    };
-
-    window.addEventListener(GAME_EVENTS.objectIsDead, increment);
-
     useEffect(() => {
-        if (counter === DEMO_ENEMIES_COUNT) {
-            gameController.stopGame();
-        }
-    }, [counter]);
+        gameController.setGameState(GlobalGameState.LevelLoading);
 
-    useEffect(() => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
             const gameEngine = GameEngine.getInstance(context);
-            const newController = new Controller(gameEngine);
-
-            newController.setGameState(GlobalGameState.Loaded);
-            setGameController(newController);
+            gameController.setEngine(gameEngine);
         } else {
             throw new Error('no context found');
         }
 
         return () => {
-            window.removeEventListener(GAME_EVENTS.objectIsDead, increment);
             gameController.stopGame();
         };
     }, []);
 
     if (state === GlobalGameState.Ended) {
-        component = (
-            <GameOver score={score} isWin={counter === DEMO_ENEMIES_COUNT} kills={counter} />
-        );
-    } else if (state === GlobalGameState.LevelLoading) {
-        component = <StartGame />;
+        component = <GameOver score={score} isWin={statusWin} kills={counter} />;
     } else {
         component = (
-            <main className={classNames({ [style.default]: state === GlobalGameState.Loaded })}>
+            <main className={classNames({ [style.default]: state <= 1 })}>
                 <div className={style.game__canvasWrapper}>
                     <canvas
                         ref={ref}
@@ -99,6 +87,8 @@ const Game: FC = () => {
                     </canvas>
                 </div>
 
+                {state <= 1 && <StartGame onLoad={handleLoadEnd} />}
+
                 <div className={style.game__buttons}>
                     {state === GlobalGameState.Loaded && (
                         <Button text="Start game" size="medium" click={startGame} />
@@ -106,8 +96,7 @@ const Game: FC = () => {
                     {state === GlobalGameState.Paused && (
                         <Button text="Resume game" size="medium" click={resumeGame} />
                     )}
-                    {(state === GlobalGameState.LevelStarted ||
-                        state === GlobalGameState.Resumed) && (
+                    {gameController.isEnable() && (
                         <Button text="Pause game" size="medium" click={pauseGame} />
                     )}
                 </div>

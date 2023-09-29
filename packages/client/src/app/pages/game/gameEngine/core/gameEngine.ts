@@ -143,10 +143,8 @@ class GameEngine {
     };
 
     public setGameState = (state: GlobalGameState) => {
-        console.log('in set state');
-        console.log(gameState.getState());
+        console.log('in set state', state);
         gameState.setState(state);
-        console.log(gameState.getState());
 
         store.dispatch(setGameState(state));
         this.processNewGameState();
