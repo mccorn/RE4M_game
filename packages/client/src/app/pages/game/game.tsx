@@ -2,15 +2,20 @@ import React, { FC, useEffect, useRef, useState, SyntheticEvent } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
-import style from './game.module.scss';
-import Button from '@/app/components/common/button/button';
-import params from './gameEngine/parameters/gameParameters';
-import GameEngine from './gameEngine/core/gameEngine';
-import { GlobalGameState } from './gameEngine/store/objectState';
 import { RootState } from '@/app/store/store';
-import GameOver from '@/app/components/gameOver/gameOver';
-import StartGame from '../startGame/startGame';
+
 import AnimatedBackground from '@/app/components/animatedBackground/animatedBackground';
+import GameOver from '@/app/components/gameOver/gameOver';
+import Button from '@/app/components/common/button/button';
+
+import StartGame from '@/app/pages/startGame/startGame';
+
+import { GlobalGameState } from '@/gameEngine/store/objectState';
+import GameEngine from '@/gameEngine/core/gameEngine';
+import params from '@/gameEngine/parameters/gameParameters';
+
+import style from './game.module.scss';
+
 import Controller from './controller';
 
 const Game: FC = () => {

@@ -1,8 +1,8 @@
 import { FC, SyntheticEvent } from 'react';
-import GameEngine from './gameEngine/core/gameEngine';
-import { GAME_EVENTS, GlobalGameState } from './gameEngine/store/objectState';
-import { TPoint } from './gameEngine/types/commonTypes';
-import gameState from './gameEngine/store/gameState';
+import GameEngine from '@/gameEngine/core/gameEngine';
+import { GAME_EVENTS, GlobalGameState } from '@/gameEngine/store/objectState';
+import { TPoint } from '@/gameEngine/types/commonTypes';
+import gameState from '@/gameEngine/store/gameState';
 
 const DEMO_ENEMIES_COUNT = 11; // TODO: автоматизировать процессы игры
 
