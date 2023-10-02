@@ -1,5 +1,7 @@
 import HTTPTransport from '@/utils/HTTPTransport/HTTPTransport';
 import BaseAPI, { API_URL } from '.';
+import AuthAPI from './AuthAPI';
+import { TResponse } from '@/const/types';
 
 const http = HTTPTransport;
 const options = {};
@@ -18,7 +20,15 @@ class OAuthAPI extends BaseAPI {
             data: JSON.stringify(data),
         };
 
-        return http.post(`${this.url}/yandex`, reqOptions);
+        const response = await http.post(`${this.url}/yandex`, reqOptions);
+
+        const status = (response as TResponse)?.status;
+
+        if (status === 200) {
+            return AuthAPI.getAuthUser();
+        }
+
+        return null;
     }
 
     getServiceId() {

@@ -2,18 +2,14 @@
 /* eslint-disable object-curly-spacing */
 import React, { FC, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import style from './landing.module.scss';
 import AnimatedBackground from '@/app/components/animatedBackground/animatedBackground';
 import OAuthAPI from '@/app/api/OAuthAPI';
-import AuthAPI from '@/app/api/AuthAPI';
-import { RoutePaths } from '@/app/router/router';
-import { TResponse } from '@/const/types';
+import { REDIRECT_URI } from '@/const/types';
 import utils from '@/utils';
 import { signIn } from '@/app/store/slices/userSlice';
 
 const Landing: FC = () => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleOAuth = useCallback(() => {
         const searchParams = new URLSearchParams(document.location.search);
@@ -21,22 +17,12 @@ const Landing: FC = () => {
         if (code) {
             OAuthAPI.oauth({
                 code,
-                redirect_uri: 'http://localhost:3000',
-            })
-                .then(response => {
-                    const status = (response as TResponse)?.status;
-                    if (status === 200) {
-                        navigate(RoutePaths.GAME);
-
-                        return AuthAPI.getAuthUser();
-                    }
-                    return null;
-                })
-                .then(response => {
-                    if (!response) return;
-                    const responseData = utils.safeGetData(response);
-                    dispatch(signIn(responseData));
-                });
+                redirect_uri: REDIRECT_URI,
+            }).then(response => {
+                if (!response) return;
+                const responseData = utils.safeGetData(response);
+                dispatch(signIn(responseData));
+            });
         }
     }, []);
 

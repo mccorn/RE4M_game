@@ -8,7 +8,7 @@ import Input from '@/app/components/common/input/input';
 import AuthAPI from '@/app/api/AuthAPI';
 import OAuthAPI from '@/app/api/OAuthAPI';
 import { RoutePaths } from '@/app/router/router';
-import { TResponse } from '@/const/types';
+import { TResponse, REDIRECT_URI } from '@/const/types';
 import utils from '@/utils';
 import { signIn } from '@/app/store/slices/userSlice';
 
@@ -30,7 +30,7 @@ const Signin: FC = () => {
         OAuthAPI.getServiceId().then(response => {
             const responseData = utils.safeGetData(response);
             window.location.replace(
-                `https://oauth.yandex.ru/authorize?response_type=code&client_id=${responseData.service_id}&redirect_uri=http://localhost:3000`
+                `https://oauth.yandex.ru/authorize?response_type=code&client_id=${responseData.service_id}&redirect_uri=${REDIRECT_URI}`
             );
         });
     }, []);
