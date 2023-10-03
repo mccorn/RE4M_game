@@ -33,7 +33,6 @@ const Game: FC = () => {
         GameEngine.getInstance().setGameState(GlobalGameState.LevelStarted);
 
         shootInterval = setInterval(() => {
-            console.log('ddd');
             GameEngine.getInstance().playerShot();
         }, 500);
     };
