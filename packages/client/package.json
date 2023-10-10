@@ -8,10 +8,12 @@
     "checkSSR": "node -e \"if (! require('fs').existsSync('./ssr-dist')){process.exit(1)} \" || npm run build:ssr",
     "build": "tsc && vite build --config vite.config.ts",
     "build:ssr": "tsc && vite build --config ssr.config.ts",
+    "build:docker": "rm -rf ./dist && rm -rf ./dist-ssr && tsc && vite build --config ssr.config.ts && vite build --config vite.config.ts",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test": "jest ./"
+    "test": "jest ./",
+    "tsc": "tsc --noEmit"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
