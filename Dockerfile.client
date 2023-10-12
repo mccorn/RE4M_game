@@ -1,3 +1,4 @@
+
 FROM node
 
 WORKDIR /client/
@@ -5,14 +6,10 @@ WORKDIR /client/
 COPY /packages/client/package.json ./
 COPY /packages/client/tsconfig* ./
 
-RUN npm install
-RUN npm install --save-dev -g typescript
-RUN npm install --save-dev -g vite
-
 COPY /packages/client ./
 
 EXPOSE $CLIENT_PORT
 
-RUN yarn build:docker
+RUN yarn install && yarn global add typescript --dev && yarn global add vite --dev && yarn build:docker
 
 CMD yarn dev
