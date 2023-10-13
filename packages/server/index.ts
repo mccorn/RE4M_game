@@ -28,7 +28,7 @@ const isDev = () => process.env.NODE_ENV === 'development';
 async function startServer() {
     const IS_DEV = isDev();
 
-    createClientAndConnect();
+    const sequelize = await createClientAndConnect();
 
     const app = express();
     app.use(cors());
@@ -49,6 +49,11 @@ async function startServer() {
     } else {
         app.use('/assets', express.static(path.resolve(distPath, 'assets')));
     }
+
+    app.post('/switchTheme', async (req, res) => {
+        const dbName = await sequelize?.getDatabaseName();
+        res.status(200).end(`${dbName} ${req}`);
+    });
 
     app.use('*', async (req, res, next) => {
         const url = req.originalUrl;
