@@ -51,8 +51,13 @@ async function startServer() {
     }
 
     app.post('/switchTheme', async (req, res) => {
-        const dbName = await sequelize?.getDatabaseName();
-        res.status(200).end(`${dbName} ${req}`);
+        if (!req.query.theme) {
+            res.status(400).end(JSON.stringify({ error: 'theme field required' }));
+        }
+        const themeModel = sequelize?.models.Theme;
+        const themes = (await themeModel?.findAll()) as unknown as Array<{ name: string }>;
+        const currentThemeIndex = themes?.findIndex(theme => theme.name === req.query.theme);
+        res.status(200).end(JSON.stringify({ theme: themes[currentThemeIndex + 1].name }));
     });
 
     app.use('*', async (req, res, next) => {
