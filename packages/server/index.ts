@@ -57,7 +57,9 @@ async function startServer() {
         const themeModel = sequelize?.models.Theme;
         const themes = (await themeModel?.findAll()) as unknown as Array<{ name: string }>;
         const currentThemeIndex = themes?.findIndex(theme => theme.name === req.query.theme);
-        res.status(200).end(JSON.stringify({ theme: themes[currentThemeIndex + 1].name }));
+        res.status(200).end(
+            JSON.stringify({ themeName: themes[currentThemeIndex + 1]?.name || themes[0].name })
+        );
     });
 
     app.use('*', async (req, res, next) => {
