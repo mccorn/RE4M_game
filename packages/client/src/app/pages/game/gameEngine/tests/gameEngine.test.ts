@@ -1,5 +1,5 @@
 import { Canvas } from 'canvas';
-import GameEngine from '../core/gameEngine';
+import GameEngine from '@/gameEngine/core/gameEngine';
 
 describe('Тесты gameEngine', () => {
     const canvas = new Canvas(200, 200);
