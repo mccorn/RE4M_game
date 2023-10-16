@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import React from 'react';
+import { StaticRouter } from 'react-router-dom/server';
 import Router from '../../router/router';
-import notificator from './Notificator';
 import './App.css';
 
-const App = () => {
+const App = ({ url }: { url: string }) => {
     const [hydrated, setHydrated] = React.useState(false);
-
-    useEffect(() => {
-        notificator.init();
-    }, [notificator]);
-
     React.useEffect(() => {
         setHydrated(true);
     }, []);
@@ -20,9 +14,9 @@ const App = () => {
     }
 
     return (
-        <BrowserRouter>
+        <StaticRouter location={url}>
             <Router />
-        </BrowserRouter>
+        </StaticRouter>
     );
 };
 

@@ -1,20 +1,94 @@
+import path from 'path';
+import fs from 'fs';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import express from 'express';
+import { JSDOM } from 'jsdom';
+import { createServer as createViteServer } from 'vite';
 import createClientAndConnect from './db';
 
 dotenv.config();
 
-const app = express();
-app.use(cors());
 const port = Number(process.env.SERVER_PORT) || 3001;
 
-createClientAndConnect();
+const { window } = new JSDOM('<div id="app"></div>', { url: `http://localhost:${port}` });
 
-app.get('/', (_, res) => {
-    res.json('👋 Howdy from the server :)');
-});
+global.window = window as unknown as Window & any;
+global.history = window.history;
+global.document = window.document;
+global.navigator = window.navigator;
+global.XMLHttpRequest = window.XMLHttpRequest;
+global.DocumentFragment = window.DocumentFragment;
+global.HTMLElement = window.HTMLElement;
+global.FormData = window.FormData;
+global.Image = window.Image;
 
-app.listen(port, () => {
-    console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
-});
+const isDev = () => process.env.NODE_ENV === 'development';
+
+async function startServer() {
+    const IS_DEV = isDev();
+
+    createClientAndConnect();
+
+    const app = express();
+    app.use(cors());
+
+    const distPath = path.dirname(require.resolve('client/dist/index.html'));
+    const srcPath = path.dirname(require.resolve('client'));
+    const ssrClientPath = require.resolve('client/ssr-dist/client.cjs');
+    const entryPath = path.resolve(IS_DEV ? srcPath : distPath, 'index.html');
+
+    const vite = await createViteServer({
+        server: { middlewareMode: true },
+        root: srcPath,
+        appType: 'custom',
+    });
+
+    if (IS_DEV) {
+        app.use(vite.middlewares);
+    } else {
+        app.use('/assets', express.static(path.resolve(distPath, 'assets')));
+    }
+
+    app.use('*', async (req, res, next) => {
+        const url = req.originalUrl;
+
+        try {
+            let template: string = fs.readFileSync(entryPath, 'utf-8');
+            let render: (req: unknown) => Promise<string>;
+            let store: unknown;
+
+            if (IS_DEV) {
+                template = await vite.transformIndexHtml(url, template);
+
+                ({ render, store } = await vite.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')));
+            } else {
+                ({ render, store } = await import(ssrClientPath));
+            }
+
+            const appHtml = await render(req);
+
+            const html = template
+                .replace('<!--ssr-outlet-->', appHtml)
+                .replace(
+                    '// preload state',
+                    `window.__PRELOADED_STATE__ = ${JSON.stringify(store).replace(/</g, '\\u003c')}`
+                );
+
+            res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+        } catch (error) {
+            if (IS_DEV) {
+                vite.ssrFixStacktrace(error as Error);
+            }
+
+            next(error);
+        }
+    });
+
+    app.listen(port, () => {
+        // eslint-disable-next-line no-console
+        console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
+    });
+}
+
+startServer();
