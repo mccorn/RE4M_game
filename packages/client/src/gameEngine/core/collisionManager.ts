@@ -23,7 +23,6 @@ class CollisionManager {
             if (ship.shouldDetectCollision()) {
                 if (CollisionManager.detectCollision(player, ship)) {
                     player.setLiveState(LiveState.Exploiding);
-                    console.log('player hit');
                 }
             }
         });
@@ -35,7 +34,6 @@ class CollisionManager {
                 state.enemies.forEach(ship => {
                     if (ship.shouldDetectCollision()) {
                         if (CollisionManager.detectCollision(shot, ship)) {
-                            console.log('ship hit');
                             ship.setLiveState(LiveState.Exploiding);
                         }
                     }

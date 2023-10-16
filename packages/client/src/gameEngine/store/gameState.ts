@@ -54,7 +54,6 @@ class GameState {
     };
 
     public startLevel = () => {
-        console.log('start level');
         this.player = this.initPlayer();
         this.enemies = this.initEnemies();
         this.shots = [];

@@ -110,50 +110,12 @@ class Trajectory {
                 const currentAngle =
                     vectorAngle + Math.PI / 2 + (2 * difAngle * segmentTime) / pathLength;
 
-                // temp for testing in 6 sprint, will remove before 6 sprint demo
-                /* if (this.segmentIndex === 1) {
-                    console.log('difAngle');
-                    console.log(difAngle);
-                    console.log('segmentAngle');
-                    console.log(segmentAngle);
-                    console.log('vectorAngle');
-                    console.log(vectorAngle);
-                    console.log('currentAngle');
-                    console.log(currentAngle);
-                    console.log('segmentTime');
-                    console.log(segmentTime);
-                    console.log('pathLength');
-                    console.log(pathLength);
-                    console.log('segmentLength');
-                    console.log(segmentLength);
-                    console.log('startPoint');
-                    console.log(startPoint);
-                    console.log('endPoint');
-                    console.log(endPoint);
-                    console.log('radiusLength');
-                    console.log(radiusLength);
-                    console.log('arcCenterX, arcCenterY');
-                    console.log(arcCenterX, arcCenterY);
-                    console.log('this.segmentIndex');
-                    console.log(this.segmentIndex);
-                    console.log('Math.cos(currentAngle)');
-                    console.log(Math.cos(currentAngle)); // check if -
-                    console.log('Math.sin(currentAngle)');
-                    console.log(Math.sin(currentAngle));
-                } */
-
                 point = {
                     x: arcCenterX - radiusLength * Math.cos(currentAngle),
                     y: arcCenterY - radiusLength * Math.sin(currentAngle),
                 };
             }
         }
-
-        // temp for testing in 6 sprint, will remove before 6 sprint demo
-        /* console.log('point.x');
-        console.log(point.x);
-        console.log('point.y');
-        console.log(point.y); */
 
         // switch segment if needed
         if (Trajectory.shouldSwitchSegment(segmentTime, Math.abs(pathLength))) {
@@ -176,8 +138,7 @@ class Trajectory {
         // todo calculate if ship or shoot coordinate is outside of canvas
         // to set dead state not to render this objects
         if (this.logged) {
-            console.log(time);
-            console.log(this.delay);
+            console.log(time, this.delay);
         }
         return false;
     };

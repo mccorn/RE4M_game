@@ -55,8 +55,6 @@ class Controller {
     setPause(value: boolean) {
         if (!this.engine) return;
 
-        console.log('setPause', value);
-
         if (value) {
             this.disableProcess();
             this.engine.setGameState(GlobalGameState.Paused);

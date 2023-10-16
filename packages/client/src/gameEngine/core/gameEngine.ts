@@ -143,7 +143,6 @@ class GameEngine {
     };
 
     public setGameState = (state: GlobalGameState) => {
-        console.log('setGameState', state);
         gameState.setState(state);
 
         store.dispatch(setGameState(state));
@@ -153,8 +152,6 @@ class GameEngine {
     public playerShot = () => {
         const { player } = gameState;
         const coordinates = player.getState().getCoordinates();
-
-        console.log('playerShot', coordinates);
 
         const newCoordinates = {
             x: coordinates.x + 28,
@@ -183,8 +180,6 @@ class GameEngine {
         }
 
         if (event.key === ControlKeys.SHOOT) {
-            console.log(event.key);
-            console.log('add shot');
             const coordinates = player.getState().getCoordinates();
             gameState.shots.push(
                 new GameShot(ShotType.Player, coordinates, this.animator.mainLoopIndex)
