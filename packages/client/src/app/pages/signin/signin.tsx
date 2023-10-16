@@ -10,6 +10,7 @@ import { RoutePaths } from '@/app/router/router';
 import { TResponse } from '@/const/types';
 import utils from '@/utils';
 import { signIn } from '@/app/store/slices/userSlice';
+import Notificator from '@/app/components/app/Notificator';
 
 const Signin: FC = () => {
     const [login, setLogin] = useState('');
@@ -34,6 +35,7 @@ const Signin: FC = () => {
                 const status = (response as TResponse)?.status;
 
                 if (status === 200) {
+                    Notificator.send('Success login. Welcome and have fun!');
                     navigate(RoutePaths.GAME);
 
                     return AuthAPI.getAuthUser();

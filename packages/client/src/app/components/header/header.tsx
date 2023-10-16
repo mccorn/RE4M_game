@@ -13,6 +13,7 @@ import AuthAPI from '@/app/api/AuthAPI';
 import TUser from '@/const/dataTypes/dataTypes';
 import changeColorMode from '@/app/helpers/changeColorMode';
 import { signOut } from '@/app/store/slices/userSlice';
+import Notificator from '../app/Notificator';
 
 // todo move this to redux later
 type THeaderProps = {
@@ -27,6 +28,7 @@ const Header: FC<THeaderProps> = () => {
 
     const logout: MouseEventHandler = () => {
         AuthAPI.logout().then(() => {
+            Notificator.send('Good luck, captain. See you soon.');
             navigate(RoutePaths.SIGNIN);
             dispatch(signOut());
         });
