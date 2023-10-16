@@ -1,6 +1,6 @@
-import dotenv from 'dotenv';
 import path from 'path';
 import fs from 'fs';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import express from 'express';
 import { JSDOM } from 'jsdom';
@@ -56,18 +56,24 @@ async function startServer() {
         try {
             let template: string = fs.readFileSync(entryPath, 'utf-8');
             let render: (req: unknown) => Promise<string>;
+            let store: unknown;
 
             if (IS_DEV) {
                 template = await vite.transformIndexHtml(url, template);
 
-                render = (await vite.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))).render;
+                ({ render, store } = await vite.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')));
             } else {
-                render = (await import(ssrClientPath)).render;
+                ({ render, store } = await import(ssrClientPath));
             }
 
             const appHtml = await render(req);
 
-            const html = template.replace('<!--ssr-outlet-->', appHtml);
+            const html = template
+                .replace('<!--ssr-outlet-->', appHtml)
+                .replace(
+                    '// preload state',
+                    `window.__PRELOADED_STATE__ = ${JSON.stringify(store).replace(/</g, '\\u003c')}`
+                );
 
             res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
         } catch (error) {
