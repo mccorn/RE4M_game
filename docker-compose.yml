@@ -42,7 +42,7 @@ services:
   postgres:
     image: postgres:14
     ports:
-      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+      - "8432:${POSTGRES_PORT}"
     volumes:
       - ./postgresdata:/var/lib/postgresql/data
     environment:

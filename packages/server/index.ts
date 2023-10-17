@@ -5,7 +5,7 @@ import cors from 'cors';
 import express from 'express';
 import { JSDOM } from 'jsdom';
 import { createServer as createViteServer } from 'vite';
-import createClientAndConnect from './db';
+import createClientAndSeed from './db';
 
 dotenv.config();
 
@@ -28,7 +28,7 @@ const isDev = () => process.env.NODE_ENV === 'development';
 async function startServer() {
     const IS_DEV = isDev();
 
-    createClientAndConnect();
+    const sequelize = await createClientAndSeed();
 
     const app = express();
     app.use(cors());
@@ -49,6 +49,17 @@ async function startServer() {
     } else {
         app.use('/assets', express.static(path.resolve(distPath, 'assets')));
     }
+
+    app.post('/switchTheme', async (req, res) => {
+        if (!req.query.theme) {
+            res.status(400).send({ error: 'theme field required' });
+            return;
+        }
+        const themeModel = sequelize?.models.Theme;
+        const themes = (await themeModel?.findAll()) as unknown as Array<{ name: string }>;
+        const currentThemeIndex = themes?.findIndex(theme => theme.name === req.query.theme);
+        res.status(200).send({ themeName: themes[currentThemeIndex + 1]?.name || themes[0].name });
+    });
 
     app.use('*', async (req, res, next) => {
         const url = req.originalUrl;
