@@ -24,6 +24,7 @@ class User extends Model<User> {
     @Column({ type: DataType.INTEGER })
     override id = 0;
 
+    // eslint-disable-next-line no-use-before-define
     @ForeignKey(() => Theme)
     @Column({
         type: DataType.INTEGER,
@@ -74,7 +75,7 @@ const createClientAndSeed = async (): Promise<Sequelize | null> => {
                     name: 'Light',
                 },
                 {
-                    name: 'Black',
+                    name: 'Dark',
                 },
             ];
             await Theme.bulkCreate(defaultThemes as Theme[]);

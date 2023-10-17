@@ -13,6 +13,7 @@ import AuthAPI from '@/app/api/AuthAPI';
 import TUser from '@/const/dataTypes/dataTypes';
 import changeColorMode from '@/app/helpers/changeColorMode';
 import { signOut } from '@/app/store/slices/userSlice';
+import themeAPI from '@/app/api/themeAPI';
 
 // todo move this to redux later
 type THeaderProps = {
@@ -24,6 +25,7 @@ const Header: FC<THeaderProps> = () => {
     const user = useSelector(state => (state as { user: unknown }).user) as TUser;
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [currentTheme, setCurrentTheme] = useState('Dark');
 
     const logout: MouseEventHandler = () => {
         AuthAPI.logout().then(() => {
@@ -37,16 +39,14 @@ const Header: FC<THeaderProps> = () => {
         return classNames(style.header__link, activeClass);
     };
 
-    const onClickColorModeButton = () => {
-        if (imageForChangeColorMode === Moon) {
+    const onClickColorModeButton = async () => {
+        setCurrentTheme((await (await themeAPI.switch({ theme: currentTheme })).json()).themeName);
+        if (currentTheme === 'Dark') {
             setimageForChangeColorMode(Sun);
-
-            changeColorMode('Dark');
         } else {
             setimageForChangeColorMode(Moon);
-
-            changeColorMode('Light');
         }
+        changeColorMode(currentTheme as 'Light' | 'Dark');
     };
 
     return (
