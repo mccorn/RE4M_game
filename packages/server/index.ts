@@ -50,7 +50,7 @@ async function startServer() {
         app.use('/assets', express.static(path.resolve(distPath, 'assets')));
     }
 
-    app.post('/switchTheme', async (req, res) => {
+    app.put('/theme/switchTheme', async (req, res) => {
         if (!req.query.theme) {
             res.status(400).send({ error: 'theme field required' });
             return;
