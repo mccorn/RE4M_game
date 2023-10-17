@@ -13,7 +13,7 @@ import AuthAPI from '@/app/api/AuthAPI';
 import TUser from '@/const/dataTypes/dataTypes';
 import changeColorMode from '@/app/helpers/changeColorMode';
 import { signOut } from '@/app/store/slices/userSlice';
-import themeAPI from '@/app/api/themeAPI';
+import themeAPI from '@/app/api/ThemeAPI';
 
 // todo move this to redux later
 type THeaderProps = {
