@@ -55,9 +55,25 @@ async function startServer() {
             res.status(400).send({ error: 'theme field required' });
             return;
         }
+
         const themeModel = sequelize?.models.Theme;
-        const themes = (await themeModel?.findAll()) as unknown as Array<{ name: string }>;
+        const themes = (await themeModel?.findAll()) as unknown as Array<{
+            name: string;
+            id: number;
+        }>;
         const currentThemeIndex = themes?.findIndex(theme => theme.name === req.query.theme);
+        if (req.query.login) {
+            await sequelize?.models.User.update(
+                {
+                    themeId: themes[currentThemeIndex + 1]?.id || themes[0].id,
+                },
+                {
+                    where: {
+                        login: req.query.login,
+                    },
+                }
+            );
+        }
         res.status(200).send({ themeName: themes[currentThemeIndex + 1]?.name || themes[0].name });
     });
 
