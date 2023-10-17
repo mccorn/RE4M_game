@@ -1,4 +1,3 @@
-import { Optional } from 'sequelize';
 import {
     AutoIncrement,
     Column,
@@ -11,9 +10,8 @@ import {
     ForeignKey,
     Unique,
 } from 'sequelize-typescript';
-import { NullishPropertiesOf } from 'sequelize/types/utils';
 
-const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } = process.env;
+const { POSTGRES_HOST, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } = process.env;
 @Table({
     timestamps: false,
     paranoid: true,
@@ -53,9 +51,9 @@ class Theme extends Model<Theme> {
     name: string | undefined;
 }
 
-const createClientAndConnect = async (): Promise<Sequelize | null> => {
+const createClientAndSeed = async (): Promise<Sequelize | null> => {
     const sequelizeOptions: SequelizeOptions = {
-        host: 'localhost',
+        host: POSTGRES_HOST || 'localhost',
         port: Number(POSTGRES_PORT) || 8432,
         username: POSTGRES_USER || 'postgres',
         password: POSTGRES_PASSWORD || 'postgres',
@@ -71,14 +69,15 @@ const createClientAndConnect = async (): Promise<Sequelize | null> => {
         await sequelize.sync();
         const themes = await Theme.findAll();
         if (!themes.length) {
-            await Theme.bulkCreate([
+            const defaultThemes = [
                 {
                     name: 'Light',
-                } as Optional<Theme, NullishPropertiesOf<Theme>>,
+                },
                 {
                     name: 'Black',
-                } as Optional<Theme, NullishPropertiesOf<Theme>>,
-            ]);
+                },
+            ];
+            await Theme.bulkCreate(defaultThemes as Theme[]);
         }
         console.log('Connection has been established successfully.');
 
@@ -90,4 +89,4 @@ const createClientAndConnect = async (): Promise<Sequelize | null> => {
     return null;
 };
 
-export default createClientAndConnect;
+export default createClientAndSeed;
