@@ -11,6 +11,7 @@ import { RoutePaths } from '@/app/router/router';
 import { TResponse, REDIRECT_URI } from '@/const/types';
 import utils from '@/utils';
 import { signIn } from '@/app/store/slices/userSlice';
+import yandexLogo from '@/assets/images/yandexLogo.svg';
 
 const Signin: FC = () => {
     const [login, setLogin] = useState('');
@@ -76,15 +77,13 @@ const Signin: FC = () => {
                     className="column"
                 />
 
-                <Button
-                    text="Signin with Yandex"
-                    click={handleOAuth}
-                    buttonStyle="withoutBackGround"
-                />
-
                 <Button text="Signin" click={handleSubmitForm} buttonStyle="withoutBackGround" />
 
                 <Button text="Signup" click={() => navigate(RoutePaths.SIGNUP)} />
+
+                <Button buttonStyle="icon" size="small" click={handleOAuth}>
+                    <img src={yandexLogo} alt="yandex" />
+                </Button>
             </Form>
         </div>
     );
