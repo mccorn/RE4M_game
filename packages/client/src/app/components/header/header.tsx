@@ -5,14 +5,12 @@ import classNames from 'classnames';
 import Button from '@/app/components/common/button/button';
 import UserInfo from '@/app/components/userInfo/userInfo';
 import Logo from '@/assets/images/trace.svg';
-import Moon from '@/assets/images/moon.svg';
-import Sun from '@/assets/images/sun.svg';
 import { RoutePaths as Paths, RoutePaths } from '@/app/router/router';
 import style from './header.module.scss';
 import AuthAPI from '@/app/api/AuthAPI';
 import TUser from '@/const/dataTypes/dataTypes';
-import changeColorMode from '@/app/helpers/changeColorMode';
 import { signOut } from '@/app/store/slices/userSlice';
+import themeAPI from '@/app/api/ThemeAPI';
 
 // todo move this to redux later
 type THeaderProps = {
@@ -20,7 +18,6 @@ type THeaderProps = {
 };
 
 const Header: FC<THeaderProps> = () => {
-    const [imageForChangeColorMode, setimageForChangeColorMode] = useState(Moon);
     const user = useSelector(state => (state as { user: unknown }).user) as TUser;
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -37,16 +34,8 @@ const Header: FC<THeaderProps> = () => {
         return classNames(style.header__link, activeClass);
     };
 
-    const onClickColorModeButton = () => {
-        if (imageForChangeColorMode === Moon) {
-            setimageForChangeColorMode(Sun);
-
-            changeColorMode('Dark');
-        } else {
-            setimageForChangeColorMode(Moon);
-
-            changeColorMode('Light');
-        }
+    const onClickColorModeButton = async () => {
+        themeAPI.switch();
     };
 
     return (
@@ -61,11 +50,7 @@ const Header: FC<THeaderProps> = () => {
 
             <div className={style.header__navigation}>
                 <Button buttonStyle="icon" size="small" click={onClickColorModeButton}>
-                    <img
-                        className={style.header__changeColorMode}
-                        src={imageForChangeColorMode}
-                        alt="change color mode"
-                    />
+                    <img className={style.header__changeColorMode} alt="change color mode" />
                 </Button>
                 <nav className={style.header__links}>
                     <NavLink

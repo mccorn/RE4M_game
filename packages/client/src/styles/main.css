@@ -14,6 +14,9 @@
     --textColorAddLightMode: #ffb300;
     --textColorAddDarkMode: #ffb300;
 
+    --themeImageLightMode: url('src/assets/images/moon.svg');
+    --themeImageDarkMode: url('src/assets/images/sun.svg');
+
     --alertColor: #ff8749;
 
     --backgroundColorDarkMode: #344756;
@@ -28,7 +31,7 @@
 
     /* --backgroundColorLightMode: #fffaeb; */
     --backgroundColorLightMode: #ffffff;
-      
+
     --backgroundColorSecondaryLightMode: #fbd809;
     --backgroundInputLightMode: #000218;
     --backgroundButtonColorLightMode: #324b4b;
@@ -36,6 +39,8 @@
     --textColor: var(--textColorLightMode);
     --textColorSecondary: var(--textColorSecondaryLightMode);
     --textColorAdd: var(--textColorAddLightMode);
+
+    --themeImage: var(--themeImageLightMode);
 
     --backgroundColor: var(--backgroundColorLightMode);
     --backgroundColorSecondary: var(--backgroundColorSecondaryLightMode);
