@@ -5,6 +5,7 @@ export const API_URL = {
     HOST,
     APP_HOST,
     RESOURCES: `${HOST}/resources`,
+    LOCALHOST: 'http://localhost:3001',
 };
 
 export class BaseAPI {
