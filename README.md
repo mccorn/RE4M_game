@@ -1,3 +1,6 @@
+[demo_video_1]: https://www.loom.com/share/Proekt-sozdanie-routerov-i-verstka-stranic-531cd350bcbc4855ae854e3da301a67a?sid=39d4ed77-b258-4463-ab13-bb5a7c031c2c
+[demo_video_2]: https://www.veed.io/view/c4947bd3-2f00-46bb-a534-96db9c7e68e9?panel=share
+
 ### Как запускать?
 
 1. Убедитесь что у вас установлен `node` и `docker`
@@ -79,5 +82,5 @@
 
 #### Дополнительные материалы
 
-[Демо-видео 1][https://www.loom.com/share/Proekt-sozdanie-routerov-i-verstka-stranic-531cd350bcbc4855ae854e3da301a67a?sid=39d4ed77-b258-4463-ab13-bb5a7c031c2c]
-[Демо-видео 2][https://www.veed.io/view/c4947bd3-2f00-46bb-a534-96db9c7e68e9?panel=share]
+[Демо-видео 1][demo_video_1]\
+[Демо-видео 2][demo_video_2]
