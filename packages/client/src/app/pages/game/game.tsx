@@ -2,128 +2,82 @@ import React, { FC, useEffect, useRef, useState, SyntheticEvent } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
-import style from './game.module.scss';
-import Button from '@/app/components/common/button/button';
-import params from './gameEngine/parameters/gameParameters';
-import GameEngine from './gameEngine/core/gameEngine';
-import { GAME_EVENTS, GlobalGameState } from './gameEngine/store/objectState';
 import { RootState } from '@/app/store/store';
-import GameOver from '@/app/components/gameOver/gameOver';
-import StartGame from '../startGame/startGame';
-import gameState from './gameEngine/store/gameState';
-import AnimatedBackground from '@/app/components/animatedBackground/animatedBackground';
 
-const DEMO_ENEMIES_COUNT = 11; // TODO: автоматизировать процессы игры
+import AnimatedBackground from '@/app/components/animatedBackground/animatedBackground';
+import GameOver from '@/app/components/gameOver/gameOver';
+import Button from '@/app/components/common/button/button';
+
+import StartGame from '@/app/pages/startGame/startGame';
+
+import { GlobalGameState } from '@/gameEngine/store/objectState';
+import GameEngine from '@/gameEngine/core/gameEngine';
+import params from '@/gameEngine/parameters/gameParameters';
+
+import style from './game.module.scss';
+
+import Controller from './controller';
 
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
-    const [paused, setIsPaused] = useState(false);
+    const [gameController] = useState(new Controller());
     const [counter, setCounter] = useState(0);
+    const [statusWin, setStatusWin] = useState(false);
     const { gameState: state, score } = useSelector((rootState: RootState) => rootState.game);
-    let shootInterval: ReturnType<typeof setInterval> | null = null;
-    let component;
 
-    const onKeyDown = (event: KeyboardEvent) => {
-        GameEngine.getInstance().gameControlPressed(event);
+    const handleLoadEnd = () => {
+        gameController.setGameState(GlobalGameState.Loaded);
     };
 
     const startGame = () => {
-        // GameEngine.getInstance().setGameState(GlobalGameState.LevelLoading);
-        // Временно включаю сразу состояние начало игры из-за бага, к зачету починим
-        GameEngine.getInstance().setGameState(GlobalGameState.LevelStarted);
-
-        shootInterval = setInterval(() => {
-            GameEngine.getInstance().playerShot();
-        }, 500);
+        gameController.startGame();
     };
 
     const pauseGame = () => {
-        if (paused) {
-            GameEngine.getInstance().setGameState(GlobalGameState.Resumed);
-            setIsPaused(false);
-        } else {
-            GameEngine.getInstance().setGameState(GlobalGameState.Paused);
-            setIsPaused(true);
-        }
+        gameController.setPause(true);
     };
 
     const resumeGame = () => {
-        GameEngine.getInstance().setGameState(GlobalGameState.Resumed);
-        setIsPaused(false);
+        gameController.setPause(false);
     };
 
     const handleMouseMove = (ev: SyntheticEvent) => {
-        if (
-            gameState.getState() !== GlobalGameState.LevelStarted &&
-            gameState.getState() !== GlobalGameState.Resumed
-        ) {
-            return;
-        }
-        const halfShipHeight = 35;
-        const halfShipWidth = 30;
-        const mouseX =
-            (ev.nativeEvent as MouseEvent).clientX -
-            (ev.target as HTMLElement).offsetLeft -
-            halfShipHeight;
-        const mouseY =
-            (ev.nativeEvent as MouseEvent).clientY -
-            (ev.target as HTMLElement).offsetTop -
-            halfShipWidth;
-        const gameEngine = GameEngine.getInstance();
-
-        gameEngine.setTargetedCoordinatesForPlayer({ x: mouseX, y: mouseY });
+        if (gameController.isEnable()) gameController.handleMouseMove(ev);
     };
 
     useEffect(() => {
-        if (state === GlobalGameState.LevelStarted || state === GlobalGameState.Resumed) {
-            window.addEventListener('keydown', onKeyDown);
-            shootInterval = setInterval(() => {
-                GameEngine.getInstance().playerShot();
-            }, 500);
+        if (state === GlobalGameState.Ended) {
+            gameController.stopGame();
+
+            setCounter(gameController.getCounter());
+            setStatusWin(gameController.getStatusWin());
         }
-        return () => {
-            window.removeEventListener('keydown', onKeyDown);
-            if (shootInterval) {
-                clearInterval(shootInterval);
-            }
-        };
     }, [state]);
 
-    const increment = () => {
-        setCounter(counter + 1);
-    };
-
-    window.addEventListener(GAME_EVENTS.objectIsDead, increment);
-
     useEffect(() => {
-        if (counter === DEMO_ENEMIES_COUNT) {
-            const gameEngine = GameEngine.getInstance();
-            gameEngine.setGameState(GlobalGameState.Ended);
-            setIsPaused(true);
-        }
-    }, [counter]);
+        gameController.setGameState(GlobalGameState.LevelLoading);
 
-    useEffect(() => {
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
             const gameEngine = GameEngine.getInstance(context);
-            gameEngine.setGameState(GlobalGameState.Loaded);
+            gameController.setEngine(gameEngine);
         } else {
-            console.log('no context found');
+            throw new Error('no context found');
         }
 
-        return () => window.removeEventListener(GAME_EVENTS.objectIsDead, increment);
+        return () => {
+            gameController.stopGame();
+        };
     }, []);
 
-    if (state === GlobalGameState.Ended) {
-        component = (
-            <GameOver score={score} isWin={counter === DEMO_ENEMIES_COUNT} kills={counter} />
-        );
-    } else if (state === GlobalGameState.LevelLoading) {
-        component = <StartGame />;
-    } else {
-        component = (
-            <main className={classNames({ [style.default]: state === GlobalGameState.Loaded })}>
+    return (
+        <div className={style.game}>
+            <AnimatedBackground noInvert />
+            <main
+                className={classNames(
+                    { [style.default]: state <= 1 || state === 6 },
+                    { [style.ended]: state === 6 }
+                )}>
                 <div className={style.game__canvasWrapper}>
                     <canvas
                         ref={ref}
@@ -135,6 +89,12 @@ const Game: FC = () => {
                     </canvas>
                 </div>
 
+                {state === GlobalGameState.Ended && (
+                    <GameOver score={score} isWin={statusWin} kills={counter} />
+                )}
+
+                {state <= 1 && <StartGame onLoad={handleLoadEnd} />}
+
                 <div className={style.game__buttons}>
                     {state === GlobalGameState.Loaded && (
                         <Button text="Start game" size="medium" click={startGame} />
@@ -142,19 +102,14 @@ const Game: FC = () => {
                     {state === GlobalGameState.Paused && (
                         <Button text="Resume game" size="medium" click={resumeGame} />
                     )}
-                    {(state === GlobalGameState.LevelStarted ||
-                        state === GlobalGameState.Resumed) && (
+                    {gameController.isEnable() && (
                         <Button text="Pause game" size="medium" click={pauseGame} />
+                    )}
+                    {state === GlobalGameState.Ended && (
+                        <Button text="Restart" click={() => location.reload()} />
                     )}
                 </div>
             </main>
-        );
-    }
-
-    return (
-        <div className={style.game}>
-            <AnimatedBackground noInvert />
-            {component}
         </div>
     );
 };

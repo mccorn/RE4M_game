@@ -100,14 +100,12 @@ class GameAnimator {
         /* game state logic */
 
         if (player.isDead()) {
-            console.log('game ends');
             this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);
             GameEngine.getInstance().setGameState(GlobalGameState.Ended);
         }
 
         if (this.mainLoopIndex === gameState.getLevelTime()) {
-            console.log('level ends');
             this.isStopped = true;
             window.cancelAnimationFrame(this.requestId);
             GameEngine.getInstance().setGameState(GlobalGameState.LevelEnded);

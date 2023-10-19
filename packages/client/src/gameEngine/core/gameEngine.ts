@@ -8,6 +8,8 @@ import { store } from '@/app/store/store';
 import { setGameState } from '@/app/store/slices/gameSlice';
 import utils from '@/utils';
 
+const SHOT_SPEED = 0.5;
+
 // todo move it in some control module ?
 const ControlKeys = {
     LEFT: 'ArrowLeft',
@@ -48,6 +50,8 @@ class GameEngine {
     private bgImage = new Image();
 
     private animator: GameAnimator;
+
+    private shootInterval: ReturnType<typeof setInterval> | null = null;
 
     private constructor(ctx: CanvasRenderingContext2D) {
         this.context = ctx;
@@ -139,10 +143,7 @@ class GameEngine {
     };
 
     public setGameState = (state: GlobalGameState) => {
-        console.log('in set state');
-        console.log(gameState.getState());
         gameState.setState(state);
-        console.log(gameState.getState());
 
         store.dispatch(setGameState(state));
         this.processNewGameState();
@@ -151,9 +152,14 @@ class GameEngine {
     public playerShot = () => {
         const { player } = gameState;
         const coordinates = player.getState().getCoordinates();
-        console.log(coordinates);
+
+        const newCoordinates = {
+            x: coordinates.x + 28,
+            y: coordinates.y,
+        };
+
         gameState.shots.push(
-            new GameShot(ShotType.Player, coordinates, this.animator.mainLoopIndex)
+            new GameShot(ShotType.Player, newCoordinates, this.animator.mainLoopIndex)
         );
     };
 
@@ -174,8 +180,6 @@ class GameEngine {
         }
 
         if (event.key === ControlKeys.SHOOT) {
-            console.log(event.key);
-            console.log('add shot');
             const coordinates = player.getState().getCoordinates();
             gameState.shots.push(
                 new GameShot(ShotType.Player, coordinates, this.animator.mainLoopIndex)
@@ -197,6 +201,19 @@ class GameEngine {
     };
 
     private changePlayerCoordinatesInterval: ReturnType<typeof setInterval> | null = null;
+
+    public playerShotLoop = () => {
+        if (!this.shootInterval) {
+            this.shootInterval = setInterval(this.playerShot, 1000 * SHOT_SPEED);
+        }
+    };
+
+    public stopShot = () => {
+        if (this.shootInterval) {
+            clearInterval(this.shootInterval);
+            this.shootInterval = null;
+        }
+    };
 
     public setTargetedCoordinatesForPlayer = ({ x: mouseX, y: mouseY }: TPoint) => {
         if (this.changePlayerCoordinatesInterval) {

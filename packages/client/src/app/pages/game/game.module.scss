@@ -47,6 +47,12 @@ main.default::after {
     opacity: 0;
 }
 
+main.ended {
+    .game__canvas {
+        transition: opacity 0.001s ease-in-out;
+    }
+}
+
 main.default .game__canvas {
     opacity: 0;
 }
@@ -74,7 +80,7 @@ main.default .game__canvas {
     margin-top: 20px;
     gap: 20px;
 
-    z-index: 2;
+    z-index: 200;
 }
 
 .game__canvas {

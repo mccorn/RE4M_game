@@ -36,7 +36,7 @@ class GameState {
             const type = key as unknown as TEnemyType;
             const enemyLevelParams = levelParams.enemies[type];
             if (enemyLevelParams) {
-                for (let i = 0; i < enemyLevelParams.number; i++) {
+                for (let i = 0; i < enemyLevelParams.number; i += 1) {
                     const trajectory = new Trajectory(
                         enemyLevelParams.trajectoryPoints,
                         i * NEXT_SHIP_DELAY
@@ -54,7 +54,6 @@ class GameState {
     };
 
     public startLevel = () => {
-        console.log('start level');
         this.player = this.initPlayer();
         this.enemies = this.initEnemies();
         this.shots = [];
