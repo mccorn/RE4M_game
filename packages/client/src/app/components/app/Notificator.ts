@@ -18,17 +18,8 @@ class Notificator {
     private permission = PERMISSION_STATUS.default;
 
     init() {
-        switch (Notification.permission.toLowerCase()) {
-            case 'granted':
-                // можно
-                break;
-            case 'denied':
-                // нельзя
-                break;
-            default: {
-                // спросить
-                this.requestPermission();
-            }
+        if (Notification.permission.toLowerCase() === PERMISSION_STATUS.default) {
+            this.requestPermission();
         }
     }
 
