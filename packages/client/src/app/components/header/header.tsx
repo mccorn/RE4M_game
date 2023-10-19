@@ -10,6 +10,7 @@ import style from './header.module.scss';
 import AuthAPI from '@/app/api/AuthAPI';
 import TUser from '@/const/dataTypes/dataTypes';
 import { signOut } from '@/app/store/slices/userSlice';
+import Notificator from '../app/Notificator';
 import themeAPI from '@/app/api/ThemeAPI';
 
 // todo move this to redux later
@@ -24,6 +25,7 @@ const Header: FC<THeaderProps> = () => {
 
     const logout: MouseEventHandler = () => {
         AuthAPI.logout().then(() => {
+            Notificator.send('Good luck, captain. See you soon.');
             navigate(RoutePaths.SIGNIN);
             dispatch(signOut());
         });

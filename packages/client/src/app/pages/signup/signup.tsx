@@ -1,10 +1,12 @@
 import React, { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Input from '@/app/components/common/input/input';
 import Form from '@/app/components/common/form/form';
 import Button from '@/app/components/common/button/button';
 import './signup.scss';
 import AuthAPI from '@/app/api/AuthAPI';
-import { TResponse } from '@/const/types';
+import Notificator from '@/app/components/app/Notificator';
+import { RoutePaths } from '@/app/router/router';
 
 const Signup: FC = () => {
     const [firstName, setFirstName] = useState('');
@@ -13,6 +15,7 @@ const Signup: FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
+    const navigate = useNavigate();
 
     const handleChangeFirstName = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFirstName(event.target.value);
@@ -46,9 +49,9 @@ const Signup: FC = () => {
             email,
             password,
             phone,
-        }).then(response => {
-            // eslint-disable-next-line no-alert
-            alert((response as TResponse)?.status);
+        }).then(() => {
+            Notificator.send('Salute, new hero of the Black Star!');
+            navigate(RoutePaths.GAME);
         });
     };
 

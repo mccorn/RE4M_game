@@ -11,6 +11,7 @@ import { RoutePaths } from '@/app/router/router';
 import { TResponse, REDIRECT_URI } from '@/const/types';
 import utils from '@/utils';
 import { signIn } from '@/app/store/slices/userSlice';
+import Notificator from '@/app/components/app/Notificator';
 import yandexLogo from '@/assets/images/yandexLogo.svg';
 
 const Signin: FC = () => {
@@ -45,6 +46,7 @@ const Signin: FC = () => {
                 const status = (response as TResponse)?.status;
 
                 if (status === 200) {
+                    Notificator.send('Success login. Welcome and have fun!');
                     navigate(RoutePaths.GAME);
 
                     return AuthAPI.getAuthUser();
