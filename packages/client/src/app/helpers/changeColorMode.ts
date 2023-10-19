@@ -8,6 +8,7 @@ const stylesArray = [
     'backgroundColorSecondary',
     'backgroundInput',
     'backgroundButtonColor',
+    'themeImage',
 ];
 type TColorMode = 'Light' | 'Dark';
 

@@ -1,16 +1,18 @@
 /* eslint-disable consistent-return */
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Form from '@/app/components/common/form/form';
 import Button from '@/app/components/common/button/button';
 import Input from '@/app/components/common/input/input';
 import AuthAPI from '@/app/api/AuthAPI';
+import OAuthAPI from '@/app/api/OAuthAPI';
 import { RoutePaths } from '@/app/router/router';
-import { TResponse } from '@/const/types';
+import { TResponse, REDIRECT_URI } from '@/const/types';
 import utils from '@/utils';
 import { signIn } from '@/app/store/slices/userSlice';
 import Notificator from '@/app/components/app/Notificator';
+import yandexLogo from '@/assets/images/yandexLogo.svg';
 
 const Signin: FC = () => {
     const [login, setLogin] = useState('');
@@ -25,6 +27,15 @@ const Signin: FC = () => {
     const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
     };
+
+    const handleOAuth = useCallback(() => {
+        OAuthAPI.getServiceId().then(response => {
+            const responseData = utils.safeGetData(response);
+            window.location.replace(
+                `https://oauth.yandex.ru/authorize?response_type=code&client_id=${responseData.service_id}&redirect_uri=${REDIRECT_URI}`
+            );
+        });
+    }, []);
 
     const handleSubmitForm = () => {
         AuthAPI.login({
@@ -71,6 +82,10 @@ const Signin: FC = () => {
                 <Button text="Signin" click={handleSubmitForm} buttonStyle="withoutBackGround" />
 
                 <Button text="Signup" click={() => navigate(RoutePaths.SIGNUP)} />
+
+                <Button buttonStyle="icon" size="small" click={handleOAuth}>
+                    <img src={yandexLogo} alt="yandex" />
+                </Button>
             </Form>
         </div>
     );

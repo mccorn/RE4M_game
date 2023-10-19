@@ -75,4 +75,9 @@
 Если вам понадобится только один сервис, просто уточните какой в команде
 `docker compose up {sevice_name}`, например `docker compose up server`
 
-https://www.loom.com/share/Proekt-sozdanie-routerov-i-verstka-stranic-531cd350bcbc4855ae854e3da301a67a?sid=39d4ed77-b258-4463-ab13-bb5a7c031c2c
+На текущий момент есть три контейнера: client, ssrapp, postgres
+
+#### Дополнительные материалы
+
+[Демо-видео 1][https://www.loom.com/share/Proekt-sozdanie-routerov-i-verstka-stranic-531cd350bcbc4855ae854e3da301a67a?sid=39d4ed77-b258-4463-ab13-bb5a7c031c2c]
+[Демо-видео 2][https://www.veed.io/view/c4947bd3-2f00-46bb-a534-96db9c7e68e9?panel=share]

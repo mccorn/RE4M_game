@@ -1,24 +1,88 @@
-import { Client } from 'pg';
+import {
+    AutoIncrement,
+    Column,
+    DataType,
+    PrimaryKey,
+    Sequelize,
+    SequelizeOptions,
+    Model,
+    Table,
+    ForeignKey,
+    Unique,
+} from 'sequelize-typescript';
 
-const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } = process.env;
+const { POSTGRES_HOST, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } = process.env;
+@Table({
+    timestamps: false,
+    paranoid: true,
+    tableName: 'users',
+})
+// eslint-disable-next-line no-use-before-define
+class User extends Model<User> {
+    @PrimaryKey
+    @AutoIncrement
+    @Column({ type: DataType.INTEGER })
+    override id = 0;
 
-const createClientAndConnect = async (): Promise<Client | null> => {
+    // eslint-disable-next-line no-use-before-define
+    @ForeignKey(() => Theme)
+    @Column({
+        type: DataType.INTEGER,
+        field: 'id',
+    })
+    themeId = 0;
+
+    @Column(DataType.STRING)
+    login = '';
+}
+
+@Table({
+    timestamps: false,
+    tableName: 'themes',
+})
+// eslint-disable-next-line no-use-before-define
+class Theme extends Model<Theme> {
+    @PrimaryKey
+    @AutoIncrement
+    @Column({ type: DataType.INTEGER })
+    override id: number | undefined;
+
+    @Unique
+    @Column(DataType.STRING)
+    name: string | undefined;
+}
+
+const createClientAndSeed = async (): Promise<Sequelize | null> => {
+    const sequelizeOptions: SequelizeOptions = {
+        host: POSTGRES_HOST || 'localhost',
+        port: Number(POSTGRES_PORT) || 8432,
+        username: POSTGRES_USER || 'postgres',
+        password: POSTGRES_PASSWORD || 'postgres',
+        database: POSTGRES_DB || 'postgres',
+        dialect: 'postgres',
+        models: [User, Theme],
+    };
+
     try {
-        const client = new Client({
-            user: POSTGRES_USER,
-            host: 'localhost',
-            database: POSTGRES_DB,
-            password: POSTGRES_PASSWORD,
-            port: Number(POSTGRES_PORT),
-        });
+        const sequelize = new Sequelize(sequelizeOptions);
 
-        await client.connect();
+        await sequelize.authenticate();
+        await sequelize.sync();
+        const themes = await Theme.findAll();
+        if (!themes.length) {
+            const defaultThemes = [
+                {
+                    name: 'Light',
+                },
+                {
+                    name: 'Dark',
+                },
+            ];
+            await Theme.bulkCreate(defaultThemes as Theme[]);
+        }
+        console.log('Connection has been established successfully.');
 
-        const res = await client.query('SELECT NOW()');
-        console.log('  ➜ 🎸 Connected to the database at:', res?.rows?.[0].now);
-        client.end();
-
-        return client;
+        return sequelize;
     } catch (e) {
         console.error(e);
     }
@@ -26,4 +90,4 @@ const createClientAndConnect = async (): Promise<Client | null> => {
     return null;
 };
 
-export default createClientAndConnect;
+export default createClientAndSeed;
