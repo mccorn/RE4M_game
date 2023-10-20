@@ -3,8 +3,8 @@ import { Outlet } from 'react-router-dom';
 import style from './layout.module.scss';
 import Header from '@/app/components/header/header';
 import AnimatedBackground from '../animatedBackground/animatedBackground';
-import EnterFullScreen from '@/assets/images/enterFullScreen.svg';
-import exitFullScreen from '@/assets/images/exitFullScreen.svg';
+import svgIconEnterFullScreen from '@/assets/images/enterFullScreen.svg';
+import svgIconExitFullScreen from '@/assets/images/exitFullScreen.svg';
 import useFullScreen from '@/app/hooks/useFullScreen';
 import Button from '@/app/components/common/button/button';
 
@@ -23,10 +23,10 @@ const Layout: FC<TLayoutProps> = ({ isAuthorized = true }) => {
             <div className={style.content}>
                 <Outlet />
 
-                <div className={style.fullScreen}>
+                <div className={style.fullScreenButton}>
                     <Button buttonStyle="icon" size="small" click={toggleFullScreen}>
                         <img
-                            src={isFullScreen ? exitFullScreen : EnterFullScreen}
+                            src={isFullScreen ? svgIconExitFullScreen : svgIconEnterFullScreen}
                             alt="fullScreenIcon"
                         />
                     </Button>
