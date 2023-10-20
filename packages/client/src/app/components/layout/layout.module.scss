@@ -11,3 +11,11 @@
     z-index: 1;
     margin: 0 auto;
 }
+
+.fullScreenButton {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    cursor: pointer;
+    z-index: 2;
+}
