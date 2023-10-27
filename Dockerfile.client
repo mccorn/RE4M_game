@@ -7,9 +7,13 @@ COPY /packages/client/package.json ./
 COPY /packages/client/tsconfig* ./
 
 COPY /packages/client ./
+COPY /node_modules ./node_modules
 
 EXPOSE $CLIENT_PORT
 
-RUN yarn install && yarn global add typescript --dev && yarn global add vite --dev && yarn build:docker
+RUN npm i esbuild
+RUN yarn global add typescript --dev
+RUN yarn global add vite --dev
+
 
 CMD yarn dev

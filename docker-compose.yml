@@ -2,13 +2,13 @@ version: "3.3"
 
 services:
   client:
+    tty: true
     container_name: client
     build:
       context: .
       dockerfile: Dockerfile.client
       args:
         CLIENT_PORT: ${CLIENT_PORT}
-    restart: always
     depends_on:
       - postgres
     ports:
@@ -21,6 +21,7 @@ services:
       - network_bridge
 
   ssrapp:
+    tty: true
     container_name: ssrapp
     build:
       context: .
@@ -29,7 +30,6 @@ services:
         SERVER_PORT: ${SERVER_PORT}
     depends_on:
       - postgres
-    restart: always
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     environment:
