@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { RootState } from '@/app/store/store';
 
 import AnimatedBackground from '@/app/components/animatedBackground/animatedBackground';
-import GameOver from '@/app/components/gameOver/gameOver';
+import GameOver, { SCORE_COEFFICIENT } from '@/app/components/gameOver/gameOver';
 import Button from '@/app/components/common/button/button';
 
 import StartGame from '@/app/pages/startGame/startGame';
@@ -17,6 +17,10 @@ import params from '@/gameEngine/parameters/gameParameters';
 import style from './game.module.scss';
 
 import Controller from './controller';
+import AuthAPI from '@/app/api/AuthAPI';
+import utils from '@/utils';
+import { TResponse } from '@/const/types';
+import LeaderboardAPI from '@/app/api/LeaderboardAPI';
 
 const Game: FC = () => {
     const ref = useRef<HTMLCanvasElement | null>(null);
@@ -49,7 +53,15 @@ const Game: FC = () => {
         if (state === GlobalGameState.Ended) {
             gameController.stopGame();
 
-            setCounter(gameController.getCounter());
+            const kills = gameController.getCounter();
+            AuthAPI.getAuthUser().then((response: TResponse | unknown) => {
+                const responseData = utils.safeGetData(response);
+                const { login } = responseData;
+
+                LeaderboardAPI.addUserToLeaderboard(login, (kills || 0) * SCORE_COEFFICIENT);
+            });
+
+            setCounter(kills);
             setStatusWin(gameController.getStatusWin());
         }
     }, [state]);

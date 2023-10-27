@@ -1,16 +1,23 @@
-import React, { FC } from 'react';
-import score from '@/const/mocks/mockScore';
+import React, { FC, ReactNode, SetStateAction, useEffect, useState } from 'react';
 import style from './leaderboard.module.scss';
+import LeaderboardAPI from '@/app/api/LeaderboardAPI';
 
 const LeaderBoard: FC = () => {
-    const players = score;
-    const playersMarkUp = players.map((player, id) => (
-        <tr key={player.id}>
-            <td className={style.leaderboard__td}>{id + 1}</td>
-            <td className={style.leaderboard__td}>{player.name}</td>
-            <td className={style.leaderboard__td}>{player.score}</td>
-        </tr>
-    ));
+    const [playersMarkUp, setPlayersMarkUp] = useState<ReactNode>([]);
+
+    useEffect(() => {
+        LeaderboardAPI.get().then(players => {
+            const markUp = players.map(({ data: player }, index) => (
+                <tr key={player.name + player.score}>
+                    <td className={style.leaderboard__td}>{index + 1}</td>
+                    <td className={style.leaderboard__td}>{player.name}</td>
+                    <td className={style.leaderboard__td}>{player.score}</td>
+                </tr>
+            ));
+            setPlayersMarkUp(markUp as SetStateAction<ReactNode>);
+        });
+    }, []);
+
     return (
         <table className={style.leaderboard}>
             <thead>
