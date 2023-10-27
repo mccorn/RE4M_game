@@ -1,6 +1,6 @@
 import BaseAPI, { API_URL } from '../api';
 
-interface ILeaderboard {
+export interface ILeaderboard {
     data: {
         name: string;
         RE4MScore: number;

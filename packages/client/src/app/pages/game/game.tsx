@@ -21,8 +21,10 @@ import AuthAPI from '@/app/api/AuthAPI';
 import utils from '@/utils';
 import { TResponse } from '@/const/types';
 import LeaderboardAPI from '@/app/api/LeaderboardAPI';
+import TUser from '@/const/dataTypes/dataTypes';
 
 const Game: FC = () => {
+    const user = useSelector(state => (state as { user: unknown }).user) as TUser;
     const ref = useRef<HTMLCanvasElement | null>(null);
     const [gameController] = useState(new Controller());
     const [counter, setCounter] = useState(0);
@@ -54,12 +56,11 @@ const Game: FC = () => {
             gameController.stopGame();
 
             const kills = gameController.getCounter();
-            AuthAPI.getAuthUser().then((response: TResponse | unknown) => {
-                const responseData = utils.safeGetData(response);
-                const { login } = responseData;
+            if (user) {
+                const { login } = user;
 
                 LeaderboardAPI.addUserToLeaderboard(login, (kills || 0) * SCORE_COEFFICIENT);
-            });
+            }
 
             setCounter(kills);
             setStatusWin(gameController.getStatusWin());
