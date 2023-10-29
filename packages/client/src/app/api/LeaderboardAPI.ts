@@ -1,9 +1,10 @@
 import BaseAPI, { API_URL } from '../api';
 
+const filedNameForScore = 'filedNameForScore';
 export interface ILeaderboard {
     data: {
         name: string;
-        RE4MScore: number;
+        [filedNameForScore]: number;
         score: number;
     };
 }
@@ -20,7 +21,7 @@ class LeaderboardAPI extends BaseAPI {
             },
             credentials: 'include',
             body: JSON.stringify({
-                ratingFieldName: 'RE4MScore',
+                ratingFieldName: filedNameForScore,
                 cursor: 0,
                 limit: 10,
             }),
@@ -41,10 +42,10 @@ class LeaderboardAPI extends BaseAPI {
             body: JSON.stringify({
                 data: {
                     name,
-                    RE4MScore: score,
+                    [filedNameForScore]: score,
                     score,
                 },
-                ratingFieldName: 'RE4MScore',
+                ratingFieldName: filedNameForScore,
                 teamName: 'RE4M',
             }),
         });
