@@ -17,9 +17,6 @@ import params from '@/gameEngine/parameters/gameParameters';
 import style from './game.module.scss';
 
 import Controller from './controller';
-import AuthAPI from '@/app/api/AuthAPI';
-import utils from '@/utils';
-import { TResponse } from '@/const/types';
 import LeaderboardAPI from '@/app/api/LeaderboardAPI';
 import TUser from '@/const/dataTypes/dataTypes';
 
