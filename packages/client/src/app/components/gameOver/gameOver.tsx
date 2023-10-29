@@ -3,7 +3,7 @@ import style from './gameOver.module.scss';
 import styleLanding from '../../pages/landing/landing.module.scss';
 import { TGameScore } from '@/const/dataTypes/dataTypes';
 
-const SCORE_COEFFICIENT = 10; // TODO: переделать на внешний подсчет
+export const SCORE_COEFFICIENT = 10; // TODO: переделать на внешний подсчет
 
 const GameOver: FC<TGameScore> = ({ score, isWin, kills }) => {
     const [renderScore, setRenderScore] = useState(0);
