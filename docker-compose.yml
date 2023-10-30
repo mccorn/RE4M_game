@@ -39,6 +39,21 @@ services:
     networks:
       - network_bridge
 
+    nginx:
+      container_name: nginx
+      build:
+        context: .
+        dockerfile: Dockerfile.nginx
+        args:
+          SERVER_PORT: 80
+      depends_on:
+        - ssrapp
+      restart: always
+      ports:
+        - "80:80"
+      networks:
+        - network_bridge
+
   postgres:
     image: postgres:14
     ports:
