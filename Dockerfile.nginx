@@ -1,5 +1,4 @@
 FROM nginx:stable-alpine as nginx
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY --from=build /app/.nginx/nginx.conf /etc/nginx/sites-enabled/default
+COPY /.nginx/nginx.conf /etc/nginx/sites-enabled/default
 EXPOSE 80
 CMD [ "nginx", "-g", "daemon off;" ]
