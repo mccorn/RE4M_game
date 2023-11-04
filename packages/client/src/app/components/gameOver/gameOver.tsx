@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import style from './gameOver.module.scss';
 import styleLanding from '../../pages/landing/landing.module.scss';
 import { TGameScore } from '@/const/dataTypes/dataTypes';
+import battleImg from '../../../assets/images/battle-cruiser.png';
 
 export const SCORE_COEFFICIENT = 10; // TODO: переделать на внешний подсчет
 
@@ -16,7 +17,7 @@ const GameOver: FC<TGameScore> = ({ score, isWin, kills }) => {
         <div className={style.gameoverBackground}>
             <img
                 className={styleLanding.landingBackground_battleCruiser}
-                src="/src/assets/images/battle-cruiser.png"
+                src={battleImg}
                 alt="battle cruiser"
             />
             <h1 className={style.gameoverBackground_title}>{isWin ? 'You win!' : 'Game Over'}</h1>

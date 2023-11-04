@@ -1,4 +1,5 @@
 FROM nginx:stable-alpine as nginx
 COPY /.nginx/nginx.conf /etc/nginx/sites-enabled/default
 EXPOSE 80
+EXPOSE 443
 CMD [ "nginx", "-g", "daemon off;" ]

@@ -8,6 +8,7 @@ import OAuthAPI from '@/app/api/OAuthAPI';
 import { REDIRECT_URI } from '@/const/types';
 import utils from '@/utils';
 import { signIn } from '@/app/store/slices/userSlice';
+import battleImg from '../../../assets/images/battle-cruiser.png';
 
 const Landing: FC = () => {
     const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const Landing: FC = () => {
                 <h1 className={style.landingBackground_title}>Black Star</h1>
                 <img
                     className={style.landingBackground_battleCruiser}
-                    src="/src/assets/images/battle-cruiser.png"
+                    src={battleImg}
                     alt="battle cruiser"
                 />
                 <div className={style.landingBackground_planet} />

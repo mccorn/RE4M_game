@@ -5,7 +5,7 @@ export const API_URL = {
     HOST,
     APP_HOST,
     RESOURCES: `${HOST}/resources`,
-    LOCALHOST: 'http://localhost:3001',
+    LOCALHOST: import.meta.env.VITE_API_ADDRESS,
 };
 
 export class BaseAPI {

@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import Progressbar from '@/app/components/common/progressbar/progressbar';
 import style from './startgame.module.scss';
 import { someFunction } from '@/const/types';
+import battleImg from '../../../assets/images/battle-cruiser.png';
 
 type StartGameProps = {
     onLoad?: someFunction;
@@ -33,7 +34,7 @@ const StartGame: FC<StartGameProps> = ({ onLoad }) => {
                 </div>
                 <img
                     className={style.startGameBackground_battleCruiser}
-                    src="/src/assets/images/battle-cruiser.png"
+                    src={battleImg}
                     alt="battle cruiser"
                 />
             </div>
