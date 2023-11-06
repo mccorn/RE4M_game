@@ -19,11 +19,17 @@ import style from './game.module.scss';
 import Controller from './controller';
 import LeaderboardAPI from '@/app/api/LeaderboardAPI';
 import TUser from '@/const/dataTypes/dataTypes';
+import hotkeys from './hotkeys';
+
+import sound from '@/assets/sounds/JP_Hormiga_-_Alien_Warfare.mp3';
 
 const Game: FC = () => {
     const user = useSelector(state => (state as { user: unknown }).user) as TUser;
     const ref = useRef<HTMLCanvasElement | null>(null);
     const [gameController] = useState(new Controller());
+    const [audio] = useState(new Audio(sound));
+    const [audioPaused, setAudiosPaused] = useState(true);
+
     const [counter, setCounter] = useState(0);
     const [statusWin, setStatusWin] = useState(false);
     const { gameState: state, score } = useSelector((rootState: RootState) => rootState.game);
@@ -33,7 +39,13 @@ const Game: FC = () => {
     };
 
     const startGame = () => {
-        gameController.startGame();
+        if (state !== GlobalGameState.LevelStarted) {
+            gameController.startGame();
+        }
+    };
+
+    const togglePause = () => {
+        gameController.setPause(gameController.isEnable());
     };
 
     const pauseGame = () => {
@@ -66,6 +78,25 @@ const Game: FC = () => {
 
     useEffect(() => {
         gameController.setGameState(GlobalGameState.LevelLoading);
+        audio.autoplay = true;
+
+        hotkeys.enable();
+        hotkeys.addCode('Space', togglePause);
+        hotkeys.addCode('Enter', startGame);
+
+        audio.addEventListener('canplaythrough', () => {
+            audio.loop = true;
+
+            hotkeys.addCode('KeyS', () => {
+                if (audio.paused) {
+                    audio.play();
+                    setAudiosPaused(false);
+                } else {
+                    audio.pause();
+                    setAudiosPaused(true);
+                }
+            });
+        });
 
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
@@ -77,6 +108,7 @@ const Game: FC = () => {
 
         return () => {
             gameController.stopGame();
+            hotkeys?.disable();
         };
     }, []);
 
@@ -119,6 +151,10 @@ const Game: FC = () => {
                         <Button text="Restart" click={() => location.reload()} />
                     )}
                 </div>
+
+                {!!audioPaused && <div className={style.soundControl}>&#128263;</div>}
+
+                {!audioPaused && <div className={style.soundControl}>&#128266;</div>}
             </main>
         </div>
     );
