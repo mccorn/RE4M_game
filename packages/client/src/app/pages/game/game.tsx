@@ -39,7 +39,9 @@ const Game: FC = () => {
     };
 
     const startGame = () => {
-        if (state !== GlobalGameState.LevelStarted) {
+        const realState = gameController.getState();
+
+        if (realState === GlobalGameState.Loaded || realState === GlobalGameState.Ended) {
             gameController.startGame();
         }
     };
@@ -79,7 +81,6 @@ const Game: FC = () => {
 
     useEffect(() => {
         gameController.setGameState(GlobalGameState.LevelLoading);
-        audio.autoplay = true;
 
         hotkeys.enable();
         hotkeys.addCode('Space', togglePause);
@@ -91,6 +92,7 @@ const Game: FC = () => {
             hotkeys.addCode('KeyS', () => {
                 if (audio.paused) {
                     audio.play();
+                    audio.autoplay = true;
                     setAudiosPaused(false);
                 } else {
                     audio.pause();
@@ -153,9 +155,9 @@ const Game: FC = () => {
                     )}
                 </div>
 
-                {!!audioPaused && <div className={style.soundControl}>&#128263;</div>}
+                {!!audioPaused && <div className={style.soundControlIcon}>&#128263;</div>}
 
-                {!audioPaused && <div className={style.soundControl}>&#128266;</div>}
+                {!audioPaused && <div className={style.soundControlIcon}>&#128266;</div>}
             </main>
         </div>
     );
