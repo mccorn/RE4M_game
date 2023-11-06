@@ -45,7 +45,8 @@ const Game: FC = () => {
     };
 
     const togglePause = () => {
-        gameController.setPause(gameController.isEnable());
+        const realState = gameController.getState();
+        if (realState >= 2) gameController.setPause(gameController.isEnable());
     };
 
     const pauseGame = () => {
