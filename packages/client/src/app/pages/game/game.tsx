@@ -63,6 +63,22 @@ const Game: FC = () => {
         if (gameController.isEnable()) gameController.handleMouseMove(ev);
     };
 
+    const toggleAudioPause = () => {
+        if (audio.paused) {
+            audio.play();
+            audio.autoplay = true;
+            setAudiosPaused(false);
+        } else {
+            audio.pause();
+            setAudiosPaused(true);
+        }
+    };
+
+    const handleCanPlayThrough = () => {
+        audio.loop = true;
+        hotkeys.addCode('KeyS', toggleAudioPause);
+    };
+
     useEffect(() => {
         if (state === GlobalGameState.Ended) {
             gameController.stopGame();
@@ -86,20 +102,7 @@ const Game: FC = () => {
         hotkeys.addCode('Space', togglePause);
         hotkeys.addCode('Enter', startGame);
 
-        audio.addEventListener('canplaythrough', () => {
-            audio.loop = true;
-
-            hotkeys.addCode('KeyS', () => {
-                if (audio.paused) {
-                    audio.play();
-                    audio.autoplay = true;
-                    setAudiosPaused(false);
-                } else {
-                    audio.pause();
-                    setAudiosPaused(true);
-                }
-            });
-        });
+        audio.addEventListener('canplaythrough', handleCanPlayThrough);
 
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
