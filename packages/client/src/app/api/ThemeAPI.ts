@@ -7,6 +7,7 @@ class ThemeAPI extends BaseAPI {
     currentTheme = 'Light';
 
     switch(login?: string) {
+        console.log(import.meta.env.PROD, import.meta.env.MODE, import.meta.env.VITE_API_ADDRESS);
         return fetch(
             `${this.url}/switchTheme?theme=${this.currentTheme}${login ? `&login=${login}` : ''}`,
             { method: 'PUT' }

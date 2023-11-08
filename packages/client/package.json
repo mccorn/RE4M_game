@@ -8,7 +8,7 @@
     "checkSSR": "node -e \"if (! require('fs').existsSync('./ssr-dist')){process.exit(1)} \" || npm run build:ssr",
     "build": "tsc && vite build --config vite.config.ts",
     "build:ssr": "tsc && vite build --config ssr.config.ts",
-    "build:docker": "rm -rf ./dist && rm -rf ./dist-ssr && tsc && vite build --config ssr.config.ts && vite build --config vite.config.ts",
+    "build:docker": "rm -rf ./dist && rm -rf ./dist-ssr && tsc && vite build --config ssr.config.ts --mode production && vite build --config vite.config.ts --mode production",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",

@@ -18,6 +18,9 @@ export default function changeColorMode(modeName: TColorMode) {
     const reverseModeName = modeName === 'Dark' ? 'Light' : 'Dark';
 
     stylesArray.forEach(styleName => {
+        const reverseValue = bodyStyles.getPropertyValue(`--${styleName}${reverseModeName}Mode`);
+        const value = bodyStyles.getPropertyValue(`--${styleName}${modeName}Mode`);
+
         document.documentElement.style.setProperty(
             `--${styleName}Reverse`,
             bodyStyles.getPropertyValue(`--${styleName}${reverseModeName}Mode`)

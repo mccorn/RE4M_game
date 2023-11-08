@@ -19,11 +19,17 @@ import style from './game.module.scss';
 import Controller from './controller';
 import LeaderboardAPI from '@/app/api/LeaderboardAPI';
 import TUser from '@/const/dataTypes/dataTypes';
+import hotkeys from './hotkeys';
+
+import sound from '@/assets/sounds/JP_Hormiga_-_Alien_Warfare.mp3';
 
 const Game: FC = () => {
     const user = useSelector(state => (state as { user: unknown }).user) as TUser;
     const ref = useRef<HTMLCanvasElement | null>(null);
     const [gameController] = useState(new Controller());
+    const [audio] = useState(new Audio(sound));
+    const [audioPaused, setAudiosPaused] = useState(true);
+
     const [counter, setCounter] = useState(0);
     const [statusWin, setStatusWin] = useState(false);
     const { gameState: state, score } = useSelector((rootState: RootState) => rootState.game);
@@ -33,7 +39,16 @@ const Game: FC = () => {
     };
 
     const startGame = () => {
-        gameController.startGame();
+        const realState = gameController.getState();
+
+        if (realState === GlobalGameState.Loaded || realState === GlobalGameState.Ended) {
+            gameController.startGame();
+        }
+    };
+
+    const togglePause = () => {
+        const realState = gameController.getState();
+        if (realState >= 2) gameController.setPause(gameController.isEnable());
     };
 
     const pauseGame = () => {
@@ -46,6 +61,22 @@ const Game: FC = () => {
 
     const handleMouseMove = (ev: SyntheticEvent) => {
         if (gameController.isEnable()) gameController.handleMouseMove(ev);
+    };
+
+    const toggleAudioPause = () => {
+        if (audio.paused) {
+            audio.play();
+            audio.autoplay = true;
+            setAudiosPaused(false);
+        } else {
+            audio.pause();
+            setAudiosPaused(true);
+        }
+    };
+
+    const handleCanPlayThrough = () => {
+        audio.loop = true;
+        hotkeys.addCode('KeyS', toggleAudioPause);
     };
 
     useEffect(() => {
@@ -67,6 +98,12 @@ const Game: FC = () => {
     useEffect(() => {
         gameController.setGameState(GlobalGameState.LevelLoading);
 
+        hotkeys.enable();
+        hotkeys.addCode('Space', togglePause);
+        hotkeys.addCode('Enter', startGame);
+
+        audio.addEventListener('canplaythrough', handleCanPlayThrough);
+
         const context = (ref.current as HTMLCanvasElement).getContext('2d');
         if (context) {
             const gameEngine = GameEngine.getInstance(context);
@@ -77,6 +114,7 @@ const Game: FC = () => {
 
         return () => {
             gameController.stopGame();
+            hotkeys?.disable();
         };
     }, []);
 
@@ -119,6 +157,10 @@ const Game: FC = () => {
                         <Button text="Restart" click={() => location.reload()} />
                     )}
                 </div>
+
+                {!!audioPaused && <div className={style.soundControlIcon}>&#128263;</div>}
+
+                {!audioPaused && <div className={style.soundControlIcon}>&#128266;</div>}
             </main>
         </div>
     );
