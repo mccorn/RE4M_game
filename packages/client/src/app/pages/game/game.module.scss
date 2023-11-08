@@ -90,3 +90,19 @@ main.default .game__canvas {
 
     transition: all 0.5s ease-in-out;
 }
+
+.soundControlIcon {
+    width: 70px;
+    height: 70px;
+
+    z-index: 3;
+    
+    position: fixed;
+    bottom: 20px;
+    right: 80px;
+
+    display: flex;
+    font-size: 40px;
+    align-items: center;
+    justify-content: center;
+}
