@@ -32,7 +32,7 @@ class OAuthAPI extends BaseAPI {
     }
 
     getServiceId() {
-        return http.get(`${this.url}/yandex/service-id?redirect_uri=http://localhost:3000`);
+        return http.get(`${this.url}/yandex/service-id?redirect_uri=${window.location.origin}`);
     }
 }
 
