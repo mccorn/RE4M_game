@@ -33,9 +33,11 @@ async function startServer() {
     const app = express();
     app.use(cors());
 
-    const distPath = path.dirname(require.resolve('./client/dist/index.html'));
-    const srcPath = './client';
-    const ssrClientPath = require.resolve('./client/ssr-dist/client.cjs');
+    const distPath = path.dirname(
+        require.resolve(`${IS_DEV ? '../' : './'}client/dist/index.html`)
+    );
+    const srcPath = `${IS_DEV ? '../' : './'}client`;
+    const ssrClientPath = require.resolve(`${IS_DEV ? '' : './'}client/ssr-dist/client.cjs`);
     const entryPath = path.resolve(IS_DEV ? srcPath : distPath, 'index.html');
 
     const vite = await createViteServer({
